@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>CRITGAMER &#8211; East Texas LAN Gaming Community</title>
-        <link rel="{{ URL::asset('assets/css/style.css') }}">
+        <link rel="stylesheet" href="{{ URL::asset('assets/css/style.css') }}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -38,14 +38,14 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a href="#" class="navbar-brand" style="padding: 0;">
-                        <img src="{{ URL::asset('assets/img/brand.png') }}"/>
+                        <img src="{{ URL::asset('assets/img/better_brand.png') }}" width="150"/>
                     </a>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
                         <li><a href="#">Lan Party</a></li>
-                        <li><a href="#">Event Calendar</a></li>
+                        <li><a href="#">Events</a></li>
                         <li><a href="#">Twitch - Live Stream</a></li>
                         <li><a href="#">Gallery</a></li>
                         <li><a href="#">Staff</a></li>
@@ -54,6 +54,16 @@
                 </div>
             </div>
         </nav>
+        <script type="text/javascript">
+            if ($(document).width() > 768) {
+                var left = $('.navbar-nav li').first().offset().left,
+                        offset = left - $('.navbar-brand').width() - 45;
+                $('.navbar-brand').css('position', 'relative');
+                $('.navbar-brand').css('left', offset);
+            } else {
+
+            }
+        </script>
 
         @yield('content')
     </body>
