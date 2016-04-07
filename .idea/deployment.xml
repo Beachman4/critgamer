@@ -2,6 +2,20 @@
 <project version="4">
   <component name="PublishConfigData" serverName="the9grounds">
     <serverData>
+      <paths name="Atlascredit">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Wordpress">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="the9grounds">
         <serverdata>
           <mappings>
