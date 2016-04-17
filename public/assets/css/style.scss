@@ -8,6 +8,10 @@ body {
   font-family: 'Eras Bold ITC' !important;
   //color: #fff !important;
 }
+.wrapper {
+  background-color: #e5e5e5;
+  padding: 3rem;
+}
 a, b, h1, h2, h3, h4, h5, span, label, button, li, ul {
   font-family: 'Eras Bold ITC' !important;
   color: black !important;
@@ -26,6 +30,9 @@ a, b, h1, h2, h3, h4, h5, span, label, button, li, ul {
   .top-bar {
     margin-bottom: 3rem;
   }
+  .top-bar-left li:hover {
+    text-decoration: underline;
+  }
 
   .menu > li:not(.menu-text) > a {
     padding: .7rem 1.7rem; }
@@ -35,9 +42,7 @@ a, b, h1, h2, h3, h4, h5, span, label, button, li, ul {
 }
 //MEDIUM AND UP
 @media screen and (min-width: 40em) {
-  .navbar-nav li>a {
-    font-size: 20px;
-  }
+
 }
 //MEDIUM ONLY
 @media screen and (min-width: 40em) and (max-width: 63.9375em) {
@@ -48,30 +53,7 @@ a, b, h1, h2, h3, h4, h5, span, label, button, li, ul {
 }
 
 @media (min-width: 768px) {
-  .navbar .navbar-nav {
-    display: inline-block !important;
-    float: none !important;
-    vertical-align: middle !important;
-  }
 
-  .navbar {
-    height: 100px;
-    padding: 2.4rem;
-  }
-  .navbar-nav li {
-    height: 100px;
-    line-height: 75px;
-  }
-  .navbar-nav {
-    height: 100px;
-  }
-
-  .navbar .navbar-collapse, .navbar .navbar-header {
-    text-align: center !important;
-  }
-  .navbar-brand {
-    margin: 0 auto;
-  }
 }
 .footer {
   background-color: #353535;

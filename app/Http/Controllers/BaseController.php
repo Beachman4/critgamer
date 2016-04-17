@@ -12,4 +12,14 @@ class BaseController extends Controller
     {
         return view('index');
     }
+
+    public function getStaff()
+    {
+        return view('staff');
+    }
+
+    public function getTwitch()
+    {
+        return view('twitch');
+    }
 }

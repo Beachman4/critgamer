@@ -116,12 +116,19 @@
                 <div class="top-bar-left text-center">
                     <ul class="dropdown menu" data-dropdown-menu>
                         <li><a href="#">Home</a></li>
-                        <li><a href="#">Lan Party</a></li>
-                        <li><a href="#">Events</a></li>
-                        <li><a href="#">Twitch - Live Stream</a></li>
+                        {{--<li><a href="#">Lan Party</a></li>--}}
+                        <li>
+                            <a href="#">Lan Party</a>
+                            <ul class="dropdown menu" data-dropdown-menu>
+                                <li><a href="/lan/events">Event List</a></li>
+                                <li><a href="/lan/info">Information</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Calendar</a></li>
+                        <li><a href="/twitch">Twitch - Live Stream</a></li>
                         <li><a href="#">Gallery</a></li>
-                        <li><a href="#">Staff</a></li>
-                        <li><a href="#">About Us</a></li>
+                        <li><a href="/staff">Staff</a></li>
+                        <li><a href="/about">About Us</a></li>
                     </ul>
                 </div>
             </div>
@@ -152,8 +159,11 @@
                 $(document).foundation();
             });
         </script>
-
-        @yield('content')
+        <div class="row">
+            <div class="small-12 columns wrapper">
+                @yield('content')
+            </div>
+        </div>
 
     <div class="footer">
         <div class="row bottom">
