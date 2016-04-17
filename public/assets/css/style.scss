@@ -6,15 +6,121 @@ body {
   width: 100%;
   height: 100%;
   font-family: 'Eras Bold ITC' !important;
-  color: #fff !important;
+  //color: #fff !important;
 }
 a, b, h1, h2, h3, h4, h5, span, label, button, li, ul {
   font-family: 'Eras Bold ITC' !important;
+  color: black !important;
+}
+  .top-bar-left {
+    float: none !important;
+  }
+  .top-bar-left ul li {
+    float: none;
+    display: inline-block;
+    font-size: 20px; }
+  .top-bar-title strong {
+    float: none;
+    display: inline-block;
+  }
+  .top-bar {
+    margin-bottom: 3rem;
+  }
+
+  .menu > li:not(.menu-text) > a {
+    padding: .7rem 1.7rem; }
+//SMALL ONLY
+@media screen and (max-width: 39.9375em) {
+
+}
+//MEDIUM AND UP
+@media screen and (min-width: 40em) {
+  .navbar-nav li>a {
+    font-size: 20px;
+  }
+}
+//MEDIUM ONLY
+@media screen and (min-width: 40em) and (max-width: 63.9375em) {
+
+}
+@media screen and (min-width: 64em) {
+
+}
+
+@media (min-width: 768px) {
+  .navbar .navbar-nav {
+    display: inline-block !important;
+    float: none !important;
+    vertical-align: middle !important;
+  }
+
+  .navbar {
+    height: 100px;
+    padding: 2.4rem;
+  }
+  .navbar-nav li {
+    height: 100px;
+    line-height: 75px;
+  }
+  .navbar-nav {
+    height: 100px;
+  }
+
+  .navbar .navbar-collapse, .navbar .navbar-header {
+    text-align: center !important;
+  }
+  .navbar-brand {
+    margin: 0 auto;
+  }
+}
+.footer {
+  background-color: #353535;
+  width: 100%;
+  min-height: 150px;
+  margin-top: 5rem;
   color: #fff !important;
+  h4 {
+    color: #fff !important;
+  }
 }
-.navbar-default, .navbar {
-  background: black !important;
+.google-icon {
+  i {
+    margin-top: 7px;
+    margin-left: 10px;
+  }
+
+  height: 30px;
+  border-radius: 50%;
+  background-color: #222222;
+  width: 40px;
 }
-.active > a {
-  background: red !important;
+.youtube-icon {
+  i {
+    margin-top: 7px;
+    margin-left: 12px;
+  }
+
+  height: 30px;
+  border-radius: 50%;
+  background-color: #222222;
+  width: 40px;
 }
+.facebook-icon, .twitter-icon {
+  i {
+    margin-top: 7px;
+    margin-left: 13px;
+  }
+
+  height: 30px;
+  border-radius: 50%;
+  background-color: #222222;
+  width: 40px;
+}
+.facebook-blue {
+  background-color: blue;
+}
+/*
+.facebook-icon:hover {
+    border-radius: 0;
+    background-color: blue;
+}*/

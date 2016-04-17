@@ -1,33 +1,20 @@
 <html>
     <head>
         <title>CRITGAMER &#8211; East Texas LAN Gaming Community</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{{ URL::asset('assets/css/style.css') }}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.1/foundation.min.css">
         <script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI="   crossorigin="anonymous"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script src="{{ URL::asset('assets/js/main.js') }}"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/foundation/6.2.1/foundation.min.js"></script>
+        <script src="{{ URL::asset('assets/js/scrollreveal.js') }}"></script>
     </head>
     <body>
-        <style>
-            @media (min-width: 768px) {
-                .navbar .navbar-nav, .navbar .navbar-brand {
-                    display: inline-block !important;
-                    float: none !important;
-                    vertical-align: top !important;
-                }
-
-                .navbar .navbar-collapse, .navbar .navbar-header {
-                    text-align: center !important;
-                }
-                .navbar-brand {
-                    margin: 0 auto;
-                }
-            }
-        </style>
-
         <style>
             #clockdiv{
                 font-family: sans-serif;
@@ -124,22 +111,11 @@
             var deadline = new Date(Date.parse("August 4, 2016"));
             initializeClock('clockdiv', deadline);</script>
 
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a href="#" class="navbar-brand" style="padding: 0;">
-                        <img src="{{ URL::asset('assets/img/better_brand.png') }}" width="150"/>
-                    </a>
-                </div>
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
+        <div class="top-bar" id="main-menu">
+            <div id="responsive-menu">
+                <div class="top-bar-left text-center">
+                    <ul class="dropdown menu" data-dropdown-menu>
+                        <li><a href="#">Home</a></li>
                         <li><a href="#">Lan Party</a></li>
                         <li><a href="#">Events</a></li>
                         <li><a href="#">Twitch - Live Stream</a></li>
@@ -149,18 +125,144 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </div>
+
         <script type="text/javascript">
-            if ($(document).width() > 768) {
+            /*if (window.matchMedia('(min-width: 768px)')) {
                 var left = $('.navbar-nav li').first().offset().left,
                         offset = left - $('.navbar-brand').width() - 45;
                 $('.navbar-brand').css('position', 'relative');
                 $('.navbar-brand').css('left', offset);
             } else {
-
+                $('.navbar-brand').css('position', 'relative');
+                $('.navbar-brand').css('left', '0');
             }
+            $(window).resize(function() {
+                if (window.matchMedia('(min-width: 768px)')) {
+                    var left = $('.navbar-nav li').first().offset().left,
+                            offset = left - $('.navbar-brand').width() - 45;
+                    $('.navbar-brand').css('position', 'relative');
+                    $('.navbar-brand').css('left', offset);
+                } else {
+                    $('.navbar-brand').css('position', 'relative');
+                    $('.navbar-brand').css('left', '0');
+                }
+            });*/
+            $(function() {
+                $(document).foundation();
+            });
         </script>
 
         @yield('content')
+
+    <div class="footer">
+        <div class="row bottom">
+            <div class="large-3 columns">
+                <h4 style="text-align: center;">About Us</h4>
+            </div>
+            <div class="large-3 columns">
+                <h4 style="text-align: center;">Important Links</h4>
+            </div>
+            <div class="large-3 columns">
+                <h4 style="text-align: center">Stay Connected!</h4>
+                <div class="row large-up-4 medium-up-2 small-up-1">
+                    <div class="column">
+                        <a href="https://www.facebook.com/critgamer">
+                            <div class="facebook-icon">
+                                <i class="fa fa-facebook fa-inverse fa-lg"></i>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a href="https://twitter.com/critgamer">
+                            <div class="twitter-icon">
+                                <i class="fa fa-twitter fa-inverse fa-lg"></i>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a href="https://plus.google.com/101115501024421552604">
+                            <div class="google-icon">
+                                <i class="fa fa-google-plus fa-inverse fa-lg"></i>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a href="https://www.youtube.com/user/critgamer">
+                            <div class="youtube-icon">
+                                <i class="fa fa-youtube fa-inverse fa-lg"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="large-3 columns">
+                <div class="row">
+                    <div class="large-12 columns">
+                        <h4 style="text-align: center">Contact Us!</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-2 columns">
+                        <div class="contact-us-logo">
+                            <i class="fa fa-envelope fa-inverse fa-lg"></i>
+                        </div>
+                    </div>
+                    <div class="large-10 columns">
+                        <p style="font-size: 16px; line-height: 16px">info@critgamer.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function() {
+            window.sr = ScrollReveal().reveal('.bottom');
+           $('.facebook-icon').hover(function() {
+               $(this).animate({
+                   borderRadius: 0,
+                   backgroundColor: 'blue'
+               }, 1000);
+           }, function() {
+               $(this).animate({
+                   borderRadius: '50%',
+                   backgroundColor: '#222222'
+               }, 1000);
+           });
+            $('.twitter-icon').hover(function() {
+               $(this).animate({
+                   borderRadius: 0,
+                   backgroundColor: '#00aced'
+               }, 1000);
+           }, function() {
+               $(this).animate({
+                   borderRadius: '50%',
+                   backgroundColor: '#222222'
+               }, 1000);
+           });
+            $('.google-icon').hover(function() {
+               $(this).animate({
+                   borderRadius: 0,
+                   backgroundColor: '#dd4b39'
+               }, 1000);
+           }, function() {
+               $(this).animate({
+                   borderRadius: '50%',
+                   backgroundColor: '#222222'
+               }, 1000);
+           });
+            $('.youtube-icon').hover(function() {
+               $(this).animate({
+                   borderRadius: 0,
+                   backgroundColor: '#bb0000'
+               }, 1000);
+           }, function() {
+               $(this).animate({
+                   borderRadius: '50%',
+                   backgroundColor: '#222222'
+               }, 1000);
+           });
+        });
+    </script>
     </body>
 </html>
