@@ -1,6 +1,7 @@
-<html>
+<html class="desktop">
     <head>
         <title>CritGamer Lan Party</title>
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
         <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
@@ -9,6 +10,8 @@
         <script   src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js"   integrity="sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo="   crossorigin="anonymous"></script>
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+        <script src="{{ URL::asset('assets/js/jquery.mousewheel.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/js/jquery.simplr.smoothscroll.min.js') }}"></script>
         <link rel="stylesheet" href="{{ URL::asset('assets/css/style.css') }}">
         <script src="{{ URL::asset('assets/js/main.js') }}"></script>
 
@@ -48,7 +51,16 @@
             </div>
         </nav>
 
-        @yield('content')
-
+        <div class="container-fluid">
+            <div class="container">
+                @yield('content')
+            </div>
+        </div>
+        <script>
+            $.srSmoothscroll({
+                step: 150,
+                speed: 800
+            });
+        </script>
     </body>
 </html>
