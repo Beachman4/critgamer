@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="2bafc15f-46b9-4bb3-9701-e5764775393d" name="the9grounds" url="http://the9grounds.com">
-        <fileTransfer host="the9grounds.com" port="22" accessType="SFTP" username="root">
+        <fileTransfer host="the9grounds.com" port="22" accessType="SFTP" password="dfcbdfd8dfc6dfc3dfc4dfcddfdedfc5dfc4df98" username="root">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" />
           </advancedOptions>

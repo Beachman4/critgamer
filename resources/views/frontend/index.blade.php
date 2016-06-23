@@ -17,7 +17,7 @@
         </div>
         <div data-src="https://i.imgur.com/hiC4wtU.jpg">
             <div class="camera_info fadeIn camera_affected">
-                <h1>Infrastructure</h1>
+                <h1>Infrastrucgture</h1>
                 <p>We have an impressive network and power system to make sure you are gaming during the entire party.</p>
             </div>
         </div>
@@ -75,6 +75,33 @@
                         <h1>Lorem ipsum</h1>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mattis dapibus ex. Maecenas et elementum quam, id maximus tortor. Nullam porttitor, urna ut consectetur consequat, dui quam porta sem, sit amet mollis diam ligula at quam. Mauris lacus arcu, suscipit posuere molestie et, vestibulum et sapien. Praesent accumsan tellus viverra arcu fringilla vehicula. In dictum tortor egestas, imperdiet tellus vitae, laoreet mauris. Vivamus iaculis urna porttitor nulla aliquet gravida.</p>
                         <h5 class="text-right"><a href="#">Read More</a></h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h1>Sponsors</h1>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <a href="http://www.gunnars.com/" target="_blank"><img src="{{ URL::asset('assets/img/gunnar.png') }}"></a>
+                            </div>
+                            <div class="col-lg-4">
+                                <a href="https://www.inwin-style.com/" target="_blank"><img src="{{ URL::asset('assets/img/InWin.png') }}"></a>
+                            </div>
+                            <div class="col-lg-4">
+                                <a href="http://groupm7.com" target="_blank"><img src="{{ URL::asset('assets/img/groupm7.png') }}"></a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <a href="https://www.computerpoweruser.com/home" target="_blank"><img src="{{ URL::asset('assets/img/cpu.png') }}"></a>
+                            </div>
+                            <div class="col-lg-4">
+                                <a href="http://ocz.com/us/" target="_blank"><img height="130" src="{{ URL::asset('assets/img/ocz.png') }}"></a>
+                            </div>
+                            <div class="col-lg-4">
+                                <a href="http://wardesports.com/" target="_blank"><img src="{{ URL::asset('assets/img/ward.png') }}"></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
     <script>
