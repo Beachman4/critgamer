@@ -1,7 +1,7 @@
 @extends('frontend.templates.master')
 @section('content')
     <link rel="stylesheet" href="https://rawgit.com/pixedelic/Camera/master/css/camera.css">
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script src="https://rawgit.com/pixedelic/Camera/master/scripts/jquery.easing.1.3.js"></script>
     <script src="https://rawgit.com/pixedelic/Camera/master/scripts/camera.min.js"></script>
     <script src="{{ URL::asset('assets/js/jquery.rd-parallax.js') }}"></script>
@@ -9,19 +9,19 @@
     </div>
     </div>
     <div class="camera_wrap">
-        <div data-src="http://i.imgur.com/Jznk84E.jpg">
+        <div data-src="https://i.imgur.com/Jznk84E.jpg">
             <div class="camera_info fadeIn camera_affected">
                 <h1>Lan Party</h1>
                 <p>You bring the computer, we'll do the rest.</p>
             </div>
         </div>
-        <div data-src="http://i.imgur.com/hiC4wtU.jpg">
+        <div data-src="https://i.imgur.com/hiC4wtU.jpg">
             <div class="camera_info fadeIn camera_affected">
                 <h1>Infrastructure</h1>
                 <p>We have an impressive network and power system to make sure you are gaming during the entire party.</p>
             </div>
         </div>
-        <div data-src="http://i.imgur.com/fhKGKN6.jpg">
+        <div data-src="https://i.imgur.com/fhKGKN6.jpg">
             <div class="camera_info fadeIn camera_affected">
                 <h1>Community</h1>
                 <p>We care about our gamers.  We offer several tournaments with prizes and giveaways.</p>
