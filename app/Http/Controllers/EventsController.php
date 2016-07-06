@@ -10,6 +10,6 @@ class EventsController extends Controller
 {
     public function index()
     {
-
+        return view('frontend.events.index');
     }
 }

@@ -26,6 +26,7 @@ body {
   .parallax {
     background-position: center 0 !important;
     background-size: cover; } }
+
 .parallax .container {
   padding: 140px;
   color: #fff; }
@@ -59,5 +60,8 @@ p, li, span, a {
   position: absolute;
   color: #fff;
   margin-left: 5rem; }
+
+#calendar {
+  background-color: #fff; }
 
 /*# sourceMappingURL=style.css.map */

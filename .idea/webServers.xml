@@ -9,6 +9,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="3e84db12-951c-4386-954f-9e95aab28e23" name="ca" url="http://communityaccessinc.com">
+        <fileTransfer host="communityaccessinc.com" port="22" accessType="SFTP" password="df9ddf87dfe5dfe4dfefdf81dfdddfcfdfc8df81dfeddff8dfe5dfffdffadf87df9d" username="root">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

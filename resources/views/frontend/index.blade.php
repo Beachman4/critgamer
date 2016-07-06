@@ -85,10 +85,10 @@
                                 <a href="http://www.gunnars.com/" target="_blank"><img src="{{ URL::asset('assets/img/gunnar.png') }}"></a>
                             </div>
                             <div class="col-lg-4">
-                                <a href="https://www.inwin-style.com/" target="_blank"><img src="{{ URL::asset('assets/img/InWin.png') }}"></a>
+                                <a href="https://www.inwin-style.com/" target="_blank"><img src="{{ URL::asset('assets/img/InWinBetter.png') }}"></a>
                             </div>
                             <div class="col-lg-4">
-                                <a href="http://groupm7.com" target="_blank"><img src="{{ URL::asset('assets/img/groupm7.png') }}"></a>
+                                <a href="http://groupm7.com" target="_blank"><img src="{{ URL::asset('assets/img/groupm7-logo-light.png') }}"></a>
                             </div>
                         </div>
                         <div class="row">

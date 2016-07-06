@@ -32,8 +32,8 @@ body {
   padding: 140px;
   color: #fff;
 }
-.navbar {
-  background-color: #161617;
+.navbar, .open, .dropdown-menu, .dropdown-menu:hover, .dropdown-menu>li>a:hover, .navbar-default .navbar-nav>.open>a {
+  background-color: #161617 !important;
   color: #fff;
   background-image: none;
   border: none;

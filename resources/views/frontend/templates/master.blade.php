@@ -1,7 +1,6 @@
 <html class="desktop">
     <head>
         <title>CritGamer Lan Party</title>
-        <link rel="stylesheet" href="https://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
         <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
@@ -12,9 +11,11 @@
         <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <script src="{{ URL::asset('assets/js/jquery.mousewheel.min.js') }}"></script>
         <script src="{{ URL::asset('assets/js/jquery.simplr.smoothscroll.min.js') }}"></script>
-        <link rel="stylesheet" href="{{ URL::asset('assets/css/style.css') }}">
-        <script src="{{ URL::asset('assets/js/main.js') }}"></script>
-
+        <link rel="stylesheet" href="{{ URL::asset('css/style.css') }}">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.8.0/fullcalendar.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.8.0/fullcalendar.min.js"></script>
+        <script src="https://use.fontawesome.com/3e84772efe.js"></script>
     </head>
     <body>
         <div class="row">
@@ -36,12 +37,11 @@
                     <ul class="nav navbar-nav">
                         <li><a href="/">Home</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lan Party <span class="caret"></span>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Event List</a></li>
-                                    <li><a href="#">Information</a></li>
-                                </ul>
-                            </a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lan Party <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Event List</a></li>
+                                <li><a href="#">Information</a></li>
+                            </ul>
                         </li>
                         <li><a href="#">Gallery</a></li>
                         <li><a href="#">Staff</a></li>
@@ -51,7 +51,7 @@
             </div>
         </nav>
 
-        <div class="container-fluid">
+        <div id="app" class="container-fluid">
             <div class="container">
                 @yield('content')
             </div>
@@ -62,5 +62,6 @@
                 speed: 800
             });
         </script>
+        <script src="{{ URL::asset('js/main.js') }}"></script>
     </body>
 </html>
