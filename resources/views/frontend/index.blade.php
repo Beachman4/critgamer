@@ -84,24 +84,24 @@
                         <h1>Sponsors</h1>
                         <div class="row">
                             <div class="col-lg-4">
-                                <a href="http://www.gunnars.com/" target="_blank"><img src="{{ URL::asset('assets/img/gunnar.png') }}"></a>
+                                <a href="http://www.gunnars.com/" target="_blank"><img src="assets/img/gunnar.png"></a>
                             </div>
                             <div class="col-lg-4">
-                                <a href="https://www.inwin-style.com/" target="_blank"><img src="{{ URL::asset('assets/img/InWinBetter.png') }}"></a>
+                                <a href="https://www.inwin-style.com/" target="_blank"><img src="/assets/img/InWinBetter.png"></a>
                             </div>
                             <div class="col-lg-4">
-                                <a href="http://groupm7.com" target="_blank"><img src="{{ URL::asset('assets/img/groupm7-logo-light.png') }}"></a>
+                                <a href="http://groupm7.com" target="_blank"><img src="assets/img/groupm7-logo-light.png"></a>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-4">
-                                <a href="https://www.computerpoweruser.com/home" target="_blank"><img src="{{ URL::asset('assets/img/cpu.png') }}"></a>
+                                <a href="https://www.computerpoweruser.com/home" target="_blank"><img src="assets/img/cpu.png"></a>
                             </div>
                             <div class="col-lg-4">
-                                <a href="http://ocz.com/us/" target="_blank"><img height="130" src="{{ URL::asset('assets/img/ocz.png') }}"></a>
+                                <a href="http://ocz.com/us/" target="_blank"><img height="130" src="assets/img/ocz.png"></a>
                             </div>
                             <div class="col-lg-4">
-                                <a href="http://wardesports.com/" target="_blank"><img src="{{ URL::asset('assets/img/ward.png') }}"></a>
+                                <a href="http://wardesports.com/" target="_blank"><img src="assets/img/ward.png"></a>
                             </div>
                         </div>
                     </div>
