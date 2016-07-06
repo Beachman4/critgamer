@@ -90,7 +90,7 @@ export default {
 			}.bind(this));
 		},
 		eventPage: function(event) {
-
+			window.location.href = "/events/" + event.id;
 		},
 		parseDate: function(date) {
 			var date = moment(date);

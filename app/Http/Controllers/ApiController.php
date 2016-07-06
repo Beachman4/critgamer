@@ -49,5 +49,10 @@ class ApiController extends Controller
         $response["completed"] = $completed;
         echo json_encode($response);
     }
+
+    public function getEvent(Events $events)
+    {
+        return json_encode($events);
+    }
 }
 

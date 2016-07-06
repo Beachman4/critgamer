@@ -58,6 +58,5 @@
                 $('.navbar-toggle').removeClass('ui-btn');
             });
         </script>
-        <script src="{{ URL::asset('js/main.js') }}"></script>
     </body>
 </html>

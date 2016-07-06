@@ -3,6 +3,12 @@
     <script src="{{ URL::asset('assets/js/jquery.mousewheel.min.js') }}"></script>
     <script src="{{ URL::asset('assets/js/jquery.simplr.smoothscroll.min.js') }}"></script>
     <link rel="stylesheet" href="https://rawgit.com/pixedelic/Camera/master/css/camera.css">
+    <script>
+        $( document ).on( "mobileinit", function() {
+            $.mobile.loader.prototype.options.disabled = true;
+            $.mobile.ajaxEnabled = false;
+        });
+    </script>
     <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script src="https://rawgit.com/pixedelic/Camera/master/scripts/jquery.easing.1.3.js"></script>
     <script src="https://rawgit.com/pixedelic/Camera/master/scripts/camera.min.js"></script>
@@ -112,7 +118,8 @@
             autoAdvance: true,
             pagination: false,
             playPause: false,
-            hover: false
+            hover: false,
+            loader: 'none'
         });
     </script>
     <script>
