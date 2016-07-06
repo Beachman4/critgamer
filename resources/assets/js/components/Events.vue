@@ -4,7 +4,7 @@
 			<h1>Upcoming Events</h1>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row" style="margin-top: 3rem;">
 		<div class="col-lg-12">
 			<div class="row">
 				<div :class="['col-lg-4','col-md-12','event', getClass(event)]" @click="eventPage(event)" v-for="event in upcomingEvents">

@@ -1,5 +1,7 @@
 @extends('frontend.templates.master')
 @section('content')
+    <script src="{{ URL::asset('assets/js/jquery.mousewheel.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/js/jquery.simplr.smoothscroll.min.js') }}"></script>
     <link rel="stylesheet" href="https://rawgit.com/pixedelic/Camera/master/css/camera.css">
     <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script src="https://rawgit.com/pixedelic/Camera/master/scripts/jquery.easing.1.3.js"></script>
@@ -113,4 +115,10 @@
             hover: false
         });
     </script>
+    <script>
+            $.srSmoothscroll({
+                step: 150,
+                speed: 800
+            });
+        </script>
 @stop
