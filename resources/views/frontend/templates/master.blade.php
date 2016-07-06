@@ -36,8 +36,8 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lan Party <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Event List</a></li>
-                                <li><a href="#">Information</a></li>
+                                <li><a href="/events">Event List</a></li>
+                                <li><a href="/events/info">Information</a></li>
                             </ul>
                         </li>
                         <li><a href="#">Gallery</a></li>
