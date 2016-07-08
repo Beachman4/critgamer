@@ -14541,7 +14541,7 @@ exports.insert = function (css) {
 }
 
 },{}],7:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -14549,24 +14549,40 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
     data: function data() {
         return {
-            event: []
+            event: [],
+            searchName: ""
         };
     },
     created: function created() {
         this.fetchEvent();
     },
 
+    computed: {
+        location: function location() {
+            return this.event.city + ", " + this.event.state + " " + this.event.zip;
+        }
+    },
     methods: {
         fetchEvent: function fetchEvent() {
             var id = this.$route.params.event_id;
             this.$http.get('/api/events/' + id).then(function (response) {
-                this.$set('event', response.json().data);
+                this.$set('event', response.json());
             });
+        },
+        parseDate: function parseDate(date) {
+            var date = moment(date);
+            return date.format('dddd, MMMM Do YYYY, h:mm:ss a');
+        },
+        clearSearch: function clearSearch() {
+            this.searchName = "";
+        },
+        testing: function testing() {
+            this.searchName = "123123123";
         }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n12312312312312313123\n1231231231231312313123123123\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <div class=\"col-lg-8\">\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h3>{{ event.name }}</h3>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <p>{{ event.description }}</p>\n            </div>\n        </div>\n    </div>\n    <div class=\"col-lg-4\">\n        <div class=\"row\" style=\"border-bottom: 1px solid grey;\">\n            <div class=\"col-lg-12\">\n                <h5>Start: {{ parseDate(event.start) }}</h5>\n                <h5>End: {{ parseDate(event.end) }}</h5>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h5>{{ event.name || capitalize }}</h5>\n                <p>{{ event.address }}</p>\n                <p>{{ location }}</p>\n            </div>\n        </div>\n    </div>\n</div>\n<div class=\"row\">\n    <div class=\"col-lg-4 seating\">\n        <div class=\"row\" style=\"border-bottom: 1px solid black\">\n            <div class=\"col-lg-12\">\n                <h3>Seating Chart Legend</h3>\n            </div>\n        </div>\n        <div class=\"row\" style=\"margin-top: 2rem; border-bottom: 1px solid black\">\n            <div class=\"col-lg-12\">\n                <div class=\"input-group\" style=\"margin-bottom: 1rem;\">\n                    <input type=\"text\" class=\"form-control\" v-model=\"searchName\" placeholder=\"Search Users\">\n                    <span class=\"input-group-btn\">\n                        <button class=\"btn btn-default\" type=\"button\" @click=\"clearSearch\">×</button>\n                    </span>\n                </div>\n            </div>\n        </div>\n        <div class=\"row\" style=\"margin-top: 1rem;\">\n            <div class=\"col-lg-12\">\n                <h5>Types</h5>\n                <div class=\"row\">\n                    <div class=\"col-lg-1\">\n                        <div v-on:mouseover=\"testing\" v-on:mouseleave=\"clearSearch\" class=\"admin-seating\">\n\n                        </div>\n                    </div>\n                    <div class=\"col-lg-3\">\n                        <p>Admin</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>Good Luck</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>Nah bro</p>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-lg-1\">\n                        <div v-on:mouseover=\"testing\" v-on:mouseleave=\"clearSearch\" class=\"standard-seating\">\n\n                        </div>\n                    </div>\n                    <div class=\"col-lg-3\">\n                        <p>Standard</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>$15</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>22</p>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n    <div class=\"col-lg-7 seating\" style=\"float: right;\">\n\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -14615,7 +14631,7 @@ exports.default = {
 			}.bind(this));
 		},
 		eventPage: function eventPage(event) {
-			window.location.href = "/events/" + event.id;
+			this.$router.go({ name: 'event-view', params: { event_id: event.id } });
 		},
 		parseDate: function parseDate(date) {
 			var date = moment(date);
@@ -14679,11 +14695,13 @@ var vm = new Vue({
 });*/
 
 router.map({
-	'/events': {
-		component: _Events2.default
+	'/': {
+		component: _Events2.default,
+		name: 'event_index'
 	},
-	'/events/:event_id': {
-		component: _EventView2.default
+	'/:event_id': {
+		component: _EventView2.default,
+		name: 'event-view'
 	}
 });
 

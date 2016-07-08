@@ -90,7 +90,7 @@ export default {
 			}.bind(this));
 		},
 		eventPage: function(event) {
-			window.location.href = "/events/" + event.id;
+			this.$router.go({ name: 'event-view', params: { event_id: event.id }});
 		},
 		parseDate: function(date) {
 			var date = moment(date);

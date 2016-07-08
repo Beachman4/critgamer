@@ -11,6 +11,9 @@ Route::group(['middleware' => ['web']], function () {
             return response()->view('frontend.events.index');
         })->where('catchall', '(.*)');
     });
+    Route::get('/oopsyousuck', function() {
+        abort(404);
+    });
 });
 
 

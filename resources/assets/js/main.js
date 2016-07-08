@@ -21,11 +21,13 @@ var vm = new Vue({
 });*/
 
 router.map({
-	'/events': {
-		component: Events
+	'/': {
+		component: Events,
+		name: 'event_index',
 	},
-	'/events/:event_id': {
-		component: EventView
+	'/:event_id': {
+		component: EventView,
+		name: 'event-view'
 	}
 });
 
