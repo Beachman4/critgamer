@@ -34,6 +34,10 @@
   margin: 1px;
   background-color: #00BF96;
   cursor: pointer;
+  :hover {
+    background-color: #222222;
+    box-shadow: 0px 0px 1px 2px #fff;
+  }
 }
 .admin_row, .regular_wrapper {
   display: table;
