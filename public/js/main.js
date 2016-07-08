@@ -14549,17 +14549,29 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
     data: function data() {
         return {
+            show: false,
             event: [],
-            searchName: ""
+            searchName: "",
+            admins: ["Verbatim37", "Verbatim37 SO", "SpadeFire91", "SpadeFire91 SO", "Upcboy", "Upcboy SO", "TotalFreedom", "TotalFreedom SO"],
+            seats: [],
+            admin_hovered: false,
+            regular_hovered: false
         };
     },
     created: function created() {
         this.fetchEvent();
+        this.fetchSeats();
     },
 
     computed: {
         location: function location() {
             return this.event.city + ", " + this.event.state + " " + this.event.zip;
+        },
+        a_hovered: function a_hovered() {
+            return this.admin_hovered ? 'admin_hovered' : '';
+        },
+        reg_hovered: function reg_hovered() {
+            return this.regular_hovered ? 'regular_hovered' : '';
         }
     },
     methods: {
@@ -14569,6 +14581,17 @@ exports.default = {
                 this.$set('event', response.json());
             });
         },
+        fetchSeats: function fetchSeats() {
+            var id = this.$route.params.event_id;
+            this.$http.get('/api/events/' + id + '/seats').then(function (response) {
+                this.$set('seats', response.json());
+            });
+        },
+        fetchUserInfo: function fetchUserInfo(id) {
+            this.$http.get('/api/user/' + id).then(function (response) {
+                return response;
+            });
+        },
         parseDate: function parseDate(date) {
             var date = moment(date);
             return date.format('dddd, MMMM Do YYYY, h:mm:ss a');
@@ -14576,21 +14599,88 @@ exports.default = {
         clearSearch: function clearSearch() {
             this.searchName = "";
         },
-        testing: function testing() {
-            this.searchName = "123123123";
+        hover: function hover(seat, type) {
+            if (seat == 'admin') {
+                if (type) {
+                    this.admin_hovered = true;
+                } else {
+                    this.admin_hovered = false;
+                }
+            } else {
+                if (type) {
+                    this.regular_hovered = true;
+                } else {
+                    this.regular_hovered = false;
+                }
+            }
+        },
+        tableLetter: function tableLetter(index) {
+            switch (index) {
+                case 0:
+                    {
+                        return "A";
+                    }
+                case 1:
+                    {
+                        return "B";
+                    }
+                case 2:
+                    {
+                        return "C";
+                    }
+                case 3:
+                    {
+                        return "D";
+                    }
+                case 4:
+                    {
+                        return "E";
+                    }
+                case 5:
+                    {
+                        return "F";
+                    }
+                case 6:
+                    {
+                        return "G";
+                    }
+                case 7:
+                    {
+                        return "H";
+                    }
+                case 8:
+                    {
+                        return "I";
+                    }
+                case 9:
+                    {
+                        return "J";
+                    }
+                case 10:
+                    {
+                        return "K";
+                    }
+            }
+        },
+        seatHovered: function seatHovered(seat, mouse) {
+            if (mouse) {
+                seat.hovered = true;
+            } else {
+                seat.hovered = false;
+            }
         }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <div class=\"col-lg-8\">\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h3>{{ event.name }}</h3>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <p>{{ event.description }}</p>\n            </div>\n        </div>\n    </div>\n    <div class=\"col-lg-4\">\n        <div class=\"row\" style=\"border-bottom: 1px solid grey;\">\n            <div class=\"col-lg-12\">\n                <h5>Start: {{ parseDate(event.start) }}</h5>\n                <h5>End: {{ parseDate(event.end) }}</h5>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h5>{{ event.name || capitalize }}</h5>\n                <p>{{ event.address }}</p>\n                <p>{{ location }}</p>\n            </div>\n        </div>\n    </div>\n</div>\n<div class=\"row\">\n    <div class=\"col-lg-4 seating\">\n        <div class=\"row\" style=\"border-bottom: 1px solid black\">\n            <div class=\"col-lg-12\">\n                <h3>Seating Chart Legend</h3>\n            </div>\n        </div>\n        <div class=\"row\" style=\"margin-top: 2rem; border-bottom: 1px solid black\">\n            <div class=\"col-lg-12\">\n                <div class=\"input-group\" style=\"margin-bottom: 1rem;\">\n                    <input type=\"text\" class=\"form-control\" v-model=\"searchName\" placeholder=\"Search Users\">\n                    <span class=\"input-group-btn\">\n                        <button class=\"btn btn-default\" type=\"button\" @click=\"clearSearch\">×</button>\n                    </span>\n                </div>\n            </div>\n        </div>\n        <div class=\"row\" style=\"margin-top: 1rem;\">\n            <div class=\"col-lg-12\">\n                <h5>Types</h5>\n                <div class=\"row\">\n                    <div class=\"col-lg-1\">\n                        <div v-on:mouseover=\"testing\" v-on:mouseleave=\"clearSearch\" class=\"admin-seating\">\n\n                        </div>\n                    </div>\n                    <div class=\"col-lg-3\">\n                        <p>Admin</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>Good Luck</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>Nah bro</p>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-lg-1\">\n                        <div v-on:mouseover=\"testing\" v-on:mouseleave=\"clearSearch\" class=\"standard-seating\">\n\n                        </div>\n                    </div>\n                    <div class=\"col-lg-3\">\n                        <p>Standard</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>$15</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>22</p>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n    <div class=\"col-lg-7 seating\" style=\"float: right;\">\n\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <div class=\"col-lg-8\">\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h3>{{ event.name }}</h3>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <p>{{ event.description }}</p>\n            </div>\n        </div>\n    </div>\n    <div class=\"col-lg-4\">\n        <div class=\"row\" style=\"border-bottom: 1px solid grey;\">\n            <div class=\"col-lg-12\">\n                <h5>Start: {{ parseDate(event.start) }}</h5>\n                <h5>End: {{ parseDate(event.end) }}</h5>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h5>{{ event.name || capitalize }}</h5>\n                <p>{{ event.address }}</p>\n                <p>{{ location }}</p>\n            </div>\n        </div>\n    </div>\n</div>\n<div class=\"row\">\n    <div class=\"col-lg-4 seating\">\n        <div class=\"row\" style=\"border-bottom: 1px solid black\">\n            <div class=\"col-lg-12\">\n                <h3>Seating Chart Legend</h3>\n            </div>\n        </div>\n        <div class=\"row\" style=\"margin-top: 2rem; border-bottom: 1px solid black\">\n            <div class=\"col-lg-12\">\n                <div class=\"input-group\" style=\"margin-bottom: 1rem;\">\n                    <input type=\"text\" class=\"form-control\" v-model=\"searchName\" placeholder=\"Search Users\">\n                    <span class=\"input-group-btn\">\n                        <button class=\"btn btn-default\" type=\"button\" @click=\"clearSearch\">×</button>\n                    </span>\n                </div>\n            </div>\n        </div>\n        <div class=\"row\" style=\"margin-top: 1rem;\">\n            <div class=\"col-lg-12\">\n                <h5>Types</h5>\n                <div class=\"row\">\n                    <div class=\"col-lg-1\">\n                        <div v-on:mouseover=\"hover('admin', true)\" v-on:mouseleave=\"hover('admin', false)\" :class=\"['admin-seating', a_hovered]\">\n\n                        </div>\n                    </div>\n                    <div class=\"col-lg-3\">\n                        <p>Admin</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>Good Luck</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>Nah bro</p>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-lg-1\">\n                        <div v-on:mouseover=\"hover('regular', true)\" v-on:mouseleave=\"hover('regular', false)\" :class=\"['standard-seating', reg_hovered]\">\n\n                        </div>\n                    </div>\n                    <div class=\"col-lg-3\">\n                        <p>Standard</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>$15</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>22</p>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n    <div class=\"col-lg-7 seating\" style=\"float: right;\">\n        <div class=\"row\">\n            <div class=\"col-lg-4\">\n                <h3>Seating Chart</h3>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-8 col-lg-offset-2\">\n                <div class=\"admin_row\">\n                    <div :class=\"['admin_seat', a_hovered]\" v-for=\"admin in admins\">\n\n                    </div>\n                </div>\n                <div class=\"regular_wrapper\">\n                    <div class=\"regular_table\" v-for=\"(parentKey, table) in seats\">\n                        <div :class=\"['regular_seat', reg_hovered]\" track-by=\"$index\" v-for=\"seat in table\" v-on:mouseover=\"seatHovered(seat, true)\" v-on:mouseleave=\"seatHovered(seat, false)\">\n                            <div class=\"seat_info\" v-show=\"seat.hovered\">\n                                <p>Regular Seat Table {{ tableLetter(parentKey) }}-{{ $index }}</p>\n                                <div v-if=\"seat.users_id == null\">\n                                    <p>Available</p>\n                                    <p>{{ event.price | currency }}</p>\n                                </div>\n                                <div v-else=\"\">\n                                    <p>{{ seat.users_id }}</p>\n                                    <p>PAID</p>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-4f1d712e", module.exports)
+    hotAPI.createRecord("_v-56bdeaa2", module.exports)
   } else {
-    hotAPI.update("_v-4f1d712e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-56bdeaa2", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2}],8:[function(require,module,exports){
@@ -14650,9 +14740,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-6c83d0da", module.exports)
+    hotAPI.createRecord("_v-394eebe6", module.exports)
   } else {
-    hotAPI.update("_v-6c83d0da", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-394eebe6", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],9:[function(require,module,exports){

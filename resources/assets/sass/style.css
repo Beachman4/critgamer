@@ -10,41 +10,6 @@
   background-color: #00BF96;
   padding: 10px; }
 
-.regular_table {
-  display: inline-block;
-  margin-right: 40px;
-  margin-top: 2rem;
-  width: 40px; }
-
-.regular_row {
-  height: 18px; }
-
-.admin_seat, .regular_seat {
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-  margin: 1px;
-  background-color: #5F5F5F;
-  cursor: pointer; }
-
-.admin_row, .regular_wrapper {
-  display: table;
-  margin: 0 auto; }
-
-.seat_info {
-  margin-top: 30px;
-  position: absolute;
-  background-color: #030303;
-  width: 130px; }
-
-.admin_hovered {
-  background-color: #222222;
-  box-shadow: 0px 0px 1px 2px #fff; }
-
-.regular_hovered {
-  background-color: #222222;
-  box-shadow: 0px 0px 1px 2px #fff; }
-
 body {
   background-color: #232324; }
 
@@ -73,7 +38,6 @@ body {
   .parallax {
     background-position: center 0 !important;
     background-size: cover; } }
-
 .parallax .container {
   padding: 140px;
   color: #fff; }

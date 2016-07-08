@@ -20,4 +20,5 @@ Route::group(['middleware' => ['web']], function () {
 Route::group(['prefix' => 'api'], function() {
     Route::get('/events', 'ApiController@getEvents');
     Route::get('/events/{events}', 'ApiController@getEvent');
+    Route::get('/events/{events}/seats', 'ApiController@getSeats');
 });

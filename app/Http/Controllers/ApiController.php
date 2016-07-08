@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events;
+use App\EventSeats;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -53,6 +54,22 @@ class ApiController extends Controller
     public function getEvent(Events $events)
     {
         return json_encode($events);
+    }
+
+    public function getSeats(Events $events)
+    {
+        $seats = EventSeats::where('event_id', $events->id)->get();
+
+        $final = [];
+        foreach ($seats->toArray() as $seat) {
+            $seat["hovered"] = false;
+            $final[] = $seat;
+        }
+
+        $final = array_chunk($final, 16);
+
+        echo json_encode($final);
+
     }
 }
 
