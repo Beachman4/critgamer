@@ -1,4 +1,6 @@
 @import "components/EventView.scss";
+@import "components/Login.scss";
+@import "components/Register.scss";
 
 body {
   background-color: #232324;
@@ -67,4 +69,27 @@ p, li, span, a {
 }
 #calendar {
   background-color: #fff;
+}
+.top-bar {
+  background-color: #2D2D2D;
+}
+.user_panel:hover {
+  background-color: #161617;
+}
+.bottom {
+  margin-top: 1rem;
+}
+.dropdown-menu>li>a {
+  color: #fff;
+}
+.top-bar {
+  height: 50px;
+}
+.user_panel {
+  height: 100%;
+  padding-top: 10px;
+}
+#user_panel {
+  width: 100%;
+  height: 100%;
 }

@@ -14703,7 +14703,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <div class=\"col-lg-8\">\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h3>{{ event.name }}</h3>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <p>{{ event.description }}</p>\n            </div>\n        </div>\n    </div>\n    <div class=\"col-lg-4\">\n        <div class=\"row\" style=\"border-bottom: 1px solid grey;\">\n            <div class=\"col-lg-12\">\n                <h5>Start: {{ parseDate(event.start) }}</h5>\n                <h5>End: {{ parseDate(event.end) }}</h5>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h5>{{ event.name || capitalize }}</h5>\n                <p>{{ event.address }}</p>\n                <p>{{ location }}</p>\n            </div>\n        </div>\n    </div>\n</div>\n<div class=\"row\">\n    <div class=\"col-lg-4 seating\">\n        <div class=\"row\" style=\"border-bottom: 1px solid black\">\n            <div class=\"col-lg-12\">\n                <h3>Seating Chart Legend</h3>\n            </div>\n        </div>\n        <div class=\"row\" style=\"margin-top: 2rem; border-bottom: 1px solid black\">\n            <div class=\"col-lg-12\">\n                <div class=\"input-group\" style=\"margin-bottom: 1rem;\">\n                    <input type=\"text\" class=\"form-control\" v-model=\"searchName\" placeholder=\"Search Users\">\n                    <span class=\"input-group-btn\">\n                        <button class=\"btn btn-default\" type=\"button\" @click=\"clearSearch\">×</button>\n                    </span>\n                </div>\n            </div>\n        </div>\n        <div class=\"row\" style=\"margin-top: 1rem;\">\n            <div class=\"col-lg-12\">\n                <h5>Types</h5>\n                <div class=\"row\">\n                    <div class=\"col-lg-1\">\n                        <div v-on:mouseover=\"hover('admin', true)\" v-on:mouseleave=\"hover('admin', false)\" :class=\"['admin-seating', a_hovered]\">\n\n                        </div>\n                    </div>\n                    <div class=\"col-lg-3\">\n                        <p>Admin</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>Good Luck</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>Nah bro</p>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-lg-1\">\n                        <div v-on:mouseover=\"hover('regular', true)\" v-on:mouseleave=\"hover('regular', false)\" :class=\"['standard-seating', reg_hovered]\">\n\n                        </div>\n                    </div>\n                    <div class=\"col-lg-3\">\n                        <p>Standard</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>$15</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>22</p>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n    <div class=\"col-lg-7 seating\" style=\"float: right;\">\n        <div class=\"row\">\n            <div class=\"col-lg-4\">\n                <h3>Seating Chart</h3>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-8 col-lg-offset-2\">\n                <div class=\"admin_row\">\n                    <div track-by=\"$index\" :class=\"['admin_seat', a_hovered]\" v-on:mouseover=\"adminHovered(admin, true)\" v-on:mouseleave=\"adminHovered(admin, false)\" v-for=\"admin in admins\">\n                        <div class=\"seat_info\" v-show=\"admin.hovered\">\n                            <p>Admin Seat - {{ $index + 1 }}</p>\n                            <p>{{ admin.name }}</p>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"regular_wrapper\">\n                    <div class=\"regular_table\" v-for=\"(parentKey, table) in seats\">\n                        <div :class=\"['regular_seat', reg_hovered]\" track-by=\"$index\" v-for=\"seat in table\" v-on:mouseover=\"seatHovered(seat, true)\" v-on:mouseleave=\"seatHovered(seat, false)\">\n                            <div class=\"seat_info\" v-show=\"seat.hovered\">\n                                <p>Regular Seat Table {{ tableLetter(parentKey) }}-{{ $index + 1 }}</p>\n                                <div v-if=\"seat.users_id == null\">\n                                    <p>Available</p>\n                                    <p>{{ event.price | currency }}</p>\n                                </div>\n                                <div v-else=\"\">\n                                    <p>{{ seat.users_id }}</p>\n                                    <p>PAID</p>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <div class=\"col-lg-8\">\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h3>{{ event.name }}</h3>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <p>{{ event.description }}</p>\n            </div>\n        </div>\n    </div>\n    <div class=\"col-lg-4\">\n        <div class=\"row\" style=\"border-bottom: 1px solid grey;\">\n            <div class=\"col-lg-12\">\n                <h5>Start: {{ parseDate(event.start) }}</h5>\n                <h5>End: {{ parseDate(event.end) }}</h5>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h5>{{ event.name || capitalize }}</h5>\n                <p>{{ event.address }}</p>\n                <p>{{ location }}</p>\n            </div>\n        </div>\n    </div>\n</div>\n<div class=\"row\">\n    <div class=\"col-lg-4 seating\">\n        <div class=\"row\" style=\"border-bottom: 1px solid black\">\n            <div class=\"col-lg-12\">\n                <h3>Seating Chart Legend</h3>\n            </div>\n        </div>\n        <div class=\"row\" style=\"margin-top: 2rem; border-bottom: 1px solid black\">\n            <div class=\"col-lg-12\">\n                <div class=\"input-group\" style=\"margin-bottom: 1rem;\">\n                    <input type=\"text\" class=\"form-control\" v-model=\"searchName\" placeholder=\"Search Users\">\n                    <span class=\"input-group-btn\">\n                        <button class=\"btn btn-default\" type=\"button\" @click=\"clearSearch\">×</button>\n                    </span>\n                </div>\n            </div>\n        </div>\n        <div class=\"row\" style=\"margin-top: 1rem;\">\n            <div class=\"col-lg-12\">\n                <h5>Types</h5>\n                <div class=\"row\">\n                    <div class=\"col-lg-1\">\n                        <div v-on:mouseover=\"hover('admin', true)\" v-on:mouseleave=\"hover('admin', false)\" :class=\"['admin-seating', a_hovered]\">\n\n                        </div>\n                    </div>\n                    <div class=\"col-lg-3\">\n                        <p>Admin</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>Good Luck</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>Nah bro</p>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-lg-1\">\n                        <div v-on:mouseover=\"hover('regular', true)\" v-on:mouseleave=\"hover('regular', false)\" :class=\"['standard-seating', reg_hovered]\">\n\n                        </div>\n                    </div>\n                    <div class=\"col-lg-3\">\n                        <p>Standard</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>{{ event.price }}</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>22</p>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n    <div class=\"col-lg-7 seating\" style=\"float: right;\">\n        <div class=\"row\">\n            <div class=\"col-lg-4\">\n                <h3>Seating Chart</h3>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-8 col-lg-offset-2\">\n                <div class=\"admin_row\">\n                    <div track-by=\"$index\" :class=\"['admin_seat', a_hovered]\" v-on:mouseover=\"adminHovered(admin, true)\" v-on:mouseleave=\"adminHovered(admin, false)\" v-for=\"admin in admins\">\n                        <div class=\"seat_info\" v-show=\"admin.hovered\">\n                            <p>Admin Seat - {{ $index + 1 }}</p>\n                            <p>{{ admin.name }}</p>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"regular_wrapper\">\n                    <div class=\"regular_table\" v-for=\"(parentKey, table) in seats\">\n                        <div :class=\"['regular_seat', reg_hovered]\" track-by=\"$index\" v-for=\"seat in table\" v-on:mouseover=\"seatHovered(seat, true)\" v-on:mouseleave=\"seatHovered(seat, false)\">\n                            <div class=\"seat_info\" v-show=\"seat.hovered\">\n                                <p>Regular Seat Table {{ tableLetter(parentKey) }}-{{ $index + 1 }}</p>\n                                <div v-if=\"seat.users_id == null\">\n                                    <p>Available</p>\n                                    <p>{{ event.price | currency }}</p>\n                                </div>\n                                <div v-else=\"\">\n                                    <p>{{ seat.users_id }}</p>\n                                    <p>PAID</p>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -14779,6 +14779,57 @@ if (module.hot) {(function () {  module.hot.accept()
 },{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],9:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    data: function data() {
+        return {
+            loginData: {
+                username_email: '',
+                password: ''
+            }
+        };
+    },
+
+    methods: {
+        login: function login() {}
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal\" id=\"loginModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"LoginModalLabel\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>\n                <h4 class=\"modal-title\" id=\"LoginModalLabel\" style=\"color: black;\">Login</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"row\">\n                    <div class=\"col-lg-12 text-center\">\n                        <label>Email or Username\n                            <input type=\"text\" class=\"form-control\" name=\"username_email\" v-model=\"loginData.username_email\">\n                        </label>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-lg-12 text-center\">\n                        <label>Password\n                            <input type=\"password\" class=\"form-control\" name=\"password\" v-model=\"loginData.password\">\n                        </label>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Stuff\">\n                    <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">Close</span></button>\n                    <button data-toggle=\"modal\" data-target=\"#registerModal\" type=\"button\" class=\"btn btn-info\">Register</button>\n                    <button type=\"button\" @click=\"login\" class=\"btn btn-success\">Login</button>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-e8e46a50", module.exports)
+  } else {
+    hotAPI.update("_v-e8e46a50", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":2}],10:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-704d81f8", module.exports)
+  } else {
+    hotAPI.update("_v-704d81f8", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":2}],11:[function(require,module,exports){
+'use strict';
+
 var _vue = require('vue');
 
 var _vue2 = _interopRequireDefault(_vue);
@@ -14799,21 +14850,25 @@ var _EventView = require('./components/EventView.vue');
 
 var _EventView2 = _interopRequireDefault(_EventView);
 
+var _Login = require('./components/Login.vue');
+
+var _Login2 = _interopRequireDefault(_Login);
+
+var _Register = require('./components/Register.vue');
+
+var _Register2 = _interopRequireDefault(_Register);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _vue2.default.use(_vueResource2.default);
 _vue2.default.use(_vueRouter2.default);
 var App = _vue2.default.extend();
 var router = new _vueRouter2.default();
+_vue2.default.http.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
 
 //import EventsCalendar from "./components/EventsCalendar.vue";
 
-/*
-var vm = new Vue({
-	el: "#app",
-
-	components: {Events}
-});*/
+_vue2.default.component('login', _Login2.default);
 
 router.map({
 	'/': {
@@ -14826,8 +14881,8 @@ router.map({
 	}
 });
 
-router.start(App, '#app');
+router.start(App, 'body');
 
-},{"./components/EventView.vue":7,"./components/Events.vue":8,"vue":5,"vue-resource":3,"vue-router":4}]},{},[9]);
+},{"./components/EventView.vue":7,"./components/Events.vue":8,"./components/Login.vue":9,"./components/Register.vue":10,"vue":5,"vue-resource":3,"vue-router":4}]},{},[11]);
 
 //# sourceMappingURL=main.js.map

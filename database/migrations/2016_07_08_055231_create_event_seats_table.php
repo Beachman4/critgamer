@@ -15,7 +15,7 @@ class CreateEventSeatsTable extends Migration
         Schema::create('event_seats', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('event_id');
-            $table->integer('users_id')->nullable();
+            $table->integer('user_id')->nullable();
             $table->timestamps();
         });
     }

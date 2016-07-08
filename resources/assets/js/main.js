@@ -5,20 +5,18 @@ Vue.use(resource);
 Vue.use(VueRouter);
 var App = Vue.extend();
 var router = new VueRouter();
+Vue.http.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
 
 
 
 
 import Events from "./components/Events.vue";
 import EventView from "./components/EventView.vue";
+import Login from "./components/Login.vue";
+import Register from "./components/Register.vue";
 //import EventsCalendar from "./components/EventsCalendar.vue";
 
-/*
-var vm = new Vue({
-	el: "#app",
-
-	components: {Events}
-});*/
+Vue.component('login', Login);
 
 router.map({
 	'/': {
@@ -31,4 +29,4 @@ router.map({
 	}
 });
 
-router.start(App, '#app');
+router.start(App, 'body');
