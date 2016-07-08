@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="{{ URL::asset('css/style.css') }}">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
         <script src="https://use.fontawesome.com/3e84772efe.js"></script>
+        <script src="http://localhost:3000/socket.io/socket.io.js"></script>
     </head>
     <body>
         <div class="row">

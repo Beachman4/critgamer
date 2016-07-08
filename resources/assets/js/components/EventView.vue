@@ -74,7 +74,7 @@
                             <p>Standard</p>
                         </div>
                         <div class="col-lg-4">
-                            <p>$15</p>
+                            <p>{{ event.price }}</p>
                         </div>
                         <div class="col-lg-4">
                             <p>22</p>
@@ -92,15 +92,18 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <div class="admin_row">
-                        <div :class="['admin_seat', a_hovered]" v-for="admin in admins">
-
+                        <div track-by="$index" :class="['admin_seat', a_hovered]" v-on:mouseover="adminHovered(admin, true)" v-on:mouseleave="adminHovered(admin, false)" v-for="admin in admins">
+                            <div class="seat_info" v-show="admin.hovered">
+                                <p>Admin Seat - {{ $index + 1 }}</p>
+                                <p>{{ admin.name }}</p>
+                            </div>
                         </div>
                     </div>
                     <div class="regular_wrapper">
                         <div class="regular_table" v-for="(parentKey, table) in seats">
                             <div :class="['regular_seat', reg_hovered]" track-by="$index" v-for="seat in table" v-on:mouseover="seatHovered(seat, true)" v-on:mouseleave="seatHovered(seat, false)">
                                 <div class="seat_info" v-show="seat.hovered">
-                                    <p>Regular Seat Table {{ tableLetter(parentKey) }}-{{ $index }}</p>
+                                    <p>Regular Seat Table {{ tableLetter(parentKey) }}-{{ $index + 1 }}</p>
                                     <div v-if="seat.users_id == null">
                                         <p>Available</p>
                                         <p>{{ event.price | currency }}</p>
@@ -128,14 +131,38 @@
                 event: [],
                 searchName: "",
                 admins: [
-                        "Verbatim37",
-                        "Verbatim37 SO",
-                        "SpadeFire91",
-                        "SpadeFire91 SO",
-                        "Upcboy",
-                        "Upcboy SO",
-                        "TotalFreedom",
-                        "TotalFreedom SO"
+                    {
+                        name: "Verbatim37",
+                        hovered: false
+                    },
+                    {
+                        name: "Verbatim37 SO",
+                        hovered: false
+                    },
+                    {
+                        name: "SpadeFire91",
+                        hovered: false
+                    },
+                    {
+                        name: "SpadeFire91 SO",
+                        hovered: false
+                    },
+                    {
+                        name: "Upcboy",
+                        hovered: false
+                    },
+                    {
+                        name: "Upcboy SO",
+                        hovered: false
+                    },
+                    {
+                        name: "TotalFreedom",
+                        hovered: false
+                    },
+                    {
+                        name: "TotalFreedom SO",
+                        hovered: false
+                    }
                 ],
                 seats: [],
                 admin_hovered: false,
@@ -239,6 +266,13 @@
                     seat.hovered = true;
                 } else {
                     seat.hovered = false;
+                }
+            },
+            adminHovered: function(admin, mouse) {
+                if (mouse) {
+                    admin.hovered = true;
+                } else {
+                    admin.hovered = false;
                 }
             }
         }
