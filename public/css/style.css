@@ -19,12 +19,20 @@
 .regular_row {
   height: 18px; }
 
-.admin_seat, .regular_seat {
+.admin_seat {
   width: 16px;
   height: 16px;
   display: inline-block;
   margin: 1px;
   background-color: #5F5F5F;
+  cursor: pointer; }
+
+.regular_seat {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  margin: 1px;
+  background-color: #00BF96;
   cursor: pointer; }
 
 .admin_row, .regular_wrapper {
@@ -35,7 +43,7 @@
   margin-top: 30px;
   position: absolute;
   background-color: #030303;
-  width: 130px; }
+  width: 175px; }
 
 .admin_hovered {
   background-color: #222222;
@@ -44,6 +52,9 @@
 .regular_hovered {
   background-color: #222222;
   box-shadow: 0px 0px 1px 2px #fff; }
+
+.taken {
+  background-color: #5F5F5F; }
 
 body {
   background-color: #232324; }
