@@ -10,22 +10,24 @@
                     <div class="row">
                         <div class="col-lg-12 text-center">
                             <label>Email or Username
-                                <input type="text" class="form-control" name="username_email" v-model="loginData.username_email">
+                                <input type="text" class="form-control" name="username_email" v-model="loginData.username_email.value">
+                                <div v-if="loginData.username_email.failed" class="validation-alert"><span>Required</span></div>
                             </label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12 text-center">
                             <label>Password
-                                <input type="password" class="form-control" name="password" v-model="loginData.password">
+                                <input type="password" class="form-control" name="password" v-model="loginData.password.value">
+                                <div v-if="loginData.password.failed" class="validation-alert"><span>Required</span></div>
                             </label>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="btn-group" role="group" aria-label="Stuff">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">Close</button>
-                        <button data-toggle="modal" data-target="#registerModal" type="button" class="btn btn-info">Register</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">Close</span></button>
+                        <button data-toggle="modal" @click="hideLogin" data-target="#registerModal" type="button" class="btn btn-info">Register</button>
                         <button type="button" @click="login" class="btn btn-success">Login</button>
                     </div>
                 </div>
@@ -41,14 +43,41 @@
         data() {
             return {
                 loginData: {
-                    username_email: '',
-                    password: ''
+                    username_email: {
+                        value: "",
+                        failed: false
+                    },
+                    password: {
+                        value: "",
+                        failed: false
+                    },
                 }
             }
         },
         methods: {
+            hideLogin: function() {
+                $('#loginModal').modal('hide');
+            },
             login: function() {
+                if (this.checkData()) {
 
+                }
+            },
+            checkData: function() {
+                var failed = false;
+                if (this.loginData.username_email.value == "") {
+                    failed = true;
+                    this.loginData.username_email.failed = true;
+                } else {
+                    this.loginData.username_email.failed = false;
+                }
+                if (this.loginData.password.value == "") {
+                    failed = true;
+                    this.loginData.password.failed = true;
+                } else {
+                    this.loginData.password.failed = false;
+                }
+                return failed;
             }
         }
     }

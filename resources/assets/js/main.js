@@ -14,9 +14,9 @@ import Events from "./components/Events.vue";
 import EventView from "./components/EventView.vue";
 import Login from "./components/Login.vue";
 import Register from "./components/Register.vue";
-//import EventsCalendar from "./components/EventsCalendar.vue";
 
 Vue.component('login', Login);
+Vue.component('register', Register);
 
 router.map({
 	'/': {

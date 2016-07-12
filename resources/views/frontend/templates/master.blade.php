@@ -18,7 +18,7 @@
     </head>
     <body>
     <login></login>
-    {{--<register></register>--}}
+    <register></register>
     <div class="container-fluid">
         <div class="row top-bar">
             <div class="col-lg-12">
@@ -53,6 +53,7 @@
                             </div>
                         @else
                             <a href="#" class="dropdown-user-panel" data-toggle="modal" data-target="#loginModal">Login</a>
+                            <a href="#" class="dropdown-user-panel" data-toggle="modal" data-target="#registerModal">Register</a>
                         @endif
                     </div>
                 </div>

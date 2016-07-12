@@ -14709,9 +14709,9 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-5e48314e", module.exports)
+    hotAPI.createRecord("_v-56bdeaa2", module.exports)
   } else {
-    hotAPI.update("_v-5e48314e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-56bdeaa2", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2}],8:[function(require,module,exports){
@@ -14771,13 +14771,13 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-e6a3f68c", module.exports)
+    hotAPI.createRecord("_v-394eebe6", module.exports)
   } else {
-    hotAPI.update("_v-e6a3f68c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-394eebe6", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],9:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -14786,45 +14786,133 @@ exports.default = {
     data: function data() {
         return {
             loginData: {
-                username_email: '',
-                password: ''
+                username_email: {
+                    value: "",
+                    failed: false
+                },
+                password: {
+                    value: "",
+                    failed: false
+                }
             }
         };
     },
 
     methods: {
-        login: function login() {}
+        hideLogin: function hideLogin() {
+            $('#loginModal').modal('hide');
+        },
+        login: function login() {
+            if (this.checkData()) {}
+        },
+        checkData: function checkData() {
+            var failed = false;
+            if (this.loginData.username_email.value == "") {
+                failed = true;
+                this.loginData.username_email.failed = true;
+            } else {
+                this.loginData.username_email.failed = false;
+            }
+            if (this.loginData.password.value == "") {
+                failed = true;
+                this.loginData.password.failed = true;
+            } else {
+                this.loginData.password.failed = false;
+            }
+            return failed;
+        }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal\" id=\"loginModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"LoginModalLabel\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>\n                <h4 class=\"modal-title\" id=\"LoginModalLabel\" style=\"color: black;\">Login</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"row\">\n                    <div class=\"col-lg-12 text-center\">\n                        <label>Email or Username\n                            <input type=\"text\" class=\"form-control\" name=\"username_email\" v-model=\"loginData.username_email\">\n                        </label>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-lg-12 text-center\">\n                        <label>Password\n                            <input type=\"password\" class=\"form-control\" name=\"password\" v-model=\"loginData.password\">\n                        </label>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Stuff\">\n                    <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">Close</span></button>\n                    <button data-toggle=\"modal\" data-target=\"#registerModal\" type=\"button\" class=\"btn btn-info\">Register</button>\n                    <button type=\"button\" @click=\"login\" class=\"btn btn-success\">Login</button>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal\" id=\"loginModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"LoginModalLabel\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>\n                <h4 class=\"modal-title\" id=\"LoginModalLabel\" style=\"color: black;\">Login</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"row\">\n                    <div class=\"col-lg-12 text-center\">\n                        <label>Email or Username\n                            <input type=\"text\" class=\"form-control\" name=\"username_email\" v-model=\"loginData.username_email.value\">\n                            <div v-if=\"loginData.username_email.failed\" class=\"validation-alert\"><span>Required</span></div>\n                        </label>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-lg-12 text-center\">\n                        <label>Password\n                            <input type=\"password\" class=\"form-control\" name=\"password\" v-model=\"loginData.password.value\">\n                            <div v-if=\"loginData.password.failed\" class=\"validation-alert\"><span>Required</span></div>\n                        </label>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Stuff\">\n                    <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">Close</span></button>\n                    <button data-toggle=\"modal\" @click=\"hideLogin\" data-target=\"#registerModal\" type=\"button\" class=\"btn btn-info\">Register</button>\n                    <button type=\"button\" @click=\"login\" class=\"btn btn-success\">Login</button>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-e8e46a50", module.exports)
+    hotAPI.createRecord("_v-ee4563a8", module.exports)
   } else {
-    hotAPI.update("_v-e8e46a50", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-ee4563a8", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
-exports.default = {};
+exports.default = {
+    data: function data() {
+        return {
+            registerData: {
+                email: {
+                    value: "",
+                    failed: false
+                },
+                username: {
+                    value: "",
+                    failed: false
+                },
+                password: {
+                    value: "",
+                    failed: false
+                },
+                confirm_password: {
+                    value: "",
+                    failed: false
+                }
+            },
+            failed: false
+        };
+    },
+
+    methods: {
+        hideRegister: function hideRegister() {
+            $('#registerModal').modal('hide');
+        },
+        register: function register() {
+            if (this.checkData()) {}
+        },
+        checkData: function checkData() {
+            var failed = false;
+            if (this.registerData.email.value == "") {
+                failed = true;
+                this.registerData.email.failed = true;
+            } else {
+                this.registerData.email.failed = false;
+            }
+            if (this.registerData.username.value == "") {
+                failed = true;
+                this.registerData.username.failed = true;
+            } else {
+                this.registerData.username.failed = false;
+            }
+            if (this.registerData.password.value == "") {
+                failed = true;
+                this.registerData.password.failed = true;
+            } else {
+                this.registerData.password.failed = false;
+            }
+            if (this.registerData.confirm_password.value == "") {
+                failed = true;
+                this.registerData.confirm_password.failed = true;
+            } else {
+                this.registerData.confirm_password.failed = false;
+            }
+            return failed;
+        }
+    }
+};
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal\" id=\"registerModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"registerModalLabel\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>\n                <h4 class=\"modal-title\" id=\"registerModalLabel\" style=\"color: black;\">Register</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"row\">\n                    <div class=\"col-lg-12 text-center\">\n                        <label>Email Address\n                            <input type=\"email\" class=\"form-control\" name=\"email\" v-model=\"registerData.email.value\">\n                            <div v-if=\"registerData.email.failed\" class=\"validation-alert\"><span>Required</span></div>\n                        </label>\n                    </div>\n                    <div class=\"col-lg-12 text-center\">\n                        <label>Username\n                            <input type=\"text\" class=\"form-control\" name=\"username\" v-model=\"registerData.username.value\">\n                            <div v-if=\"registerData.username.failed\" class=\"validation-alert\"><span>Required</span></div>\n                        </label>\n                    </div>\n                    <div class=\"col-lg-12 text-center\">\n                        <label>Password\n                            <input type=\"password\" class=\"form-control\" name=\"password\" v-model=\"registerData.password.value\">\n                            <div v-if=\"registerData.password.failed\" class=\"validation-alert\"><span>Required</span></div>\n                        </label>\n                    </div>\n                    <div class=\"col-lg-12 text-center\">\n                        <label>Confirm Password\n                            <input type=\"password\" class=\"form-control\" name=\"confirm_password\" v-model=\"registerData.confirm_password.value\">\n                            <div v-if=\"registerData.confirm_password.failed\" class=\"validation-alert\"><span>Required</span></div>\n                        </label>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Stuff\">\n                    <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">Close</span></button>\n                    <button data-toggle=\"modal\" @click=\"hideRegister\" data-target=\"#loginModal\" type=\"button\" class=\"btn btn-info\">Login</button>\n                    <button type=\"button\" @click=\"register\" class=\"btn btn-success\">Register</button>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-704d81f8", module.exports)
+    hotAPI.createRecord("_v-6045e9a0", module.exports)
   } else {
-    hotAPI.update("_v-704d81f8", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-6045e9a0", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2}],11:[function(require,module,exports){
@@ -14866,9 +14954,8 @@ var App = _vue2.default.extend();
 var router = new _vueRouter2.default();
 _vue2.default.http.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
 
-//import EventsCalendar from "./components/EventsCalendar.vue";
-
 _vue2.default.component('login', _Login2.default);
+_vue2.default.component('register', _Register2.default);
 
 router.map({
 	'/': {
