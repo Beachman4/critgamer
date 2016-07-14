@@ -89,6 +89,6 @@ class UserController extends Controller
         if (\Users::isSignedIn()) {
             \Users::signOut();
         }
-        return redirect('/');
+        return redirect()->back();
     }
 }
