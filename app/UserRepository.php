@@ -54,7 +54,7 @@ class UserRepository extends Repository
         $user->confirm_token = $token;*/
         if ($user->save()) {
             //event(new UserWasCreated($user));
-            User::signUserIn($user->id);
+            Users::signUserIn($user->id);
             return true;
         }
         return "Something went wrong";

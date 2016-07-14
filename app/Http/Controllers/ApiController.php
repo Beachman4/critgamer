@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Carbon\Carbon;
 use App\Repository\EventRepository;
+use Users;
 
 class ApiController extends Controller
 {
@@ -94,8 +95,10 @@ class ApiController extends Controller
 
     public function isSignedIn()
     {
-        if (\Users::isSignedIn()) {
-            echo "true";
+        if (Users::isSignedIn()) {
+            $username = \Users::Get()->username;
+            $response['userData'] = ['username' => $username];
+            echo json_encode($response);
         } else {
             echo "failed";
         }

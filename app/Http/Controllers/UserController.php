@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-class UserContoller extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -82,5 +82,13 @@ class UserContoller extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function logOut()
+    {
+        if (\Users::isSignedIn()) {
+            \Users::signOut();
+        }
+        return redirect('/');
     }
 }

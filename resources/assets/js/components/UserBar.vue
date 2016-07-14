@@ -2,10 +2,10 @@
     <nav class="nav nav-inline">
         <ul class="nav">
             <li class="nav-item dropdown" v-if="loggedIn">
-                <a href="#" class="btn btn-primary-outline nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                <a href="#" class="btn btn-primary-outline nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ userData.username }}</a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="#">My Account</a>
-                    <a class="dropdown-item" href="#">Logout</a>
+                    <a class="dropdown-item" href="/logout">Logout</a>
                 </div>
             </li>
             <li v-if="!loggedIn" class="nav-item"><a data-toggle="modal" data-target="#loginModal" href="#" class="nav-link btn btn-primary-outline">Login</a></li>
@@ -34,6 +34,7 @@
                     if (response.text() == "failed") {
                         this.$set('loggedIn', false);
                     } else {
+                        this.$set('userData', response.json().userData);
                         this.$set('loggedIn', true);
                     }
                 }, (response) => {
@@ -44,7 +45,7 @@
         },
         events: {
             loggedIn: function(data) {
-                this.$set('loggedIn', true);
+                this.loginCheck();
             }
         }
     }
