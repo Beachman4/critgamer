@@ -101,7 +101,7 @@
                     </div>
                     <div class="regular_wrapper">
                         <div class="regular_table" v-for="(parentKey, table) in seats">
-                            <div :class="['regular_seat', reg_hovered]" track-by="$index" v-for="seat in table" v-on:mouseover="seatHovered(seat, true)" v-on:mouseleave="seatHovered(seat, false)">
+                            <div :class="['regular_seat', reg_hovered, seat.users_id != null ? 'seat_taken' : '']" track-by="$index" v-for="seat in table" v-on:mouseover="seatHovered(seat, true)" v-on:mouseleave="seatHovered(seat, false)">
                                 <div class="seat_info" v-show="seat.hovered">
                                     <p>Regular Seat Table {{ tableLetter(parentKey) }}-{{ $index + 1 }}</p>
                                     <div v-if="seat.users_id == null">
@@ -120,6 +120,7 @@
             </div>
         </div>
     </div>
+    <div style="height: 35rem;"></div>
 </template>
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events;
 use App\EventSeats;
+use App\Repository\UserRepository;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -13,10 +14,13 @@ use App\Repository\EventRepository;
 class ApiController extends Controller
 {
 
+    private $user;
+
     private $event;
 
-    public function __construct(EventRepository $event) {
+    public function __construct(EventRepository $event, UserRepository $user) {
         $this->event = $event;
+        $this->user = $user;
     }
 
     public function getEvents()
@@ -70,6 +74,31 @@ class ApiController extends Controller
 
         echo json_encode($final);
 
+    }
+
+    public function login(Request $request)
+    {
+        $response = $this->user->apiLogin($request);
+        if (!is_bool($response)) {
+            echo json_encode($array['message'] = $response);
+        }
+    }
+    public function register(Request $request)
+    {
+        $response = $this->user->apiRegister($request);
+        if (!is_bool($response)) {
+            echo json_encode($array['message'] = $response);
+        }
+    }
+
+
+    public function isSignedIn()
+    {
+        session()->put('user_id', 1);
+        dd(\Users::isSignedIn());
+        if (\Users::isSignedIn()) {
+            echo "true";
+        }
     }
 }
 

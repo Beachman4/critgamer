@@ -330,4 +330,5 @@
                 speed: 800
             });
         </script>
+    <script src="/js/bootstrap.js"></script>
 @stop

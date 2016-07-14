@@ -23,8 +23,8 @@ class UsersServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Users', function() {
-            return new \App\UsersClass();
+        $this->app->bind('User', function() {
+            return new \App\Facades\Classes\Users();
         });
     }
 }

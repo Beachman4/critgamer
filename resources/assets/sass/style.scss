@@ -1,3 +1,4 @@
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 @import "components/EventView.scss";
 @import "components/Login.scss";
 @import "components/Register.scss";
@@ -36,7 +37,7 @@ body {
   padding: 140px;
   color: #fff;
 }
-.navbar, .open, .dropdown-menu, .dropdown-menu:hover, .dropdown-menu>li>a:hover, .navbar-default .navbar-nav>.open>a {
+.navbar, .open, .dropdown-menu, .dropdown-item, .dropdown-item:hover .dropdown-menu:hover, .dropdown-menu>li>a:hover, .navbar-default .navbar-nav>.open>a {
   background-color: #161617 !important;
   color: #fff;
   background-image: none;

@@ -7,38 +7,46 @@
                     <h4 class="modal-title" id="registerModalLabel" style="color: black;">Register</h4>
                 </div>
                 <div class="modal-body">
+                    <div class="row" v-if="registerMessage != ''">
+                        <div class="col-lg-12">
+                            <div class="alert alert-danger">
+                                <h5>Something went wrong.</h5>
+                                <p>{{ registerMessage }}</p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-lg-12 text-center">
-                            <label>Email Address
-                                <input type="email" class="form-control" name="email" v-model="registerData.email.value">
-                                <div v-if="registerData.email.failed" class="validation-alert"><span>Required</span></div>
-                            </label>
+                            <div :class="['form-group', registerData.email.failed ? 'has-danger' : '']">
+                                <label for="email" class="form-control-label">Email Address</label>
+                                <input type="email" class="form-control form-control-danger" name="email" v-model="registerData.email.value" id="email">
+                            </div>
                         </div>
                         <div class="col-lg-12 text-center">
-                            <label>Username
-                                <input type="text" class="form-control" name="username" v-model="registerData.username.value">
-                                <div v-if="registerData.username.failed" class="validation-alert"><span>Required</span></div>
-                            </label>
+                            <div :class="['form-group', registerData.username.failed ? 'has-danger' : '']">
+                                <label for="username" class="form-control-label">Username</label>
+                                <input type="text" class="form-control form-control-danger" name="username" v-model="registerData.username.value" id="username">
+                            </div>
                         </div>
                         <div class="col-lg-12 text-center">
-                            <label>Password
-                                <input type="password" class="form-control" name="password" v-model="registerData.password.value">
-                                <div v-if="registerData.password.failed" class="validation-alert"><span>Required</span></div>
-                            </label>
+                            <div :class="['form-group', registerData.password.failed ? 'has-danger' : '']">
+                                <label for="password" class="form-control-label">Password</label>
+                                <input type="password" class="form-control form-control-danger" name="password" v-model="registerData.password.value" id="password">
+                            </div>
                         </div>
                         <div class="col-lg-12 text-center">
-                            <label>Confirm Password
-                                <input type="password" class="form-control" name="confirm_password" v-model="registerData.confirm_password.value">
-                                <div v-if="registerData.confirm_password.failed" class="validation-alert"><span>Required</span></div>
-                            </label>
+                            <div :class="['form-group', registerData.confirm_password.failed ? 'has-danger' : '']">
+                                <label for="confirm_password" class="form-control-label">Confirm Password</label>
+                                <input type="password" class="form-control form-control-danger" name="confirm_password" v-model="registerData.confirm_password.value" id="confirm_password">
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="btn-group" role="group" aria-label="Stuff">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">Close</span></button>
-                        <button data-toggle="modal" @click="hideRegister" data-target="#loginModal" type="button" class="btn btn-info">Login</button>
-                        <button type="button" @click="register" class="btn btn-success">Register</button>
+                        <button type="button" class="btn btn-danger-outline" data-dismiss="modal" aria-label="Close">Close</button>
+                        <button data-toggle="modal" @click="hideRegister" data-target="#loginModal" type="button" class="btn btn-primary-outline">Login</button>
+                        <button type="button" @click="register" class="btn btn-success-outline">Register</button>
                     </div>
                 </div>
             </div>
@@ -69,7 +77,9 @@
                         failed: false
                     }
                 },
-                failed: false
+                failed: false,
+                registerMessage: "",
+                registerDone: false
             }
         },
         methods: {
@@ -77,8 +87,16 @@
                 $('#registerModal').modal('hide');
             },
             register: function() {
-                if (this.checkData()) {
-
+                if (!this.checkData()) {
+                    this.$http.post('/api/register', this.registerData).then(function(response) {
+                        if (response.text() != "") {
+                            this.$set('registerMessage', response.text());
+                            this.$set('registerDone', false);
+                        } else {
+                            this.$set('registerDone', true);
+                            $('#registerModal').modal('hide');
+                        }
+                    });
                 }
             },
             checkData: function() {

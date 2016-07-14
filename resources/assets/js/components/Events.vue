@@ -41,13 +41,8 @@
 										<div class="col-lg-12">
 											<p>End: {{ parseDate(event.end) }}</p>
 										</div>
-									</div>
-									<div class="progress">
-										<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%; height: 20px;">
-									    	60%
-										</div>
-									</div>
-									<i class="fa fa-user fa-inverse"></i><p style="display: inline; margin-left: 5px;">Seats Filled</p>
+									</div><i class="fa fa-user fa-inverse"></i><p style="display: inline; margin-left: 5px;">60% Seats Filled</p>
+									<progress class="progress progress-striped" value="60" max="100">60%</progress>
 								</div>
 							</div>
 						</div>
@@ -108,6 +103,7 @@ export default {
 		background-color: #1C222C;
 		padding: 2rem;
 		cursor: pointer;
+		border: 1px solid transparent;
 	}
 	.info_panel {
 		padding-top: 3rem;
@@ -118,6 +114,6 @@ export default {
     	border: 1px solid #1380F0;
 	}
 	.event .row {
-		margin-top: 2rem;
+		//margin-top: 2rem;
 	}
 </style>
