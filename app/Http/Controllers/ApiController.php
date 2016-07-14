@@ -94,10 +94,10 @@ class ApiController extends Controller
 
     public function isSignedIn()
     {
-        session()->put('user_id', 1);
-        dd(\Users::isSignedIn());
         if (\Users::isSignedIn()) {
             echo "true";
+        } else {
+            echo "failed";
         }
     }
 }
