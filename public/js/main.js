@@ -18410,7 +18410,8 @@ exports.default = {
             }],
             seats: [],
             admin_hovered: false,
-            regular_hovered: false
+            regular_hovered: false,
+            selectedSeat: 0
         };
     },
     created: function created() {
@@ -18430,6 +18431,13 @@ exports.default = {
         }
     },
     methods: {
+        buySeat: function buySeat(seat) {
+            if (seat.users_id == null) {
+                this.selectedSeat = seat.id;
+                $('#loginModal').modal('hide');
+                $('#paymentModal').modal('show');
+            }
+        },
         fetchEvent: function fetchEvent() {
             var id = this.$route.params.event_id;
             this.$http.get('/api/events/' + id).then(function (response) {
@@ -18534,7 +18542,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <div class=\"col-lg-8\">\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h3>{{ event.name }}</h3>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <p>{{ event.description }}</p>\n            </div>\n        </div>\n    </div>\n    <div class=\"col-lg-4\">\n        <div class=\"row\" style=\"border-bottom: 1px solid grey;\">\n            <div class=\"col-lg-12\">\n                <h5>Start: {{ parseDate(event.start) }}</h5>\n                <h5>End: {{ parseDate(event.end) }}</h5>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h5>{{ event.name || capitalize }}</h5>\n                <p>{{ event.address }}</p>\n                <p>{{ location }}</p>\n            </div>\n        </div>\n    </div>\n</div>\n<div class=\"row\">\n    <div class=\"col-lg-4 seating\">\n        <div class=\"row\" style=\"border-bottom: 1px solid black\">\n            <div class=\"col-lg-12\">\n                <h3>Seating Chart Legend</h3>\n            </div>\n        </div>\n        <div class=\"row\" style=\"margin-top: 2rem; border-bottom: 1px solid black\">\n            <div class=\"col-lg-12\">\n                <div class=\"input-group\" style=\"margin-bottom: 1rem;\">\n                    <input type=\"text\" class=\"form-control\" v-model=\"searchName\" placeholder=\"Search Users\">\n                    <span class=\"input-group-btn\">\n                        <button class=\"btn btn-default\" type=\"button\" @click=\"clearSearch\">×</button>\n                    </span>\n                </div>\n            </div>\n        </div>\n        <div class=\"row\" style=\"margin-top: 1rem;\">\n            <div class=\"col-lg-12\">\n                <h5>Types</h5>\n                <div class=\"row\">\n                    <div class=\"col-lg-1\">\n                        <div v-on:mouseover=\"hover('admin', true)\" v-on:mouseleave=\"hover('admin', false)\" :class=\"['admin-seating', a_hovered]\">\n\n                        </div>\n                    </div>\n                    <div class=\"col-lg-3\">\n                        <p>Admin</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>Good Luck</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>Nah bro</p>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-lg-1\">\n                        <div v-on:mouseover=\"hover('regular', true)\" v-on:mouseleave=\"hover('regular', false)\" :class=\"['standard-seating', reg_hovered]\">\n\n                        </div>\n                    </div>\n                    <div class=\"col-lg-3\">\n                        <p>Standard</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>{{ event.price }}</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>22</p>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n    <div class=\"col-lg-7 seating\" style=\"float: right;\">\n        <div class=\"row\">\n            <div class=\"col-lg-4\">\n                <h3>Seating Chart</h3>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-8 col-lg-offset-2\">\n                <div class=\"admin_row\">\n                    <div track-by=\"$index\" :class=\"['admin_seat', a_hovered]\" v-on:mouseover=\"adminHovered(admin, true)\" v-on:mouseleave=\"adminHovered(admin, false)\" v-for=\"admin in admins\">\n                        <div class=\"seat_info\" v-show=\"admin.hovered\">\n                            <p>Admin Seat - {{ $index + 1 }}</p>\n                            <p>{{ admin.name }}</p>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"regular_wrapper\">\n                    <div class=\"regular_table\" v-for=\"(parentKey, table) in seats\">\n                        <div :class=\"['regular_seat', reg_hovered, seat.users_id != null ? 'seat_taken' : '']\" track-by=\"$index\" v-for=\"seat in table\" v-on:mouseover=\"seatHovered(seat, true)\" v-on:mouseleave=\"seatHovered(seat, false)\">\n                            <div class=\"seat_info\" v-show=\"seat.hovered\">\n                                <p>Regular Seat Table {{ tableLetter(parentKey) }}-{{ $index + 1 }}</p>\n                                <div v-if=\"seat.users_id == null\">\n                                    <p>Available</p>\n                                    <p>{{ event.price | currency }}</p>\n                                </div>\n                                <div v-else=\"\">\n                                    <p>{{ seat.users_id }}</p>\n                                    <p>PAID</p>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n<div style=\"height: 35rem;\"></div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<seat-buy></seat-buy>\n<div class=\"row\">\n    <div class=\"col-lg-8\">\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h3>{{ event.name }}</h3>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <p>{{ event.description }}</p>\n            </div>\n        </div>\n    </div>\n    <div class=\"col-lg-4\">\n        <div class=\"row\" style=\"border-bottom: 1px solid grey;\">\n            <div class=\"col-lg-12\">\n                <h5>Start: {{ parseDate(event.start) }}</h5>\n                <h5>End: {{ parseDate(event.end) }}</h5>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h5>{{ event.name || capitalize }}</h5>\n                <p>{{ event.address }}</p>\n                <p>{{ location }}</p>\n            </div>\n        </div>\n    </div>\n</div>\n<div class=\"row\">\n    <div class=\"col-lg-4 seating\">\n        <div class=\"row\" style=\"border-bottom: 1px solid black\">\n            <div class=\"col-lg-12\">\n                <h3>Seating Chart Legend</h3>\n            </div>\n        </div>\n        <div class=\"row\" style=\"margin-top: 2rem; border-bottom: 1px solid black\">\n            <div class=\"col-lg-12\">\n                <div class=\"input-group\" style=\"margin-bottom: 1rem;\">\n                    <input type=\"text\" class=\"form-control\" v-model=\"searchName\" placeholder=\"Search Users\">\n                    <span class=\"input-group-btn\">\n                        <button class=\"btn btn-default\" type=\"button\" @click=\"clearSearch\">×</button>\n                    </span>\n                </div>\n            </div>\n        </div>\n        <div class=\"row\" style=\"margin-top: 1rem;\">\n            <div class=\"col-lg-12\">\n                <h5>Types</h5>\n                <div class=\"row\">\n                    <div class=\"col-lg-1\">\n                        <div v-on:mouseover=\"hover('admin', true)\" v-on:mouseleave=\"hover('admin', false)\" :class=\"['admin-seating', a_hovered]\">\n\n                        </div>\n                    </div>\n                    <div class=\"col-lg-3\">\n                        <p>Admin</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>Good Luck</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>Nah bro</p>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-lg-1\">\n                        <div v-on:mouseover=\"hover('regular', true)\" v-on:mouseleave=\"hover('regular', false)\" :class=\"['standard-seating', reg_hovered]\">\n\n                        </div>\n                    </div>\n                    <div class=\"col-lg-3\">\n                        <p>Standard</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>{{ event.price }}</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>22</p>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n    <div class=\"col-lg-7 seating\" style=\"float: right;\">\n        <div class=\"row\">\n            <div class=\"col-lg-4\">\n                <h3>Seating Chart</h3>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-8 col-lg-offset-2\">\n                <div class=\"admin_row\">\n                    <div track-by=\"$index\" :class=\"['admin_seat', a_hovered]\" v-on:mouseover=\"adminHovered(admin, true)\" v-on:mouseleave=\"adminHovered(admin, false)\" v-for=\"admin in admins\">\n                        <div class=\"seat_info\" v-show=\"admin.hovered\">\n                            <p>Admin Seat - {{ $index + 1 }}</p>\n                            <p>{{ admin.name }}</p>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"regular_wrapper\">\n                    <div class=\"regular_table\" v-for=\"(parentKey, table) in seats\">\n                        <div @click=\"buySeat(seat)\" :class=\"['regular_seat', reg_hovered, seat.users_id != null ? 'seat_taken' : '']\" track-by=\"$index\" v-for=\"seat in table\" v-on:mouseover=\"seatHovered(seat, true)\" v-on:mouseleave=\"seatHovered(seat, false)\">\n                            <div class=\"seat_info\" v-show=\"seat.hovered\">\n                                <p>Regular Seat Table {{ tableLetter(parentKey) }}-{{ $index + 1 }}</p>\n                                <div v-if=\"seat.users_id == null\">\n                                    <p>Available</p>\n                                    <p>{{ event.price | currency }}</p>\n                                </div>\n                                <div v-else=\"\">\n                                    <p>{{ seat.users_id }}</p>\n                                    <p>PAID</p>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n<div style=\"height: 35rem;\"></div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -18627,13 +18635,27 @@ exports.default = {
                 }
             },
             loginMessage: "",
-            loginDone: ""
+            loginDone: "",
+            return: false,
+            returnMessage: ""
         };
+    },
+    ready: function ready() {
+        $('#loginModal').on('show.bs.modal', function (e) {
+            if (this.$parent.returnToPayments) {
+                this.return = true;
+                this.returnMessage = this.$parent.paymentMessage;
+            }
+        }.bind(this));
     },
 
     methods: {
         hideLogin: function hideLogin() {
             $('#loginModal').modal('hide');
+        },
+        clearData: function clearData() {
+            this.loginData.username_email.value = "";
+            this.loginData.password.value = "";
         },
         login: function login() {
             if (!this.checkData()) {
@@ -18645,6 +18667,10 @@ exports.default = {
                         this.$set('loginDone', true);
                         this.$dispatch('loggedIn', true);
                         $('#loginModal').modal('hide');
+                        this.clearData();
+                        if (this.$parent.returnToPayments) {
+                            $('#paymentModal').modal('show');
+                        }
                     }
                 });
             }
@@ -18668,7 +18694,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal\" id=\"loginModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"LoginModalLabel\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>\n                <h4 class=\"modal-title\" id=\"LoginModalLabel\" style=\"color: black;\">Login</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"row\" v-if=\"loginMessage != ''\">\n                    <div class=\"col-lg-12\">\n                        <div class=\"alert alert-danger\">\n                            <h5>Something went wrong.</h5>\n                            <p>{{ loginMessage }}</p>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-lg-12 text-center\">\n                        <div :class=\"['form-group', loginData.username_email.failed ? 'has-danger' : '']\">\n                            <label for=\"username_email\" class=\"form-control-label\">Username or Email</label>\n                            <input type=\"text\" class=\"form-control form-control-danger\" name=\"username_email\" v-model=\"loginData.username_email.value\" id=\"username_email\">\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-lg-12 text-center\">\n                        <div :class=\"['form-group', loginData.password.failed ? 'has-danger' : '']\">\n                            <label for=\"password\" class=\"form-control-label\">Password</label>\n                            <input type=\"password\" class=\"form-control form-control-danger\" name=\"password\" v-model=\"loginData.password.value\" id=\"password\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Stuff\">\n                    <button type=\"button\" class=\"btn btn-danger-outline\" data-dismiss=\"modal\" aria-label=\"Close\">Close</button>\n                    <button data-toggle=\"modal\" @click=\"hideLogin\" data-target=\"#registerModal\" type=\"button\" class=\"btn btn-primary-outline\">Register</button>\n                    <button type=\"button\" @click=\"login\" class=\"btn btn-success-outline\">Login</button>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal\" id=\"loginModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"LoginModalLabel\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>\n                <h4 class=\"modal-title\" id=\"LoginModalLabel\" style=\"color: black;\">Login</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"row\" v-if=\"loginMessage != ''\">\n                    <div class=\"col-lg-12\">\n                        <div class=\"alert alert-danger\">\n                            <h5>Something went wrong.</h5>\n                            <p>{{ loginMessage }}</p>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row\" v-if=\"return\">\n                    <div class=\"col-lg-12\">\n                        <div class=\"alert alert-primary\">\n                            <p>{{ returnMessage }}</p>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-lg-12 text-center\">\n                        <div :class=\"['form-group', loginData.username_email.failed ? 'has-danger' : '']\">\n                            <label for=\"username_email\" class=\"form-control-label\">Username or Email</label>\n                            <input type=\"text\" class=\"form-control form-control-danger\" name=\"username_email\" v-model=\"loginData.username_email.value\" id=\"username_email\">\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-lg-12 text-center\">\n                        <div :class=\"['form-group', loginData.password.failed ? 'has-danger' : '']\">\n                            <label for=\"password\" class=\"form-control-label\">Password</label>\n                            <input type=\"password\" class=\"form-control form-control-danger\" name=\"password\" v-model=\"loginData.password.value\" id=\"password\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Stuff\">\n                    <button type=\"button\" class=\"btn btn-danger-outline\" data-dismiss=\"modal\" aria-label=\"Close\">Close</button>\n                    <button data-toggle=\"modal\" @click=\"hideLogin\" data-target=\"#registerModal\" type=\"button\" class=\"btn btn-primary-outline\">Register</button>\n                    <button type=\"button\" @click=\"login\" class=\"btn btn-success-outline\">Login</button>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -18708,13 +18734,29 @@ exports.default = {
             },
             failed: false,
             registerMessage: "",
-            registerDone: false
+            registerDone: false,
+            return: false,
+            returnMessage: ""
         };
+    },
+    ready: function ready() {
+        $('#registerModal').on('show.bs.modal', function (e) {
+            if (this.$parent.returnToPayments) {
+                this.return = true;
+                this.returnMessage = this.$parent.paymentMessage;
+            }
+        }.bind(this));
     },
 
     methods: {
         hideRegister: function hideRegister() {
             $('#registerModal').modal('hide');
+        },
+        clearData: function clearData() {
+            this.registerData.email.value = "";
+            this.registerData.username.value = "";
+            this.registerData.password.value = "";
+            this.registerData.confirm_password.value = "";
         },
         register: function register() {
             if (!this.checkData()) {
@@ -18724,7 +18766,12 @@ exports.default = {
                         this.$set('registerDone', false);
                     } else {
                         this.$set('registerDone', true);
+                        this.$dispatch('loggedIn', true);
                         $('#registerModal').modal('hide');
+                        this.clearData();
+                        if (this.$parent.returnToPayments) {
+                            $('#paymentModal').modal('show');
+                        }
                     }
                 });
             }
@@ -18760,7 +18807,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal\" id=\"registerModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"registerModalLabel\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>\n                <h4 class=\"modal-title\" id=\"registerModalLabel\" style=\"color: black;\">Register</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"row\" v-if=\"registerMessage != ''\">\n                    <div class=\"col-lg-12\">\n                        <div class=\"alert alert-danger\">\n                            <h5>Something went wrong.</h5>\n                            <p>{{ registerMessage }}</p>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-lg-12 text-center\">\n                        <div :class=\"['form-group', registerData.email.failed ? 'has-danger' : '']\">\n                            <label for=\"email\" class=\"form-control-label\">Email Address</label>\n                            <input type=\"email\" class=\"form-control form-control-danger\" name=\"email\" v-model=\"registerData.email.value\" id=\"email\">\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12 text-center\">\n                        <div :class=\"['form-group', registerData.username.failed ? 'has-danger' : '']\">\n                            <label for=\"username\" class=\"form-control-label\">Username</label>\n                            <input type=\"text\" class=\"form-control form-control-danger\" name=\"username\" v-model=\"registerData.username.value\" id=\"username\">\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12 text-center\">\n                        <div :class=\"['form-group', registerData.password.failed ? 'has-danger' : '']\">\n                            <label for=\"password\" class=\"form-control-label\">Password</label>\n                            <input type=\"password\" class=\"form-control form-control-danger\" name=\"password\" v-model=\"registerData.password.value\" id=\"password\">\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12 text-center\">\n                        <div :class=\"['form-group', registerData.confirm_password.failed ? 'has-danger' : '']\">\n                            <label for=\"confirm_password\" class=\"form-control-label\">Confirm Password</label>\n                            <input type=\"password\" class=\"form-control form-control-danger\" name=\"confirm_password\" v-model=\"registerData.confirm_password.value\" id=\"confirm_password\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Stuff\">\n                    <button type=\"button\" class=\"btn btn-danger-outline\" data-dismiss=\"modal\" aria-label=\"Close\">Close</button>\n                    <button data-toggle=\"modal\" @click=\"hideRegister\" data-target=\"#loginModal\" type=\"button\" class=\"btn btn-primary-outline\">Login</button>\n                    <button type=\"button\" @click=\"register\" class=\"btn btn-success-outline\">Register</button>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal\" id=\"registerModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"registerModalLabel\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>\n                <h4 class=\"modal-title\" id=\"registerModalLabel\" style=\"color: black;\">Register</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"row\" v-if=\"registerMessage != ''\">\n                    <div class=\"col-lg-12\">\n                        <div class=\"alert alert-danger\">\n                            <h5>Something went wrong.</h5>\n                            <p>{{ registerMessage }}</p>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row\" v-if=\"return\">\n                    <div class=\"col-lg-12\">\n                        <div class=\"alert alert-primary\">\n                            <p>{{ returnMessage }}</p>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-lg-12 text-center\">\n                        <div :class=\"['form-group', registerData.email.failed ? 'has-danger' : '']\">\n                            <label for=\"email\" class=\"form-control-label\">Email Address</label>\n                            <input type=\"email\" class=\"form-control form-control-danger\" name=\"email\" v-model=\"registerData.email.value\" id=\"email\">\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12 text-center\">\n                        <div :class=\"['form-group', registerData.username.failed ? 'has-danger' : '']\">\n                            <label for=\"username\" class=\"form-control-label\">Username</label>\n                            <input type=\"text\" class=\"form-control form-control-danger\" name=\"username\" v-model=\"registerData.username.value\" id=\"username\">\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12 text-center\">\n                        <div :class=\"['form-group', registerData.password.failed ? 'has-danger' : '']\">\n                            <label for=\"password\" class=\"form-control-label\">Password</label>\n                            <input type=\"password\" class=\"form-control form-control-danger\" name=\"password\" v-model=\"registerData.password.value\" id=\"password\">\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12 text-center\">\n                        <div :class=\"['form-group', registerData.confirm_password.failed ? 'has-danger' : '']\">\n                            <label for=\"confirm_password\" class=\"form-control-label\">Confirm Password</label>\n                            <input type=\"password\" class=\"form-control form-control-danger\" name=\"confirm_password\" v-model=\"registerData.confirm_password.value\" id=\"confirm_password\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Stuff\">\n                    <button type=\"button\" class=\"btn btn-danger-outline\" data-dismiss=\"modal\" aria-label=\"Close\">Close</button>\n                    <button data-toggle=\"modal\" @click=\"hideRegister\" data-target=\"#loginModal\" type=\"button\" class=\"btn btn-primary-outline\">Login</button>\n                    <button type=\"button\" @click=\"register\" class=\"btn btn-success-outline\">Register</button>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -18772,6 +18819,57 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14}],23:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    data: function data() {
+        return {
+            infoDone: false,
+            failedMessage: "",
+            loggedIn: false,
+            userData: []
+        };
+    },
+    ready: function ready() {
+        $('#paymentModal').on('show.bs.modal', function (e) {
+            this.loginCheck();
+        }.bind(this));
+    },
+
+    methods: {
+        continueToPayment: function continueToPayment() {},
+        loginCheck: function loginCheck() {
+            var _this = this;
+
+            this.$http.get('/api/isSignedIn').then(function (response) {
+                if (response.text() == "failed") {
+                    _this.$parent.$set('returnToPayments', true);
+                    _this.$parent.$set('paymentMessage', "You need to login or register first.");
+                    $('#paymentModal').modal('hide');
+                    $('#loginModal').modal('show');
+                } else {
+                    _this.$set('userData', response.json().userData);
+                }
+            });
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal\" id=\"paymentModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"paymentModalLabel\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>\n                <h4 class=\"modal-title\" id=\"paymentModalLabel\" style=\"color: black;\">Register</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"row\" v-if=\"failedMessage != ''\">\n                    <div class=\"col-lg-12\">\n                        <div class=\"alert alert-danger\">\n                            <h4>Something went wrong</h4>\n                            <p>{{ failedMessage }}</p>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Stuff\">\n                    <button type=\"button\" class=\"btn btn-danger-outline\" data-dismiss=\"modal\" aria-label=\"Close\">Close</button>\n                    <button v-if=\"!infoDone\" type=\"button\" class=\"btn btn-success-outline\" @click=\"continueToPayment\">Continue to Payment</button>\n                    <button v-else=\"\" type=\"button\" class=\"btn btn-success-outline\" @click=\"paymentDone\">Buy Seat</button>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-3f81a860", module.exports)
+  } else {
+    hotAPI.update("_v-3f81a860", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":17,"vue-hot-reload-api":14}],24:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\nnav.nav {\n    width: 100%;\n    text-align: right;\n    background-color: #2D2D2D;\n}\n")
 "use strict";
@@ -18832,7 +18930,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-764edb52", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":17,"vue-hot-reload-api":14,"vueify/lib/insert-css":18}],24:[function(require,module,exports){
+},{"vue":17,"vue-hot-reload-api":14,"vueify/lib/insert-css":18}],25:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -18867,6 +18965,10 @@ var _UserBar = require('./components/UserBar.vue');
 
 var _UserBar2 = _interopRequireDefault(_UserBar);
 
+var _SeatBuy = require('./components/SeatBuy.vue');
+
+var _SeatBuy2 = _interopRequireDefault(_SeatBuy);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 require('bootstrap');
@@ -18877,6 +18979,12 @@ var App = _vue2.default.extend({
 		loggedIn: function loggedIn(data) {
 			this.$broadcast('loggedIn', data);
 		}
+	},
+	data: function data() {
+		return {
+			returnToPayments: false,
+			paymentMessage: ""
+		};
 	}
 });
 var router = new _vueRouter2.default();
@@ -18885,6 +18993,7 @@ _vue2.default.http.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]')
 _vue2.default.component('login', _Login2.default);
 _vue2.default.component('register', _Register2.default);
 _vue2.default.component('user-bar', _UserBar2.default);
+_vue2.default.component('seat-buy', _SeatBuy2.default);
 router.map({
 	'/': {
 		component: _Events2.default,
@@ -18898,6 +19007,6 @@ router.map({
 
 router.start(App, 'body');
 
-},{"./components/EventView.vue":19,"./components/Events.vue":20,"./components/Login.vue":21,"./components/Register.vue":22,"./components/UserBar.vue":23,"bootstrap":1,"vue":17,"vue-resource":15,"vue-router":16}]},{},[24]);
+},{"./components/EventView.vue":19,"./components/Events.vue":20,"./components/Login.vue":21,"./components/Register.vue":22,"./components/SeatBuy.vue":23,"./components/UserBar.vue":24,"bootstrap":1,"vue":17,"vue-resource":15,"vue-router":16}]},{},[25]);
 
 //# sourceMappingURL=main.js.map

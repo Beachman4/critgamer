@@ -133,10 +133,4 @@
             });
         });
     </script>
-    <script>
-            $.srSmoothscroll({
-                step: 150,
-                speed: 800
-            });
-        </script>
 @stop

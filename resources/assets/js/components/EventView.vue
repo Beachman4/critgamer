@@ -1,4 +1,5 @@
 <template>
+    <seat-buy></seat-buy>
     <div class="row">
         <div class="col-lg-8">
             <div class="row">
@@ -101,7 +102,7 @@
                     </div>
                     <div class="regular_wrapper">
                         <div class="regular_table" v-for="(parentKey, table) in seats">
-                            <div :class="['regular_seat', reg_hovered, seat.users_id != null ? 'seat_taken' : '']" track-by="$index" v-for="seat in table" v-on:mouseover="seatHovered(seat, true)" v-on:mouseleave="seatHovered(seat, false)">
+                            <div @click="buySeat(seat)" :class="['regular_seat', reg_hovered, seat.users_id != null ? 'seat_taken' : '']" track-by="$index" v-for="seat in table" v-on:mouseover="seatHovered(seat, true)" v-on:mouseleave="seatHovered(seat, false)">
                                 <div class="seat_info" v-show="seat.hovered">
                                     <p>Regular Seat Table {{ tableLetter(parentKey) }}-{{ $index + 1 }}</p>
                                     <div v-if="seat.users_id == null">
@@ -167,7 +168,8 @@
                 ],
                 seats: [],
                 admin_hovered: false,
-                regular_hovered: false
+                regular_hovered: false,
+                selectedSeat: 0
             }
         },
         created() {
@@ -186,6 +188,13 @@
             }
         },
         methods: {
+            buySeat: function(seat) {
+                if (seat.users_id == null) {
+                    this.selectedSeat = seat.id;
+                    $('#loginModal').modal('hide');
+                    $('#paymentModal').modal('show');
+                }
+            },
             fetchEvent: function() {
                 var id = this.$route.params.event_id;
                 this.$http.get('/api/events/'+id).then(function(response) {

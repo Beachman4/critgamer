@@ -15,6 +15,13 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" v-if="return">
+                        <div class="col-lg-12">
+                            <div class="alert alert-primary">
+                                <p>{{ returnMessage }}</p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-lg-12 text-center">
                             <div :class="['form-group', loginData.username_email.failed ? 'has-danger' : '']">
@@ -61,12 +68,26 @@
                     }
                 },
                 loginMessage: "",
-                loginDone: ""
+                loginDone: "",
+                return: false,
+                returnMessage: ""
             }
+        },
+        ready() {
+            $('#loginModal').on('show.bs.modal', function(e) {
+                if (this.$parent.returnToPayments) {
+                    this.return = true;
+                    this.returnMessage = this.$parent.paymentMessage;
+                }
+            }.bind(this));
         },
         methods: {
             hideLogin: function() {
                 $('#loginModal').modal('hide');
+            },
+            clearData: function() {
+                this.loginData.username_email.value = "";
+                this.loginData.password.value = "";
             },
             login: function() {
                 if (!this.checkData()) {
@@ -78,6 +99,10 @@
                             this.$set('loginDone', true);
                             this.$dispatch('loggedIn', true);
                             $('#loginModal').modal('hide');
+                            this.clearData();
+                            if (this.$parent.returnToPayments) {
+                                $('#paymentModal').modal('show');
+                            }
                         }
                     });
                 }

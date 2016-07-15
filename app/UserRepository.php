@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Events\UserHasRegistered;
 use App\Repository\Repository;
 use App\User;
 use Hash;
@@ -55,6 +56,7 @@ class UserRepository extends Repository
         if ($user->save()) {
             //event(new UserWasCreated($user));
             Users::signUserIn($user->id);
+            event(new UserHasRegistered($user));
             return true;
         }
         return "Something went wrong";

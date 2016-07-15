@@ -15,6 +15,13 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" v-if="return">
+                        <div class="col-lg-12">
+                            <div class="alert alert-primary">
+                                <p>{{ returnMessage }}</p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-lg-12 text-center">
                             <div :class="['form-group', registerData.email.failed ? 'has-danger' : '']">
@@ -79,12 +86,28 @@
                 },
                 failed: false,
                 registerMessage: "",
-                registerDone: false
+                registerDone: false,
+                return: false,
+                returnMessage: ""
             }
+        },
+        ready() {
+            $('#registerModal').on('show.bs.modal', function(e) {
+                if (this.$parent.returnToPayments) {
+                    this.return = true;
+                    this.returnMessage = this.$parent.paymentMessage;
+                }
+            }.bind(this));
         },
         methods: {
             hideRegister: function() {
                 $('#registerModal').modal('hide');
+            },
+            clearData: function() {
+                this.registerData.email.value = "";
+                this.registerData.username.value = "";
+                this.registerData.password.value = "";
+                this.registerData.confirm_password.value = "";
             },
             register: function() {
                 if (!this.checkData()) {
@@ -94,7 +117,12 @@
                             this.$set('registerDone', false);
                         } else {
                             this.$set('registerDone', true);
+                            this.$dispatch('loggedIn', true);
                             $('#registerModal').modal('hide');
+                            this.clearData();
+                            if (this.$parent.returnToPayments) {
+                                $('#paymentModal').modal('show');
+                            }
                         }
                     });
                 }

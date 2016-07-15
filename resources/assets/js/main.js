@@ -9,6 +9,12 @@ var App = Vue.extend({
 		loggedIn: function(data) {
 			this.$broadcast('loggedIn', data);
 		}
+	},
+	data() {
+		return {
+			returnToPayments: false,
+			paymentMessage: ""
+		}
 	}
 });
 var router = new VueRouter();
@@ -20,10 +26,12 @@ import EventView from "./components/EventView.vue";
 import Login from "./components/Login.vue";
 import Register from "./components/Register.vue";
 import UserBar from "./components/UserBar.vue";
+import SeatBuy from "./components/SeatBuy.vue";
 
 Vue.component('login', Login);
 Vue.component('register', Register);
 Vue.component('user-bar', UserBar);
+Vue.component('seat-buy', SeatBuy);
 router.map({
 	'/': {
 		component: Events,

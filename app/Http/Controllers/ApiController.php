@@ -96,8 +96,17 @@ class ApiController extends Controller
     public function isSignedIn()
     {
         if (Users::isSignedIn()) {
-            $username = \Users::Get()->username;
-            $response['userData'] = ['username' => $username];
+            $user = \Users::Get();
+            $response['userData'] = [
+                'username' => $user->username,
+                'email' => $user->email,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'address' => $user->address,
+                'city' => $user->city,
+                'state' => $user->state,
+                'zip' => $user->zip
+            ];
             echo json_encode($response);
         } else {
             echo "failed";
