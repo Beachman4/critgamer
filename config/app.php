@@ -157,6 +157,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Providers\UsersServiceProvider::class,
+        Laravel\Cashier\CashierServiceProvider::class,
 
     ],
 

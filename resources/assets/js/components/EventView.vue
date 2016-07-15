@@ -75,10 +75,10 @@
                             <p>Standard</p>
                         </div>
                         <div class="col-lg-4">
-                            <p>{{ event.price }}</p>
+                            <p>${{ event.price }}</p>
                         </div>
                         <div class="col-lg-4">
-                            <p>22</p>
+                            <p>{{ numberSeats }}</p>
                         </div>
                     </div>
                 </div>
@@ -110,7 +110,7 @@
                                         <p>{{ event.price | currency }}</p>
                                     </div>
                                     <div v-else>
-                                        <p>{{ seat.users_id }}</p>
+                                        <p>{{ seat.username }}</p>
                                         <p>PAID</p>
                                     </div>
                                 </div>
@@ -175,8 +175,23 @@
         created() {
             this.fetchEvent();
             this.fetchSeats();
+            this.getInfo();
+            this.socket();
         },
         computed: {
+            numberSeats: function() {
+                var tables = this.seats,
+                        count = 0;
+                for(var i = 0; i < tables.length; i++) {
+                    var seats = tables[i];
+                    for (var j = 0; j < seats.length; j++) {
+                        if (seats[j].users_id == null) {
+                            count = count + 1;
+                        }
+                    }
+                }
+                return count;
+            },
             location: function() {
                 return this.event.city + ", " + this.event.state + " " + this.event.zip;
             },
@@ -188,9 +203,52 @@
             }
         },
         methods: {
+            getInfo: function() {
+                var tables = this.seats;
+                for(var i = 0; i < tables.length; i++) {
+                    var seats = tables[i];
+                    for (var j = 0; j < seats.length; j++) {
+                        if (seats[j].users_id != null) {
+                            var user = this.fetchUserInfo(seats[j].users_id);
+                            console.log(user);
+                            this.seats[i][j].username = user;
+
+                        }
+                    }
+                }
+            },
+            fetchDetails: function(data) {
+                var users_id = data.users_id,
+                    id = data.id;
+                var tables = this.seats;
+                var user = this.fetchUserInfo(users_id);
+                for(var i = 0; i < tables.length; i++) {
+                    var seats = tables[i];
+                    for (var j = 0; j < seats.length; j++) {
+                        if (seats[j].id == id) {
+                            seats[j].users_id = users_id;
+                            this.seats[i][j].users_id = users_id;
+                            this.seats[i][j].username = user;
+                        }
+                    }
+                }
+            },
+            socket: function() {
+                $.getScript('http://localhost:3000/socket.io/socket.io.js');
+
+                var socket = io('http://localhost:3000');
+                socket.on('main:App\\Events\\SeatWasBought', function(message) {
+                    console.log(message);
+                    var data = {
+                        users_id: message.user_id,
+                        id: message.seat_id
+                    }
+                    this.fetchDetails(data);
+                }.bind(this));
+            },
             buySeat: function(seat) {
                 if (seat.users_id == null) {
-                    this.selectedSeat = seat.id;
+                    this.$dispatch('selectedSeat', seat.id);
                     $('#loginModal').modal('hide');
                     $('#paymentModal').modal('show');
                 }
@@ -209,8 +267,8 @@
             },
             fetchUserInfo: function(id) {
                 this.$http.get('/api/user/'+id).then(function(response) {
-                    return response;
-                })
+                    return response.text();
+                });
             },
             parseDate: function(date) {
                 var date = moment(date);

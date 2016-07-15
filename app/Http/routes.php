@@ -23,4 +23,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['web']], function() {
     Route::post('/login', 'ApiController@login');
     Route::post('/register', 'ApiController@register');
     Route::get('/isSignedIn', 'ApiController@isSignedIn');
+    Route::post('/customerInfo', 'ApiController@customerInfo');
+    Route::post('/buySeat', 'ApiController@buySeat');
+    Route::get('/user/{user}', 'ApiController@getUser');
 });

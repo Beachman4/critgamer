@@ -11,6 +11,7 @@ use App\Http\Requests;
 use Carbon\Carbon;
 use App\Repository\EventRepository;
 use Users;
+use App\User;
 
 class ApiController extends Controller
 {
@@ -111,6 +112,23 @@ class ApiController extends Controller
         } else {
             echo "failed";
         }
+    }
+
+    public function customerInfo(Request $request)
+    {
+        $response = $this->user->customerInfo($request);
+    }
+
+    public function buySeat(Request $request) {
+        $buy = $this->user->buySeat($request);
+        if (!is_bool($buy)) {
+            $response['message'] = $buy;
+            echo json_encode($response);
+        }
+    }
+
+    public function getUser(User $user) {
+        return $user->username;
     }
 }
 

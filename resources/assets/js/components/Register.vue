@@ -17,8 +17,8 @@
                     </div>
                     <div class="row" v-if="return">
                         <div class="col-lg-12">
-                            <div class="alert alert-primary">
-                                <p>{{ returnMessage }}</p>
+                            <div class="alert  alert-warning">
+                                <p style="color: black;">{{ returnMessage }}</p>
                             </div>
                         </div>
                     </div>
@@ -121,6 +121,7 @@
                             $('#registerModal').modal('hide');
                             this.clearData();
                             if (this.$parent.returnToPayments) {
+                                this.$dispatch('redirectedToPayment', true);
                                 $('#paymentModal').modal('show');
                             }
                         }

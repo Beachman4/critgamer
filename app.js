@@ -7,11 +7,13 @@ server.listen(3000, function() {
     console.log("listening on 3000");
 });
 
-redis.psubscribe('*', function(err, count) {
+redis.subscribe('main', function(channel, message) {
 
 });
 
-redis.on('pmessage', function(subscribed, channel, essage) {
+redis.on('message', function(channel, message) {
+    console.log(channel);
+    console.log(message);
     message = JSON.parse(message);
     io.emit(channel + ':' + message.event, message.data);
-})
+});

@@ -15,6 +15,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         'App\Events\UserHasRegistered' => [
             "App\Listeners\SendUserEmail"
+        ],
+        'App\Events\SeatWasBought' => [
+            'App\Listeners\SendInvoice',
         ]
     ];
 

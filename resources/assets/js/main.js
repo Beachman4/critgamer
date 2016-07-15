@@ -8,12 +8,24 @@ var App = Vue.extend({
 	events: {
 		loggedIn: function(data) {
 			this.$broadcast('loggedIn', data);
+		},
+		redirectPayment: function(data) {
+			this.returnToPayments = true;
+			this.paymentMessage = data;
+		},
+		redirectedToPayment: function(data) {
+			this.returnToPayments = false;
+			this.paymentMessage = "";
+		},
+		selectedSeat: function(data) {
+			this.selectedSeat = data;
 		}
 	},
 	data() {
 		return {
 			returnToPayments: false,
-			paymentMessage: ""
+			paymentMessage: "",
+			selectedSeat: 0
 		}
 	}
 });
