@@ -30,3 +30,12 @@ Route::group(['prefix' => 'api', 'middleware' => ['web']], function() {
     Route::post('/buySeat', 'ApiController@buySeat');
     Route::get('/user/{user}', 'ApiController@getUser');
 });
+
+
+Route::group(['prefix' => 'admin', 'middleware' => ['web']], function() {
+    Route::get('/login', 'AdminController@login')->name('admin_login');
+    Route::post('/login', 'AdminController@postLogin');
+    Route::group(['middleware' => 'App\Http\Middleware\AdminMiddleware'], function() {
+        Route::get('/', 'AdminController@getIndex')->name('admin_index');
+    });
+});

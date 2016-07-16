@@ -158,6 +158,7 @@ return [
 
         App\Providers\UsersServiceProvider::class,
         Laravel\Cashier\CashierServiceProvider::class,
+        App\Providers\ViewComposerServiceProvider::class,
 
     ],
 

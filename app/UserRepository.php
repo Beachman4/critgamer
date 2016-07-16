@@ -34,6 +34,22 @@ class UserRepository extends Repository
      * Call custom Eloquent queries below
      */
 
+    public function login($request)
+    {
+        $username_email = $request->input('username_email');
+        $password = $request->input('password');
+        if ($user = $this->model->where('username', $username_email)->orWhere('email', $username_email)->first()) {
+            if (Hash::check($password, $user->password)) {
+                Users::signUserIn($user->id);
+                return true;
+            } else {
+                return "Your Username/Password is incorrect.";
+            }
+        } else {
+            return "Your Username/Password is incorrect.";
+        }
+    }
+
     public function apiLogin($request)
     {
         $username_email = $request->input('username_email')['value'];

@@ -25,7 +25,7 @@
         </div>
         <div data-src="https://i.imgur.com/hiC4wtU.jpg">
             <div class="camera_info fadeIn camera_affected">
-                <h1>Infrastrucgture</h1>
+                <h1>Infrastructure</h1>
                 <p>We have an impressive network and power system to make sure you are gaming during the entire party.</p>
             </div>
         </div>

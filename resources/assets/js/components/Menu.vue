@@ -5,23 +5,20 @@
                 <a href="/"><img src="/assets/img/better_brand.png" height="125" /></a>
             </div>
             <div class="col-lg-8 menu">
-                <nav class="navbar navbar-light bg-faded">
+                <nav class="navbar navbar-light">
                     <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#crigamernav">
                         &#9776;
                     </button>
                     <div class="collapse navbar-toggleable-xs" id="crigamernav">
                         <ul class="nav navbar-nav">
                             <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lan Party <span class="caret"></span></a>
-                                <div class="dropdown-menu">
-                                    <a href="/events" class="dropdown-item">Event List</a>
-                                    <a href="/events-info" class="dropdown-item">Information</a>
-                                </div>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/events">LAN | Events</a>
                             </li>
+                            <li class="nav-item"><a class="nav-link" href="#">Merchandise</a></li>
                             <li class="nav-item"><a class="nav-link" href="#">Gallery</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Staff</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">Sponsors</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
                             <li class="nav-item dropdown" v-if="loggedIn">
                                 <a href="#" class="btn btn-primary-outline nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ userData.username }}</a>
                                 <div class="dropdown-menu">

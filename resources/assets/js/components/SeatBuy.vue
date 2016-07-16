@@ -152,7 +152,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="btn-group" role="group" aria-label="Stuff">
-                        <button type="button" class="btn btn-danger-outline" data-dismiss="modal" aria-label="Close">Close</button>
+                        <button type="button" class="btn btn-danger-outline" data-dismiss="modal" @click="closed = true" aria-label="Close">Close</button>
                         <button v-if="!infoDone" type="button" class="btn btn-success-outline" :disabled="continuePaymentButton" @click="continueToPayment">Continue to Payment</button>
                         <button v-if="infoDone && !loading" type="button" class="btn btn-success-outline" :disabled="buySeatButton" @click="paymentDone">Buy Seat</button>
                     </div>
@@ -230,6 +230,7 @@
                 this.paymentInfo.selectedSeat = this.$parent.$parent.selectedSeat;
                 var id = this.$route.params.event_id;
                 this.paymentInfo.event = id;
+                this.closed = false;
                 this.loginCheck();
             }.bind(this));
             $('#paymentModal').on('hide.bs.modal', function() {
@@ -368,7 +369,9 @@
                         if (response.text() == "") {
                             this.$set('failed', false);
                             setTimeout(function(){
-                                $('#paymentModal').modal('hide');
+                                if (!this.closed) {
+                                    $('#paymentModal').modal('hide');
+                                }
                             }, 10000);
                         } else {
                             this.loading = false;

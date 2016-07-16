@@ -172,11 +172,11 @@
                 selectedSeat: 0
             }
         },
-        created() {
+        ready() {
             this.fetchEvent();
             this.fetchSeats();
-            this.getInfo();
             this.socket();
+            this.getInfo();
         },
         computed: {
             numberSeats: function() {
@@ -208,6 +208,7 @@
                 for(var i = 0; i < tables.length; i++) {
                     var seats = tables[i];
                     for (var j = 0; j < seats.length; j++) {
+                        console.log(seats[j].users_id);
                         if (seats[j].users_id != null) {
                             var user = this.fetchUserInfo(seats[j].users_id);
                             console.log(user);
