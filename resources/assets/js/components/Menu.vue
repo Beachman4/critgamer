@@ -1,11 +1,11 @@
 <template>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-4 text-lg-right">
+            <div class="col-lg-4 col-lg-offset-1 text-lg-right">
                 <a href="/"><img src="/assets/img/better_brand.png" height="125" /></a>
             </div>
-            <div class="col-lg-8 menu">
-                <nav class="navbar navbar-light">
+            <div class="col-lg-6 menu">
+                <nav class="navbar navbar-light bg-faded">
                     <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#crigamernav">
                         &#9776;
                     </button>
