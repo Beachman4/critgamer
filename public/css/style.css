@@ -4708,7 +4708,8 @@ p, li, span, a {
 .camera_info {
   position: absolute;
   color: #fff;
-  margin-left: 5rem; }
+  margin-left: 70rem;
+  margin-top: 25rem; }
 
 #calendar {
   background-color: #fff; }
