@@ -123,7 +123,7 @@
             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="/events"><i class="fa fa-circle-o"></i> Events</a></li>>
+                            <li><a href="/events"><i class="fa fa-circle-o"></i> Events</a></li>
                             <li><a href="/events/create"><i class="fa fa-circle-o"></i> Create Event</a></li>
                             <li><a href="/events/history"><i class="fa fa-circle-o"></i> Order List</a></li>
                         </ul>
