@@ -10,8 +10,8 @@
                     <div class="row" v-if="failed">
                         <div class="col-lg-12">
                             <div class="alert alert-danger">
-                                <h4>Something went wrong</h4>
-                                <p>{{ failedMessage }}</p>
+                                <h4 style="color: black">Something went wrong</h4>
+                                <p style="color: black">{{ failedMessage }}</p>
                             </div>
                         </div>
                     </div>
@@ -63,6 +63,7 @@
                     </div>
                     <div class="row ccinfo" v-else>
                         <div class="col-lg-12">
+                            <div v-if="!loading">
                             <h5 style="color: black">Card Information</h5>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -114,6 +115,38 @@
                                 </div>
                                 </div>
                             </div>
+                            </div>
+                            <div v-else>
+                                <div class="row" v-if="!doneLoading">
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-12 text-lg-center">
+                                                <h5 style="color: black">Your payment is processing!</h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 text-lg-center">
+                                                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+                                                <span class="sr-only" style="color: black">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-12 text-lg-center">
+                                                <h5 style="color: black">Your payment has succeeded!</h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 text-lg-center">
+                                                <p style="color: black">You will receive an email with instructions shortly.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -121,7 +154,7 @@
                     <div class="btn-group" role="group" aria-label="Stuff">
                         <button type="button" class="btn btn-danger-outline" data-dismiss="modal" aria-label="Close">Close</button>
                         <button v-if="!infoDone" type="button" class="btn btn-success-outline" :disabled="continuePaymentButton" @click="continueToPayment">Continue to Payment</button>
-                        <button v-else type="button" class="btn btn-success-outline" :disabled="buySeatButton" @click="paymentDone">Buy Seat</button>
+                        <button v-if="infoDone && !loading" type="button" class="btn btn-success-outline" :disabled="buySeatButton" @click="paymentDone">Buy Seat</button>
                     </div>
                 </div>
             </div>
@@ -187,7 +220,9 @@
                 },
                 userData: [],
                 failed: false,
-                failedMessage: ""
+                failedMessage: "",
+                loading: false,
+                doneLoading: false
             }
         },
         ready() {
@@ -196,6 +231,9 @@
                 var id = this.$route.params.event_id;
                 this.paymentInfo.event = id;
                 this.loginCheck();
+            }.bind(this));
+            $('#paymentModal').on('hide.bs.modal', function() {
+                this.resetValues();
             }.bind(this));
             this.jqueryShit();
         },
@@ -243,6 +281,15 @@
             }
         },
         methods: {
+            resetValues: function() {
+                this.paymentInfo.cc.value = "";
+                this.paymentInfo.ccexpmonth.value = "";
+                this.paymentInfo.ccexpyear.value = "";
+                this.paymentInfo.cccvc.value = "";
+                this.loading = false;
+                this.doneLoading = false;
+                this.infoDone = false;
+            },
             jqueryShit: function() {
                 $('#ccexp').change(() => {
                     console.log("changed");
@@ -284,6 +331,7 @@
                 this.checkToken();
             },
             stripe: function() {
+                this.loading = true;
                 Stripe.setPublishableKey('pk_test_lDzTdn3YHXdwQOvzIvTGUUo9');
 
                 Stripe.card.createToken({
@@ -300,6 +348,8 @@
                     if (response.error) {
                         this.$set('failed', true);
                         this.$set('failedMessage', response.error.message);
+                        this.doneLoading = false;
+                        this.loading = false;
                     } else {
                         this.$set('failed', false);
                         this.$set('failedMessage', "");
@@ -313,11 +363,15 @@
             },
             sendPayment: function() {
                 if (!this.failed) {
+                    this.doneLoading = true;
                     this.$http.post('/api/buySeat', this.paymentInfo).then((response) => {
                         if (response.text() == "") {
                             this.$set('failed', false);
-                            $('#paymentModal').modal('hide');
+                            setTimeout(function(){
+                                $('#paymentModal').modal('hide');
+                            }, 10000);
                         } else {
+                            this.loading = false;
                             this.$set('failed', true);
                             this.$set('failedMessage', response.json().message);
                         }

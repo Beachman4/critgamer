@@ -15766,7 +15766,7 @@ exports.default = {
             }
         },
         socket: function socket() {
-            $.getScript('http://localhost:3000/socket.io/socket.io.js');
+            $.getScript('http://crit.the9grounds.com:3000/socket.io/socket.io.js');
 
             var socket = io('http://localhost:3000');
             socket.on('main:App\\Events\\SeatWasBought', function (message) {

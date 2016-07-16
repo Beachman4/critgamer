@@ -16,6 +16,9 @@ Route::group(['middleware' => ['web']], function () {
         abort(404);
     });
 });
+Route::get('/old', function() {
+    return view('index');
+});
 Route::group(['prefix' => 'api', 'middleware' => ['web']], function() {
     Route::get('/events', 'ApiController@getEvents');
     Route::get('/events/{events}', 'ApiController@getEvent');

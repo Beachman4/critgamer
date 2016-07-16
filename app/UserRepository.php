@@ -106,21 +106,27 @@ class UserRepository extends Repository
             $response = $user->charge($price);
         } catch(\Stripe\Error\Card $e) {
             // Since it's a decline, \Stripe\Error\Card will be caught
-            return $e->getJsonBody();
+            return $e->getMessage();
         } catch (\Stripe\Error\RateLimit $e) {
             // Too many requests made to the API too quickly
+            return $e->getMessage();
         } catch (\Stripe\Error\InvalidRequest $e) {
             // Invalid parameters were supplied to Stripe's API
+            return $e->getMessage();
         } catch (\Stripe\Error\Authentication $e) {
             // Authentication with Stripe's API failed
             // (maybe you changed API keys recently)
+            return $e->getMessage();
         } catch (\Stripe\Error\ApiConnection $e) {
             // Network communication with Stripe failed
+            return $e->getMessage();
         } catch (\Stripe\Error\Base $e) {
             // Display a very generic error to the user, and maybe send
             // yourself an email
+            return $e->getMessage();
         } catch (Exception $e) {
             // Something else happened, completely unrelated to Stripe
+            return $e->getMessage();
         }
         $seat = EventSeats::find($request->input('selectedSeat'));
         $seat->users_id = $user->id;
@@ -129,6 +135,19 @@ class UserRepository extends Repository
         $seat_id = $seat->id;
         event(new SeatWasBought($user_id, $seat_id));
         return true;
+
+    }
+
+    public function deleteCustomer(User $user)
+    {
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        $customer = \Stripe\Customer::retrieve($user->stripe_id);
+        $customer->delete();
+        $user->stripe_id = "";
+        $user->card_last_four = "";
+        $user->card_brand = "";
+        $user->save();
 
     }
 }
