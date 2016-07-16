@@ -10,10 +10,12 @@ import EventView from "./components/EventView.vue";
 import Login from "./components/Login.vue";
 import Register from "./components/Register.vue";
 import UserBar from "./components/UserBar.vue";
+import Menu from "./components/Menu.vue";
 
 Vue.component('login', Login);
 Vue.component('register', Register);
 Vue.component('user-bar', UserBar);
+Vue.component('menu', Menu);
 
 var vm = new Vue({
     el: 'body',

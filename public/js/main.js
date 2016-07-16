@@ -18476,9 +18476,9 @@ exports.default = {
             }
         },
         socket: function socket() {
-            $.getScript('http://crit.the9grounds.com:3000/socket.io/socket.io.js');
+            $.getScript('http://crit.the9grounds.com:8080/socket.io/socket.io.js');
 
-            var socket = io('http://localhost:3000');
+            var socket = io('http://crit.the9grounds.com:8080');
             socket.on('main:App\\Events\\SeatWasBought', function (message) {
                 console.log(message);
                 var data = {
@@ -18764,6 +18764,67 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14}],22:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n.menu {\n    margin-top: 35px;\n}\n")
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    data: function data() {
+        return {
+            loggedIn: false,
+            userData: {
+                username: ""
+            }
+        };
+    },
+    ready: function ready() {
+        this.loginCheck();
+    },
+
+    methods: {
+        loginCheck: function loginCheck() {
+            var _this = this;
+
+            this.$http.get('/api/isSignedIn').then(function (response) {
+                console.log(response);
+                if (response.text() == "failed") {
+                    _this.$set('loggedIn', false);
+                } else {
+                    _this.$set('userData', response.json().userData);
+                    _this.$set('loggedIn', true);
+                }
+            }, function (response) {
+                console.log(response);
+                _this.$set('loggedIn', false);
+            });
+        }
+    },
+    events: {
+        loggedIn: function loggedIn(data) {
+            this.loginCheck();
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container-fluid\">\n    <div class=\"row\">\n        <div class=\"col-lg-4 text-lg-right\">\n            <a href=\"/\"><img src=\"/assets/img/better_brand.png\" height=\"125\"></a>\n        </div>\n        <div class=\"col-lg-8 menu\">\n            <nav class=\"navbar navbar-light bg-faded\">\n                <button class=\"navbar-toggler hidden-sm-up\" type=\"button\" data-toggle=\"collapse\" data-target=\"#crigamernav\">\n                    ☰\n                </button>\n                <div class=\"collapse navbar-toggleable-xs\" id=\"crigamernav\">\n                    <ul class=\"nav navbar-nav\">\n                        <li class=\"nav-item\"><a class=\"nav-link\" href=\"/\">Home</a></li>\n                        <li class=\"nav-item dropdown\">\n                            <a href=\"#\" class=\"nav-link dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Lan Party <span class=\"caret\"></span></a>\n                            <div class=\"dropdown-menu\">\n                                <a href=\"/events\" class=\"dropdown-item\">Event List</a>\n                                <a href=\"/events-info\" class=\"dropdown-item\">Information</a>\n                            </div>\n                        </li>\n                        <li class=\"nav-item\"><a class=\"nav-link\" href=\"#\">Gallery</a></li>\n                        <li class=\"nav-item\"><a class=\"nav-link\" href=\"#\">Staff</a></li>\n                        <li class=\"nav-item\"><a class=\"nav-link\" href=\"#\">About Us</a></li>\n                        <li class=\"nav-item dropdown\" v-if=\"loggedIn\">\n                            <a href=\"#\" class=\"btn btn-primary-outline nav-link dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">{{ userData.username }}</a>\n                            <div class=\"dropdown-menu\">\n                                <a class=\"dropdown-item\" href=\"#\">My Account</a>\n                                <a class=\"dropdown-item\" href=\"/logout\">Logout</a>\n                            </div>\n                        </li>\n                        <li v-if=\"!loggedIn\" class=\"nav-item\"><a data-toggle=\"modal\" data-target=\"#loginModal\" href=\"#\" class=\"nav-link btn btn-primary-outline\">Login</a></li>\n                        <li v-if=\"!loggedIn\" class=\"nav-item\"><a data-toggle=\"modal\" data-target=\"#registerModal\" href=\"#\" class=\"nav-link btn btn-primary-outline\">Register</a></li>\n                    </ul>\n                </div>\n            </nav>\n        </div>\n    </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n.menu {\n    margin-top: 35px;\n}\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-5e0bf368", module.exports)
+  } else {
+    hotAPI.update("_v-5e0bf368", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":17,"vue-hot-reload-api":14,"vueify/lib/insert-css":18}],23:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18877,7 +18938,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-1d5beb10", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":17,"vue-hot-reload-api":14}],23:[function(require,module,exports){
+},{"vue":17,"vue-hot-reload-api":14}],24:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19138,7 +19199,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-f3e5d338", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":17,"vue-hot-reload-api":14}],24:[function(require,module,exports){
+},{"vue":17,"vue-hot-reload-api":14}],25:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\nnav.nav {\n    width: 100%;\n    text-align: right;\n    background-color: #2D2D2D;\n}\n")
 "use strict";
@@ -19199,7 +19260,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-6aa67ceb", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":17,"vue-hot-reload-api":14,"vueify/lib/insert-css":18}],25:[function(require,module,exports){
+},{"vue":17,"vue-hot-reload-api":14,"vueify/lib/insert-css":18}],26:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -19238,6 +19299,10 @@ var _SeatBuy = require('./components/SeatBuy.vue');
 
 var _SeatBuy2 = _interopRequireDefault(_SeatBuy);
 
+var _Menu = require('./components/Menu.vue');
+
+var _Menu2 = _interopRequireDefault(_Menu);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 require('bootstrap');
@@ -19275,6 +19340,7 @@ _vue2.default.component('login', _Login2.default);
 _vue2.default.component('register', _Register2.default);
 _vue2.default.component('user-bar', _UserBar2.default);
 _vue2.default.component('seat-buy', _SeatBuy2.default);
+_vue2.default.component('menu', _Menu2.default);
 router.map({
 	'/': {
 		component: _Events2.default,
@@ -19288,6 +19354,6 @@ router.map({
 
 router.start(App, 'body');
 
-},{"./components/EventView.vue":19,"./components/Events.vue":20,"./components/Login.vue":21,"./components/Register.vue":22,"./components/SeatBuy.vue":23,"./components/UserBar.vue":24,"bootstrap":1,"vue":17,"vue-resource":15,"vue-router":16}]},{},[25]);
+},{"./components/EventView.vue":19,"./components/Events.vue":20,"./components/Login.vue":21,"./components/Menu.vue":22,"./components/Register.vue":23,"./components/SeatBuy.vue":24,"./components/UserBar.vue":25,"bootstrap":1,"vue":17,"vue-resource":15,"vue-router":16}]},{},[26]);
 
 //# sourceMappingURL=main.js.map

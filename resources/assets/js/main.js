@@ -39,11 +39,13 @@ import Login from "./components/Login.vue";
 import Register from "./components/Register.vue";
 import UserBar from "./components/UserBar.vue";
 import SeatBuy from "./components/SeatBuy.vue";
+import Menu from "./components/Menu.vue";
 
 Vue.component('login', Login);
 Vue.component('register', Register);
 Vue.component('user-bar', UserBar);
 Vue.component('seat-buy', SeatBuy);
+Vue.component('menu', Menu);
 router.map({
 	'/': {
 		component: Events,
