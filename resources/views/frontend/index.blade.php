@@ -39,9 +39,29 @@
     <div class="container-fluid">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 text-center" style="padding: 3rem">
-                    <h1>What we do</h1>
+                <div class="col-lg-12">
+                    <h1>News</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Lorem ipsum</h1>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mattis dapibus ex. Maecenas et elementum quam, id maximus tortor. Nullam porttitor, urna ut consectetur consequat, dui quam porta sem, sit amet mollis diam ligula at quam. Mauris lacus arcu, suscipit posuere molestie et, vestibulum et sapien. Praesent accumsan tellus viverra arcu fringilla vehicula. In dictum tortor egestas, imperdiet tellus vitae, laoreet mauris. Vivamus iaculis urna porttitor nulla aliquet gravida.</p>
+                    <h5 class="text-right"><a href="#">Read More</a></h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Lorem ipsum</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mattis dapibus ex. Maecenas et elementum quam, id maximus tortor. Nullam porttitor, urna ut consectetur consequat, dui quam porta sem, sit amet mollis diam ligula at quam. Mauris lacus arcu, suscipit posuere molestie et, vestibulum et sapien. Praesent accumsan tellus viverra arcu fringilla vehicula. In dictum tortor egestas, imperdiet tellus vitae, laoreet mauris. Vivamus iaculis urna porttitor nulla aliquet gravida.</p>
+                    <h5 class="text-right"><a href="#">Read More</a></h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Lorem ipsum</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mattis dapibus ex. Maecenas et elementum quam, id maximus tortor. Nullam porttitor, urna ut consectetur consequat, dui quam porta sem, sit amet mollis diam ligula at quam. Mauris lacus arcu, suscipit posuere molestie et, vestibulum et sapien. Praesent accumsan tellus viverra arcu fringilla vehicula. In dictum tortor egestas, imperdiet tellus vitae, laoreet mauris. Vivamus iaculis urna porttitor nulla aliquet gravida.</p>
+                    <h5 class="text-right"><a href="#">Read More</a></h5>
                 </div>
             </div>
             </div>
@@ -60,29 +80,9 @@
             <div class="container-fluid">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12">
-                        <h1>News</h1>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1>Lorem ipsum</h1>
+                    <div class="col-lg-12 text-center" style="padding: 3rem">
+                        <h1>What we do</h1>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mattis dapibus ex. Maecenas et elementum quam, id maximus tortor. Nullam porttitor, urna ut consectetur consequat, dui quam porta sem, sit amet mollis diam ligula at quam. Mauris lacus arcu, suscipit posuere molestie et, vestibulum et sapien. Praesent accumsan tellus viverra arcu fringilla vehicula. In dictum tortor egestas, imperdiet tellus vitae, laoreet mauris. Vivamus iaculis urna porttitor nulla aliquet gravida.</p>
-                        <h5 class="text-right"><a href="#">Read More</a></h5>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1>Lorem ipsum</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mattis dapibus ex. Maecenas et elementum quam, id maximus tortor. Nullam porttitor, urna ut consectetur consequat, dui quam porta sem, sit amet mollis diam ligula at quam. Mauris lacus arcu, suscipit posuere molestie et, vestibulum et sapien. Praesent accumsan tellus viverra arcu fringilla vehicula. In dictum tortor egestas, imperdiet tellus vitae, laoreet mauris. Vivamus iaculis urna porttitor nulla aliquet gravida.</p>
-                        <h5 class="text-right"><a href="#">Read More</a></h5>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1>Lorem ipsum</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mattis dapibus ex. Maecenas et elementum quam, id maximus tortor. Nullam porttitor, urna ut consectetur consequat, dui quam porta sem, sit amet mollis diam ligula at quam. Mauris lacus arcu, suscipit posuere molestie et, vestibulum et sapien. Praesent accumsan tellus viverra arcu fringilla vehicula. In dictum tortor egestas, imperdiet tellus vitae, laoreet mauris. Vivamus iaculis urna porttitor nulla aliquet gravida.</p>
-                        <h5 class="text-right"><a href="#">Read More</a></h5>
                     </div>
                 </div>
                 <div class="row">
@@ -118,7 +118,7 @@
     <script>
 
         $('.camera_wrap').camera({
-            height: '40.2%',
+            height: '30%',
             autoAdvance: true,
             pagination: false,
             playPause: false,
