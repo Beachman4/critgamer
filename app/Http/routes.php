@@ -20,9 +20,12 @@ Route::get('/old', function() {
     return view('index');
 });
 Route::group(['prefix' => 'api', 'middleware' => ['web']], function() {
-    Route::get('/events', 'ApiController@getEvents');
-    Route::get('/events/{events}', 'ApiController@getEvent');
-    Route::get('/events/{events}/seats', 'ApiController@getSeats');
+    Route::group(['prefix' => 'events'], function() {
+        Route::get('/', 'ApiController@getEvents');
+        Route::get('/{events}', 'ApiController@getEvent');
+        Route::get('/{events}/seats', 'ApiController@getSeats');
+        Route::get('/countSeats/{events}', 'ApiController@countSeats');
+    });
     Route::post('/login', 'ApiController@login');
     Route::post('/register', 'ApiController@register');
     Route::get('/isSignedIn', 'ApiController@isSignedIn');

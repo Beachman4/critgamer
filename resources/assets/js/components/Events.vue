@@ -7,7 +7,7 @@
 	<div class="row" style="margin-top: 3rem;">
 		<div class="col-lg-12">
 			<div class="row">
-				<div :class="['col-lg-4','col-md-12','event', getClass(event)]" @click="eventPage(event)" v-for="event in upcomingEvents">
+				<div :class="['col-lg-4','col-md-12','event', getClass(event)]" @click="eventPage(event)" track-by="$index" v-for="event in upcomingEvents">
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="row">
@@ -41,8 +41,8 @@
 										<div class="col-lg-12">
 											<p>End: {{ parseDate(event.end) }}</p>
 										</div>
-									</div><i class="fa fa-user fa-inverse"></i><p style="display: inline; margin-left: 5px;">60% Seats Filled</p>
-									<progress class="progress progress-striped" value="60" max="100">60%</progress>
+									</div><i class="fa fa-user fa-inverse"></i><p style="display: inline; margin-left: 5px;">{{ event.bought_seats }} / {{ event.total_seats }} Seats Filled</p>
+									<progress class="progress progress-striped" :value="event.bought_seats" :max="event.total_seats"></progress>
 								</div>
 							</div>
 						</div>
@@ -63,10 +63,14 @@ export default {
 	},
 	ready() {
 		this.fetchEvents();
+		this.socket();
 	},
 	computed: {
 		classNames: function() {
 
+		},
+		test: function() {
+			return this.bought_seats;
 		}
 	},
 	methods: {
@@ -77,6 +81,25 @@ export default {
 			} else {
 				return className;
 			}
+		},
+		socket: function() {
+			$.getScript('http://crit.the9grounds.com:8080/socket.io/socket.io.js');
+
+			var socket = io('http://crit.the9grounds.com:8080');
+			socket.on('main:App\\Events\\SeatWasBought', function(message) {
+				this.recount(message.event_id);
+			}.bind(this));
+		},
+		recount: function(id) {
+			this.$http.get('/api/events/countSeats/'+id).then((response) => {
+				console.log(response);
+				for(var i = 0; i < this.upcomingEvents.length; i++) {
+					if (this.upcomingEvents[i].id == parseInt(id)) {
+						var event = this.upcomingEvents[i];
+						event.bought_seats = parseInt(response.text());
+					}
+				}
+			});
 		},
 		fetchEvents: function() {
 			this.$http.get('/api/events').then(function(response) {

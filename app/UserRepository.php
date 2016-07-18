@@ -149,7 +149,8 @@ class UserRepository extends Repository
         $seat->save();
         $user_id = $user->id;
         $seat_id = $seat->id;
-        event(new SeatWasBought($user_id, $seat_id));
+        $event_id = $event->id;
+        event(new SeatWasBought($user_id, $seat_id, $event_id));
         return true;
 
     }

@@ -239,7 +239,6 @@
 
                 var socket = io('http://crit.the9grounds.com:8080');
                 socket.on('main:App\\Events\\SeatWasBought', function(message) {
-                    console.log(message);
                     var data = {
                         users_id: message.user_id,
                         id: message.seat_id

@@ -25,6 +25,13 @@ class ApiController extends Controller
         $this->user = $user;
     }
 
+    public function countSeats($id)
+    {
+        $event = Events::find($id);
+        $bought = EventSeats::where('event_id', $event->id)->whereNotNull('users_id')->count();
+        return $bought;
+    }
+
     public function getEvents()
     {
         $upcoming = $this->event->getUpcoming();
@@ -40,6 +47,10 @@ class ApiController extends Controller
             }elseif ($count == 2 || $count == 5) {
                 $upcoming[$count - 1]["className"] = "second_event";
             }
+            $total = EventSeats::where('event_id', $event['id'])->count();
+            $bought = EventSeats::where('event_id', $event['id'])->whereNotNull('users_id')->count();
+            $upcoming[$count - 1]['total_seats'] = $total;
+            $upcoming[$count - 1]['bought_seats'] = $bought;
         }
         $count2 = 0;
         foreach($completed as $event) {

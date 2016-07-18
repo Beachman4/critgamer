@@ -16,15 +16,18 @@ class SeatWasBought extends Event implements ShouldBroadcast
 
     public $seat_id;
 
+    public $event_id;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($user,$seat)
+    public function __construct($user,$seat,$event_id)
     {
         $this->user_id = $user;
         $this->seat_id = $seat;
+        $this->event_id = $event_id;
     }
 
     /**

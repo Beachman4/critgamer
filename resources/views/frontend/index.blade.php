@@ -1,6 +1,11 @@
 @extends('frontend.templates.master')
 @section('content')
-    <script src="{{ URL::asset('assets/js/jquery.mousewheel.min.js') }}"></script>
+    </div>
+    </div>
+    <router-view></router-view>
+    <div class="container-fluid">
+        <div class="container">
+    {{--<script src="{{ URL::asset('assets/js/jquery.mousewheel.min.js') }}"></script>
     <script src="{{ URL::asset('assets/js/jquery.simplr.smoothscroll.min.js') }}"></script>
     <link rel="stylesheet" href="https://rawgit.com/pixedelic/Camera/master/css/camera.css">
     <script>
@@ -113,8 +118,6 @@
                     </div>
                 </div>
 
-                <script src="/js/index.js"></script>
-
     <script>
 
         $('.camera_wrap').camera({
@@ -132,5 +135,6 @@
                 $(this).removeClass('ui-corner-all');
             });
         });
-    </script>
+    </script>--}}
+    <script src="/js/index.js"></script>
 @stop

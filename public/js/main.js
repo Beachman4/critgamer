@@ -18481,7 +18481,6 @@ exports.default = {
 
             var socket = io('http://crit.the9grounds.com:8080');
             socket.on('main:App\\Events\\SeatWasBought', function (message) {
-                console.log(message);
                 var data = {
                     users_id: message.user_id,
                     id: message.seat_id
@@ -18606,9 +18605,9 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-8dc9f27c", module.exports)
+    hotAPI.createRecord("_v-4f1d712e", module.exports)
   } else {
-    hotAPI.update("_v-8dc9f27c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-4f1d712e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14}],20:[function(require,module,exports){
@@ -18628,10 +18627,14 @@ exports.default = {
 	},
 	ready: function ready() {
 		this.fetchEvents();
+		this.socket();
 	},
 
 	computed: {
-		classNames: function classNames() {}
+		classNames: function classNames() {},
+		test: function test() {
+			return this.bought_seats;
+		}
 	},
 	methods: {
 		getClass: function getClass(event) {
@@ -18641,6 +18644,27 @@ exports.default = {
 			} else {
 				return className;
 			}
+		},
+		socket: function socket() {
+			$.getScript('http://crit.the9grounds.com:8080/socket.io/socket.io.js');
+
+			var socket = io('http://crit.the9grounds.com:8080');
+			socket.on('main:App\\Events\\SeatWasBought', function (message) {
+				this.recount(message.event_id);
+			}.bind(this));
+		},
+		recount: function recount(id) {
+			var _this = this;
+
+			this.$http.get('/api/events/countSeats/' + id).then(function (response) {
+				console.log(response);
+				for (var i = 0; i < _this.upcomingEvents.length; i++) {
+					if (_this.upcomingEvents[i].id == parseInt(id)) {
+						var event = _this.upcomingEvents[i];
+						event.bought_seats = parseInt(response.text());
+					}
+				}
+			});
 		},
 		fetchEvents: function fetchEvents() {
 			this.$http.get('/api/events').then(function (response) {
@@ -18658,7 +18682,7 @@ exports.default = {
 	}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row upcoming-border\">\n\t<div class=\"col-lg-12\">\n\t\t<h1>Upcoming Events</h1>\n\t</div>\n</div>\n<div class=\"row\" style=\"margin-top: 3rem;\">\n\t<div class=\"col-lg-12\">\n\t\t<div class=\"row\">\n\t\t\t<div :class=\"['col-lg-4','col-md-12','event', getClass(event)]\" @click=\"eventPage(event)\" v-for=\"event in upcomingEvents\">\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col-lg-12\">\n\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t<div class=\"col-lg-12\">\n\t\t\t\t\t\t\t\t<img src=\"/assets/img/better_brand.png\" style=\"width: 100%\">\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t<div class=\"col-lg-12\">\n\t\t\t\t\t\t\t\t<a href=\"/events/{{ event.id }}\"><h5>{{ event.name }}</h5></a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"row info_panel\">\n\t\t\t\t\t\t\t<div class=\"col-lg-12\">\n\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t<div class=\"col-lg-12\">\n\t\t\t\t\t\t\t\t\t\t<p>Location: {{ event.location }}</p>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t<div class=\"col-lg-12\">\n\t\t\t\t\t\t\t\t\t\t<p>Address: {{ event.address }}, {{ event.city }}, {{ event.state }} {{event.zip }}</p>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t<div class=\"col-lg-12\">\n\t\t\t\t\t\t\t\t\t\t<p>Start: {{ parseDate(event.start) }}</p>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t<div class=\"col-lg-12\">\n\t\t\t\t\t\t\t\t\t\t<p>End: {{ parseDate(event.end) }}</p>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div><i class=\"fa fa-user fa-inverse\"></i><p style=\"display: inline; margin-left: 5px;\">60% Seats Filled</p>\n\t\t\t\t\t\t\t\t<progress class=\"progress progress-striped\" value=\"60\" max=\"100\">60%</progress>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row upcoming-border\">\n\t<div class=\"col-lg-12\">\n\t\t<h1>Upcoming Events</h1>\n\t</div>\n</div>\n<div class=\"row\" style=\"margin-top: 3rem;\">\n\t<div class=\"col-lg-12\">\n\t\t<div class=\"row\">\n\t\t\t<div :class=\"['col-lg-4','col-md-12','event', getClass(event)]\" @click=\"eventPage(event)\" track-by=\"$index\" v-for=\"event in upcomingEvents\">\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col-lg-12\">\n\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t<div class=\"col-lg-12\">\n\t\t\t\t\t\t\t\t<img src=\"/assets/img/better_brand.png\" style=\"width: 100%\">\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t<div class=\"col-lg-12\">\n\t\t\t\t\t\t\t\t<a href=\"/events/{{ event.id }}\"><h5>{{ event.name }}</h5></a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"row info_panel\">\n\t\t\t\t\t\t\t<div class=\"col-lg-12\">\n\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t<div class=\"col-lg-12\">\n\t\t\t\t\t\t\t\t\t\t<p>Location: {{ event.location }}</p>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t<div class=\"col-lg-12\">\n\t\t\t\t\t\t\t\t\t\t<p>Address: {{ event.address }}, {{ event.city }}, {{ event.state }} {{event.zip }}</p>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t<div class=\"col-lg-12\">\n\t\t\t\t\t\t\t\t\t\t<p>Start: {{ parseDate(event.start) }}</p>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t<div class=\"col-lg-12\">\n\t\t\t\t\t\t\t\t\t\t<p>End: {{ parseDate(event.end) }}</p>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div><i class=\"fa fa-user fa-inverse\"></i><p style=\"display: inline; margin-left: 5px;\">{{ event.bought_seats }} / {{ event.total_seats }} Seats Filled</p>\n\t\t\t\t\t\t\t\t<progress class=\"progress progress-striped\" :value=\"event.bought_seats\" :max=\"event.total_seats\"></progress>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -18668,9 +18692,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-0ec443c6", module.exports)
+    hotAPI.createRecord("_v-6c83d0da", module.exports)
   } else {
-    hotAPI.update("_v-0ec443c6", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-6c83d0da", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14,"vueify/lib/insert-css":18}],21:[function(require,module,exports){
@@ -18759,9 +18783,9 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-456d7a4c", module.exports)
+    hotAPI.createRecord("_v-71bdfab8", module.exports)
   } else {
-    hotAPI.update("_v-456d7a4c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-71bdfab8", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14}],22:[function(require,module,exports){
@@ -18820,9 +18844,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-5e0bf368", module.exports)
+    hotAPI.createRecord("_v-8cbc6f40", module.exports)
   } else {
-    hotAPI.update("_v-5e0bf368", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-8cbc6f40", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14,"vueify/lib/insert-css":18}],23:[function(require,module,exports){
@@ -18934,9 +18958,9 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-1d5beb10", module.exports)
+    hotAPI.createRecord("_v-096c8324", module.exports)
   } else {
-    hotAPI.update("_v-1d5beb10", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-096c8324", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14}],24:[function(require,module,exports){
@@ -19198,9 +19222,9 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-f3e5d338", module.exports)
+    hotAPI.createRecord("_v-3f81a860", module.exports)
   } else {
-    hotAPI.update("_v-f3e5d338", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-3f81a860", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14}],25:[function(require,module,exports){
@@ -19259,9 +19283,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-6aa67ceb", module.exports)
+    hotAPI.createRecord("_v-764edb52", module.exports)
   } else {
-    hotAPI.update("_v-6aa67ceb", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-764edb52", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14,"vueify/lib/insert-css":18}],26:[function(require,module,exports){
