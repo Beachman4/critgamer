@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repository\UserRepository;
 use Illuminate\Http\Request;
 use Admin;
+use App\User;
 
 use App\Http\Requests;
 
@@ -124,7 +125,16 @@ class UserController extends Controller
 
     public function adminView(User $user)
     {
+        return view('admin.users.view', [
+            'user_id' => $user->id
+        ]);
+    }
 
+    public function adminGetUser(User $user)
+    {
+
+        $response['user'] = $user;
+        echo json_encode($response);
     }
 
     public function adminEdit(User $user)

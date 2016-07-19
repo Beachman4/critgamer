@@ -258,9 +258,9 @@
                 }
             },
             socket: function() {
-                $.getScript('http://crit.the9grounds.com:8080/socket.io/socket.io.js');
+                $.getScript('http://localhost:3000/socket.io/socket.io.js');
 
-                var socket = io('http://crit.the9grounds.com:8080');
+                var socket = io('http://localhost:3000');
                 socket.on('main:App\\Events\\SeatWasBought', function(message) {
                     var data = {
                         users_id: message.user_id,

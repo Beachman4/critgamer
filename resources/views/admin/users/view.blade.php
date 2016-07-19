@@ -1,4 +1,4 @@
 @extends('admin.template.master')
 @section('content')
-    <user-index></user-index>
+    <user-view id="{{ $user_id }}"></user-view>
 @stop

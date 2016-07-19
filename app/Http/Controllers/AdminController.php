@@ -44,4 +44,11 @@ class AdminController extends Controller
         $request->session()->flash('loginMessage', $return);
         return redirect()->back()->withInput();
     }
+
+    public function getUsers()
+    {
+        $users = $this->user->all();
+        $response['users'] = $users;
+        echo json_encode($response);
+    }
 }

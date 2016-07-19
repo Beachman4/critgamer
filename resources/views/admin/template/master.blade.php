@@ -24,10 +24,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
         <script src="https://use.fontawesome.com/3e84772efe.js"></script>
-        <script src="http://crit.the9grounds.com:8080/socket.io/socket.io.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.js"></script>
-        <script src="https://cdn.jsdelivr.net/vue.resource/0.9.3/vue-resource.min.js"></script>
-        <script src="/js/adminVue.js"></script>
+        <script src="/js/admin.js"></script>
     </head>
     <body class="hold-transition skin-black sidebar-mini">
     <div class="wrapper">
@@ -138,9 +135,11 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                {{ \Admin::getTitle() }}
-                @if (\Admin::getSubTitle() != "")
-                    <small>{{ \Admin::getSubTitle() }}</small>
+                @if (\Admin::getTitle() != "")
+                    {{ \Admin::getTitle() }}
+                    @if (\Admin::getSubTitle() != "")
+                        <small>{{ \Admin::getSubTitle() }}</small>
+                    @endif
                 @endif
             </h1>
             @if (count(\Admin::getBreadCrumbs()) > 0)
@@ -173,5 +172,6 @@
     <script>
         $('.breadcrumb li').last().addClass('active');
     </script>
+    <script src="/js/adminVue.js"></script>
     </body>
 </html>

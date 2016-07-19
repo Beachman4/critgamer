@@ -18,4 +18,5 @@ elixir(function(mix) {
     mix.sass('style.scss');
     mix.browserify('main.js');
     mix.browserify('index.js');
+    mix.browserify('adminVue.js');
 });

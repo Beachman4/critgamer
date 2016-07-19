@@ -32,6 +32,11 @@ Route::group(['prefix' => 'api', 'middleware' => ['web']], function() {
     Route::post('/customerInfo', 'ApiController@customerInfo');
     Route::post('/buySeat', 'ApiController@buySeat');
     Route::get('/user/{user}', 'ApiController@getUser');
+
+    Route::group(['prefix' => 'admin'], function() {
+        Route::get('/users', 'AdminController@getUsers');
+        Route::get('/users/{user}', 'UserController@adminGetUser');
+    });
 });
 
 
