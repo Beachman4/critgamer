@@ -77,7 +77,7 @@
                         <div class="col-lg-12">
                             <h2>Like What You See?</h2>
                             <p>We implore you to check out our calendar of events and sign up for our next Lan Event!</p>
-                            <a href="/lan-party/events">Lan Events</a>
+                            <a class="btn btn-secondary-outline" href="/events">Lan Events</a>
                         </div>
                     </div>
                 </div>

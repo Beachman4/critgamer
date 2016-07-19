@@ -18411,14 +18411,14 @@ exports.default = {
             seats: [],
             admin_hovered: false,
             regular_hovered: false,
-            selectedSeat: 0
+            selectedSeat: 0,
+            mostrecent: ""
         };
     },
     ready: function ready() {
         this.fetchEvent();
         this.fetchSeats();
         this.socket();
-        this.getInfo();
     },
 
     computed: {
@@ -18446,16 +18446,39 @@ exports.default = {
         }
     },
     methods: {
+        searchUsers: function searchUsers() {
+            var search = this.searchName;
+            if (search != "") {
+                for (var i = 0; i < this.seats.length; i++) {
+                    for (var j = 0; j < this.seats[i].length; j++) {
+                        if (this.seats[i][j].username.indexOf(search) != -1) {
+                            this.seats[i][j].hovered = true;
+                            this.seats[i][j].noPanel = true;
+                        } else {
+                            this.seats[i][j].hovered = false;
+                            this.seats[i][j].noPanel = false;
+                        }
+                    }
+                }
+            } else {
+                for (var i = 0; i < this.seats.length; i++) {
+                    for (var j = 0; j < this.seats[i].length; j++) {
+                        this.seats[i][j].hovered = false;
+                        this.seats[i][j].noPanel = false;
+                    }
+                }
+            }
+        },
         getInfo: function getInfo() {
-            var tables = this.seats;
-            for (var i = 0; i < tables.length; i++) {
-                var seats = tables[i];
-                for (var j = 0; j < seats.length; j++) {
-                    console.log(seats[j].users_id);
-                    if (seats[j].users_id != null) {
-                        var user = this.fetchUserInfo(seats[j].users_id);
-                        console.log(user);
-                        this.seats[i][j].username = user;
+            //var tables = this.seats;
+            for (var i = 0; i < this.seats.length; i++) {
+                //var seats = tables[i];
+                for (var j = 0; j < this.seats[i].length; j++) {
+                    if (this.seats[i][j].users_id != null) {
+                        var user_id = this.seats[i][j].users_id;
+                        //var user = this.fetchUserInfo(user_id);
+                        this.fetchUserInfo(user_id);
+                        this.seats[i][j].username = this.mostrecent;
                     }
                 }
             }
@@ -18477,9 +18500,9 @@ exports.default = {
             }
         },
         socket: function socket() {
-            $.getScript('http://crit.the9grounds.com:8080/socket.io/socket.io.js');
+            $.getScript('http://localhost:3000/socket.io/socket.io.js');
 
-            var socket = io('http://crit.the9grounds.com:8080');
+            var socket = io('http://localhost:3000');
             socket.on('main:App\\Events\\SeatWasBought', function (message) {
                 var data = {
                     users_id: message.user_id,
@@ -18505,11 +18528,12 @@ exports.default = {
             var id = this.$route.params.event_id;
             this.$http.get('/api/events/' + id + '/seats').then(function (response) {
                 this.$set('seats', response.json());
+                //this.getInfo();
             });
         },
         fetchUserInfo: function fetchUserInfo(id) {
             this.$http.get('/api/user/' + id).then(function (response) {
-                return response.text();
+                this.$set('mostrecent', response.text());
             });
         },
         parseDate: function parseDate(date) {
@@ -18518,6 +18542,12 @@ exports.default = {
         },
         clearSearch: function clearSearch() {
             this.searchName = "";
+            for (var i = 0; i < this.seats.length; i++) {
+                for (var j = 0; j < this.seats[i].length; j++) {
+                    this.seats[i][j].hovered = false;
+                    this.seats[i][j].noPanel = false;
+                }
+            }
         },
         hover: function hover(seat, type) {
             if (seat == 'admin') {
@@ -18599,15 +18629,15 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<seat-buy></seat-buy>\n<div class=\"row\">\n    <div class=\"col-lg-8\">\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h3>{{ event.name }}</h3>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <p>{{ event.description }}</p>\n            </div>\n        </div>\n    </div>\n    <div class=\"col-lg-4\">\n        <div class=\"row\" style=\"border-bottom: 1px solid grey;\">\n            <div class=\"col-lg-12\">\n                <h5>Start: {{ parseDate(event.start) }}</h5>\n                <h5>End: {{ parseDate(event.end) }}</h5>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h5>{{ event.name || capitalize }}</h5>\n                <p>{{ event.address }}</p>\n                <p>{{ location }}</p>\n            </div>\n        </div>\n    </div>\n</div>\n<div class=\"row\">\n    <div class=\"col-lg-4 seating\">\n        <div class=\"row\" style=\"border-bottom: 1px solid black\">\n            <div class=\"col-lg-12\">\n                <h3>Seating Chart Legend</h3>\n            </div>\n        </div>\n        <div class=\"row\" style=\"margin-top: 2rem; border-bottom: 1px solid black\">\n            <div class=\"col-lg-12\">\n                <div class=\"input-group\" style=\"margin-bottom: 1rem;\">\n                    <input type=\"text\" class=\"form-control\" v-model=\"searchName\" placeholder=\"Search Users\">\n                    <span class=\"input-group-btn\">\n                        <button class=\"btn btn-default\" type=\"button\" @click=\"clearSearch\">×</button>\n                    </span>\n                </div>\n            </div>\n        </div>\n        <div class=\"row\" style=\"margin-top: 1rem;\">\n            <div class=\"col-lg-12\">\n                <h5>Types</h5>\n                <div class=\"row\">\n                    <div class=\"col-lg-1\">\n                        <div v-on:mouseover=\"hover('admin', true)\" v-on:mouseleave=\"hover('admin', false)\" :class=\"['admin-seating', a_hovered]\">\n\n                        </div>\n                    </div>\n                    <div class=\"col-lg-3\">\n                        <p>Admin</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>Good Luck</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>Nah bro</p>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-lg-1\">\n                        <div v-on:mouseover=\"hover('regular', true)\" v-on:mouseleave=\"hover('regular', false)\" :class=\"['standard-seating', reg_hovered]\">\n\n                        </div>\n                    </div>\n                    <div class=\"col-lg-3\">\n                        <p>Standard</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>${{ event.price }}</p>\n                    </div>\n                    <div class=\"col-lg-4\">\n                        <p>{{ numberSeats }}</p>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n    <div class=\"col-lg-7 seating\" style=\"float: right;\">\n        <div class=\"row\">\n            <div class=\"col-lg-4\">\n                <h3>Seating Chart</h3>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-8 col-lg-offset-2\">\n                <div class=\"admin_row\">\n                    <div track-by=\"$index\" :class=\"['admin_seat', a_hovered]\" v-on:mouseover=\"adminHovered(admin, true)\" v-on:mouseleave=\"adminHovered(admin, false)\" v-for=\"admin in admins\">\n                        <div class=\"seat_info\" v-show=\"admin.hovered\">\n                            <p>Admin Seat - {{ $index + 1 }}</p>\n                            <p>{{ admin.name }}</p>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"regular_wrapper\">\n                    <div class=\"regular_table\" v-for=\"(parentKey, table) in seats\">\n                        <div @click=\"buySeat(seat)\" :class=\"['regular_seat', reg_hovered, seat.users_id != null ? 'seat_taken' : '']\" track-by=\"$index\" v-for=\"seat in table\" v-on:mouseover=\"seatHovered(seat, true)\" v-on:mouseleave=\"seatHovered(seat, false)\">\n                            <div class=\"seat_info\" v-show=\"seat.hovered\">\n                                <p>Regular Seat Table {{ tableLetter(parentKey) }}-{{ $index + 1 }}</p>\n                                <div v-if=\"seat.users_id == null\">\n                                    <p>Available</p>\n                                    <p>{{ event.price | currency }}</p>\n                                </div>\n                                <div v-else=\"\">\n                                    <p>{{ seat.username }}</p>\n                                    <p>PAID</p>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n<div style=\"height: 35rem;\"></div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<seat-buy></seat-buy>\n<div class=\"row\">\n    <div class=\"col-lg-8\">\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h3>{{ event.name }}</h3>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <p>{{ event.description }}</p>\n            </div>\n        </div>\n    </div>\n    <div class=\"col-lg-4\">\n        <div class=\"row\" style=\"border-bottom: 1px solid grey;\">\n            <div class=\"col-lg-12\">\n                <h5>Start: {{ parseDate(event.start) }}</h5>\n                <h5>End: {{ parseDate(event.end) }}</h5>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h5>{{ event.name || capitalize }}</h5>\n                <p>{{ event.address }}</p>\n                <p>{{ location }}</p>\n            </div>\n        </div>\n    </div>\n</div>\n<div class=\"row\">\n    <div class=\"col-lg-12 seating\" style=\"float: right;\">\n        <div class=\"row\">\n            <div class=\"col-lg-4\">\n                <h3>Seating Chart</h3>\n            </div>\n            <div class=\"col-lg-6\" style=\"float:right;\">\n                <div class=\"row\" style=\"border-bottom: 1px solid black\">\n                    <div class=\"col-lg-12\">\n                        <h3>Seating Chart Legend</h3>\n                    </div>\n                </div>\n                <div class=\"row\" style=\"margin-top: 2rem; border-bottom: 1px solid black\">\n                    <div class=\"col-lg-12\">\n                        <div class=\"input-group\" style=\"margin-bottom: 1rem;\">\n                            <input type=\"text\" class=\"form-control\" v-model=\"searchName\" placeholder=\"Search Users\" v-on:keyup=\"searchUsers\">\n                            <span class=\"input-group-btn\">\n                        <button class=\"btn btn-default\" type=\"button\" style=\"color: black;\" @click=\"clearSearch\">×</button>\n                    </span>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row\" style=\"margin-top: 1rem;\">\n                    <div class=\"col-lg-12\">\n                        <h5>Types</h5>\n                        <div class=\"row\">\n                            <div class=\"col-lg-1\">\n                                <div v-on:mouseover=\"hover('admin', true)\" v-on:mouseleave=\"hover('admin', false)\" :class=\"['admin-seating', a_hovered]\">\n\n                                </div>\n                            </div>\n                            <div class=\"col-lg-3\">\n                                <p>Admin</p>\n                            </div>\n                            <div class=\"col-lg-4\">\n                                <p>Good Luck</p>\n                            </div>\n                            <div class=\"col-lg-4\">\n                                <p>Nah bro</p>\n                            </div>\n                        </div>\n                        <div class=\"row\">\n                            <div class=\"col-lg-1\">\n                                <div v-on:mouseover=\"hover('regular', true)\" v-on:mouseleave=\"hover('regular', false)\" :class=\"['standard-seating', reg_hovered]\">\n\n                                </div>\n                            </div>\n                            <div class=\"col-lg-3\">\n                                <p>Standard</p>\n                            </div>\n                            <div class=\"col-lg-4\">\n                                <p>${{ event.price }}</p>\n                            </div>\n                            <div class=\"col-lg-4\">\n                                <p>{{ numberSeats }}</p>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-lg-8 col-lg-offset-2\">\n                <div class=\"admin_row\">\n                    <div track-by=\"$index\" :class=\"['admin_seat', a_hovered]\" v-on:mouseover=\"adminHovered(admin, true)\" v-on:mouseleave=\"adminHovered(admin, false)\" v-for=\"admin in admins\">\n                        <div class=\"seat_info\" v-show=\"admin.hovered\">\n                            <p>Admin Seat - {{ $index + 1 }}</p>\n                            <p>{{ admin.name }}</p>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"regular_wrapper\">\n                    <div class=\"regular_table\" v-for=\"(parentKey, table) in seats\">\n                        <div @click=\"buySeat(seat)\" :class=\"['regular_seat', reg_hovered, seat.hovered ? 'regular_hovered' : '', seat.users_id != null ? 'seat_taken' : '']\" track-by=\"$index\" v-for=\"seat in table\" v-on:mouseover=\"seatHovered(seat, true)\" v-on:mouseleave=\"seatHovered(seat, false)\">\n                            <div class=\"seat_info\" v-show=\"seat.hovered &amp;&amp; !seat.noPanel\">\n                                <p>Regular Seat Table {{ tableLetter(parentKey) }}-{{ $index + 1 }}</p>\n                                <div v-if=\"seat.users_id == null\">\n                                    <p>Available</p>\n                                    <p>{{ event.price | currency }}</p>\n                                </div>\n                                <div v-else=\"\">\n                                    <p>{{ seat.username }}</p>\n                                    <p>PAID</p>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n<div style=\"height: 35rem;\"></div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-4f1d712e", module.exports)
+    hotAPI.createRecord("_v-8dc9f27c", module.exports)
   } else {
-    hotAPI.update("_v-4f1d712e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-8dc9f27c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14}],20:[function(require,module,exports){
@@ -18646,9 +18676,9 @@ exports.default = {
 			}
 		},
 		socket: function socket() {
-			$.getScript('http://crit.the9grounds.com:8080/socket.io/socket.io.js');
+			$.getScript('http://localhost:3000/socket.io/socket.io.js');
 
-			var socket = io('http://crit.the9grounds.com:8080');
+			var socket = io('http://localhost:3000');
 			socket.on('main:App\\Events\\SeatWasBought', function (message) {
 				this.recount(message.event_id);
 			}.bind(this));
@@ -18692,9 +18722,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-6c83d0da", module.exports)
+    hotAPI.createRecord("_v-0ec443c6", module.exports)
   } else {
-    hotAPI.update("_v-6c83d0da", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-0ec443c6", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14,"vueify/lib/insert-css":18}],21:[function(require,module,exports){
@@ -18783,9 +18813,9 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-71bdfab8", module.exports)
+    hotAPI.createRecord("_v-456d7a4c", module.exports)
   } else {
-    hotAPI.update("_v-71bdfab8", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-456d7a4c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14}],22:[function(require,module,exports){
@@ -18844,9 +18874,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-8cbc6f40", module.exports)
+    hotAPI.createRecord("_v-5e0bf368", module.exports)
   } else {
-    hotAPI.update("_v-8cbc6f40", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-5e0bf368", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14,"vueify/lib/insert-css":18}],23:[function(require,module,exports){
@@ -18958,9 +18988,9 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-096c8324", module.exports)
+    hotAPI.createRecord("_v-1d5beb10", module.exports)
   } else {
-    hotAPI.update("_v-096c8324", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-1d5beb10", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14}],24:[function(require,module,exports){
@@ -19222,9 +19252,9 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-3f81a860", module.exports)
+    hotAPI.createRecord("_v-f3e5d338", module.exports)
   } else {
-    hotAPI.update("_v-3f81a860", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-f3e5d338", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14}],25:[function(require,module,exports){
@@ -19283,9 +19313,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-764edb52", module.exports)
+    hotAPI.createRecord("_v-6aa67ceb", module.exports)
   } else {
-    hotAPI.update("_v-764edb52", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-6aa67ceb", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14,"vueify/lib/insert-css":18}],26:[function(require,module,exports){

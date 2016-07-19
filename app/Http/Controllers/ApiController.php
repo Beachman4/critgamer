@@ -80,6 +80,13 @@ class ApiController extends Controller
         $final = [];
         foreach ($seats->toArray() as $seat) {
             $seat["hovered"] = false;
+            $seat["noPanel"] = false;
+            if (!is_null($seat["users_id"])) {
+                $user = User::find($seat["users_id"]);
+                $seat["username"] = $user->username;
+            } else {
+                $seat["username"] = "";
+            }
             $final[] = $seat;
         }
 

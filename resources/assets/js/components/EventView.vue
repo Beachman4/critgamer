@@ -30,64 +30,64 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4 seating">
-            <div class="row" style="border-bottom: 1px solid black">
-                <div class="col-lg-12">
-                    <h3>Seating Chart Legend</h3>
-                </div>
-            </div>
-            <div class="row" style="margin-top: 2rem; border-bottom: 1px solid black">
-                <div class="col-lg-12">
-                    <div class="input-group" style="margin-bottom: 1rem;">
-                        <input type="text" class="form-control" v-model="searchName" placeholder="Search Users">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" @click="clearSearch">&times;</button>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="row" style="margin-top: 1rem;">
-                <div class="col-lg-12">
-                    <h5>Types</h5>
-                    <div class="row">
-                        <div class="col-lg-1">
-                            <div v-on:mouseover="hover('admin', true)" v-on:mouseleave="hover('admin', false)" :class="['admin-seating', a_hovered]">
-
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <p>Admin</p>
-                        </div>
-                        <div class="col-lg-4">
-                            <p>Good Luck</p>
-                        </div>
-                        <div class="col-lg-4">
-                            <p>Nah bro</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-1">
-                            <div v-on:mouseover="hover('regular', true)" v-on:mouseleave="hover('regular', false)" :class="['standard-seating', reg_hovered]">
-
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <p>Standard</p>
-                        </div>
-                        <div class="col-lg-4">
-                            <p>${{ event.price }}</p>
-                        </div>
-                        <div class="col-lg-4">
-                            <p>{{ numberSeats }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-7 seating" style="float: right;">
+        <div class="col-lg-12 seating" style="float: right;">
             <div class="row">
                 <div class="col-lg-4">
                     <h3>Seating Chart</h3>
+                </div>
+                <div class="col-lg-6" style="float:right;">
+                    <div class="row" style="border-bottom: 1px solid black">
+                        <div class="col-lg-12">
+                            <h3>Seating Chart Legend</h3>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 2rem; border-bottom: 1px solid black">
+                        <div class="col-lg-12">
+                            <div class="input-group" style="margin-bottom: 1rem;">
+                                <input type="text" class="form-control" v-model="searchName" placeholder="Search Users" v-on:keyup="searchUsers">
+                                <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" style="color: black;" @click="clearSearch">&times;</button>
+                        </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 1rem;">
+                        <div class="col-lg-12">
+                            <h5>Types</h5>
+                            <div class="row">
+                                <div class="col-lg-1">
+                                    <div v-on:mouseover="hover('admin', true)" v-on:mouseleave="hover('admin', false)" :class="['admin-seating', a_hovered]">
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <p>Admin</p>
+                                </div>
+                                <div class="col-lg-4">
+                                    <p>Good Luck</p>
+                                </div>
+                                <div class="col-lg-4">
+                                    <p>Nah bro</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-1">
+                                    <div v-on:mouseover="hover('regular', true)" v-on:mouseleave="hover('regular', false)" :class="['standard-seating', reg_hovered]">
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <p>Standard</p>
+                                </div>
+                                <div class="col-lg-4">
+                                    <p>${{ event.price }}</p>
+                                </div>
+                                <div class="col-lg-4">
+                                    <p>{{ numberSeats }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -102,8 +102,8 @@
                     </div>
                     <div class="regular_wrapper">
                         <div class="regular_table" v-for="(parentKey, table) in seats">
-                            <div @click="buySeat(seat)" :class="['regular_seat', reg_hovered, seat.users_id != null ? 'seat_taken' : '']" track-by="$index" v-for="seat in table" v-on:mouseover="seatHovered(seat, true)" v-on:mouseleave="seatHovered(seat, false)">
-                                <div class="seat_info" v-show="seat.hovered">
+                            <div @click="buySeat(seat)" :class="['regular_seat', reg_hovered, seat.hovered ? 'regular_hovered' : '', seat.users_id != null ? 'seat_taken' : '']" track-by="$index" v-for="seat in table" v-on:mouseover="seatHovered(seat, true)" v-on:mouseleave="seatHovered(seat, false)">
+                                <div class="seat_info" v-show="seat.hovered && !seat.noPanel">
                                     <p>Regular Seat Table {{ tableLetter(parentKey) }}-{{ $index + 1 }}</p>
                                     <div v-if="seat.users_id == null">
                                         <p>Available</p>
@@ -169,14 +169,14 @@
                 seats: [],
                 admin_hovered: false,
                 regular_hovered: false,
-                selectedSeat: 0
+                selectedSeat: 0,
+                mostrecent: ""
             }
         },
         ready() {
             this.fetchEvent();
             this.fetchSeats();
             this.socket();
-            this.getInfo();
         },
         computed: {
             numberSeats: function() {
@@ -203,16 +203,39 @@
             }
         },
         methods: {
+            searchUsers: function() {
+                var search = this.searchName;
+                if (search != "") {
+                    for (var i = 0; i < this.seats.length; i++) {
+                        for (var j = 0; j < this.seats[i].length; j++) {
+                            if (this.seats[i][j].username.indexOf(search) != -1) {
+                                this.seats[i][j].hovered = true;
+                                this.seats[i][j].noPanel = true;
+                            } else {
+                                this.seats[i][j].hovered = false;
+                                this.seats[i][j].noPanel = false;
+                            }
+                        }
+                    }
+                } else {
+                    for (var i = 0; i < this.seats.length; i++) {
+                        for (var j = 0; j < this.seats[i].length; j++) {
+                            this.seats[i][j].hovered = false;
+                            this.seats[i][j].noPanel = false;
+                        }
+                    }
+                }
+            },
             getInfo: function() {
-                var tables = this.seats;
-                for(var i = 0; i < tables.length; i++) {
-                    var seats = tables[i];
-                    for (var j = 0; j < seats.length; j++) {
-                        console.log(seats[j].users_id);
-                        if (seats[j].users_id != null) {
-                            var user = this.fetchUserInfo(seats[j].users_id);
-                            console.log(user);
-                            this.seats[i][j].username = user;
+                //var tables = this.seats;
+                for(var i = 0; i < this.seats.length; i++) {
+                    //var seats = tables[i];
+                    for (var j = 0; j < this.seats[i].length; j++) {
+                        if (this.seats[i][j].users_id != null) {
+                            var user_id = this.seats[i][j].users_id;
+                            //var user = this.fetchUserInfo(user_id);
+                            this.fetchUserInfo(user_id);
+                            this.seats[i][j].username = this.mostrecent;
 
                         }
                     }
@@ -235,9 +258,9 @@
                 }
             },
             socket: function() {
-                $.getScript('http://crit.the9grounds.com:8080/socket.io/socket.io.js');
+                $.getScript('http://localhost:3000/socket.io/socket.io.js');
 
-                var socket = io('http://crit.the9grounds.com:8080');
+                var socket = io('http://localhost:3000');
                 socket.on('main:App\\Events\\SeatWasBought', function(message) {
                     var data = {
                         users_id: message.user_id,
@@ -263,11 +286,12 @@
                 var id = this.$route.params.event_id;
                 this.$http.get('/api/events/'+id+'/seats').then(function(response) {
                     this.$set('seats', response.json());
-                })
+                    //this.getInfo();
+                });
             },
             fetchUserInfo: function(id) {
                 this.$http.get('/api/user/'+id).then(function(response) {
-                    return response.text();
+                    this.$set('mostrecent', response.text());
                 });
             },
             parseDate: function(date) {
@@ -276,6 +300,12 @@
             },
             clearSearch: function() {
                 this.searchName = "";
+                for(var i = 0; i < this.seats.length; i++) {
+                    for (var j = 0; j < this.seats[i].length; j++) {
+                        this.seats[i][j].hovered = false;
+                        this.seats[i][j].noPanel = false;
+                    }
+                }
             },
             hover: function(seat, type) {
                 if (seat == 'admin') {
