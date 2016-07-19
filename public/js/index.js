@@ -19183,25 +19183,25 @@ _vue2.default.component('login', _Login2.default);
 _vue2.default.component('register', _Register2.default);
 _vue2.default.component('user-bar', _UserBar2.default);
 _vue2.default.component('menu', _Menu2.default);
+_vue2.default.component('index', _Index2.default);
 
-/*
-var vm = new Vue({
+var vm = new _vue2.default({
     el: 'body',
     events: {
-        loggedIn: function(data) {
+        loggedIn: function loggedIn(data) {
             this.$broadcast('loggedIn', data);
         }
     }
-});*/
+});
 
-router.map({
+/*router.map({
     '/': {
-        component: _Index2.default,
-        name: 'index'
+        component: Index,
+        name: 'index',
     }
 });
 
-router.start(App, 'body');
+router.start(App, 'body');*/
 
 },{"./components/EventView.vue":19,"./components/Events.vue":20,"./components/Index.vue":21,"./components/Login.vue":22,"./components/Menu.vue":23,"./components/Register.vue":24,"./components/UserBar.vue":25,"bootstrap":1,"vue":17,"vue-resource":15,"vue-router":16}]},{},[26]);
 

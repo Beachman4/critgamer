@@ -27,8 +27,8 @@ Vue.component('login', Login);
 Vue.component('register', Register);
 Vue.component('user-bar', UserBar);
 Vue.component('menu', Menu);
+Vue.component('index', Index);
 
-/*
 var vm = new Vue({
     el: 'body',
     events: {
@@ -36,13 +36,13 @@ var vm = new Vue({
             this.$broadcast('loggedIn', data);
         }
     }
-});*/
+});
 
-router.map({
+/*router.map({
     '/': {
         component: Index,
         name: 'index',
     }
 });
 
-router.start(App, 'body');
+router.start(App, 'body');*/

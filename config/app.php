@@ -159,6 +159,7 @@ return [
         App\Providers\UsersServiceProvider::class,
         Laravel\Cashier\CashierServiceProvider::class,
         App\Providers\ViewComposerServiceProvider::class,
+        App\Providers\AdminServiceProvider::class,
 
     ],
 
@@ -206,6 +207,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Users' => App\Facades\Classes\Users::class,
+        'Admin' => App\Facades\Classes\Admin::class,
 
     ],
 

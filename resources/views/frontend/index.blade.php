@@ -2,7 +2,7 @@
 @section('content')
     </div>
     </div>
-    <router-view></router-view>
+    <index></index>
     <div class="container-fluid">
         <div class="container">
     {{--<script src="{{ URL::asset('assets/js/jquery.mousewheel.min.js') }}"></script>

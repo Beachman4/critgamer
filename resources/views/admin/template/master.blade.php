@@ -25,7 +25,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
         <script src="https://use.fontawesome.com/3e84772efe.js"></script>
         <script src="http://crit.the9grounds.com:8080/socket.io/socket.io.js"></script>
-        <script src="/js/admin.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/vue.resource/0.9.3/vue-resource.min.js"></script>
+        <script src="/js/adminVue.js"></script>
     </head>
     <body class="hold-transition skin-black sidebar-mini">
     <div class="wrapper">
@@ -110,8 +112,8 @@
             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="/users"><i class="fa fa-circle-o"></i> Users</a></li>
-                            <li><a href="/users/create"><i class="fa fa-circle-o"></i> New User</a></li>
+                            <li><a href="/admin/users"><i class="fa fa-circle-o"></i> Users</a></li>
+                            <li><a href="/admin/users/create"><i class="fa fa-circle-o"></i> New User</a></li>
                         </ul>
                     </li>
                     <li class="treeview">
@@ -123,9 +125,9 @@
             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="/events"><i class="fa fa-circle-o"></i> Events</a></li>
-                            <li><a href="/events/create"><i class="fa fa-circle-o"></i> Create Event</a></li>
-                            <li><a href="/events/history"><i class="fa fa-circle-o"></i> Order List</a></li>
+                            <li><a href="/admin/events"><i class="fa fa-circle-o"></i> Events</a></li>
+                            <li><a href="/admin/events/create"><i class="fa fa-circle-o"></i> Create Event</a></li>
+                            <li><a href="/admin/events/history"><i class="fa fa-circle-o"></i> Order List</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -136,18 +138,29 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Dashboard
-                <small>Control panel</small>
+                {{ \Admin::getTitle() }}
+                @if (\Admin::getSubTitle() != "")
+                    <small>{{ \Admin::getSubTitle() }}</small>
+                @endif
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Dashboard</li>
-            </ol>
+            @if (count(\Admin::getBreadCrumbs()) > 0)
+                <ol class="breadcrumb">
+                    @foreach (\Admin::getBreadCrumbs() as $breadcrumb)
+                        @foreach($breadcrumb as $title => $link)
+                            <li><a href="{{ $link }}">{{ $title }}</a></li>
+                        @endforeach
+                    @endforeach
+                </ol>
+            @endif
         </section>
 
         <!-- Main content -->
         <section class="content">
-            @yield('content')
+            <div class="row">
+                <div class="col-xs-12">
+                    @yield('content')
+                </div>
+            </div>
         </section>
         <!-- right col -->
     </div>
@@ -157,5 +170,8 @@
     <!-- /.content -->
     </div>
     </div>
+    <script>
+        $('.breadcrumb li').last().addClass('active');
+    </script>
     </body>
 </html>

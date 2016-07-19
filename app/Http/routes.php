@@ -40,5 +40,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web']], function() {
     Route::post('/login', 'AdminController@postLogin');
     Route::group(['middleware' => 'App\Http\Middleware\AdminMiddleware'], function() {
         Route::get('/', 'AdminController@getIndex')->name('admin_index');
+
+        Route::group(['prefix' => 'users'], function() {
+            Route::get('/', 'UserController@adminIndex');
+            Route::get('/{user}', 'UserController@adminView');
+            Route::get('/{user}/edit', 'UserController@adminEdit');
+            Route::get('/create', 'UserController@adminCreate');
+            Route::get('/{user}/delete', 'UserController@adminDelete');
+
+            Route::post('/create', 'UserController@adminStore');
+            Route::post('/{user}/edit', 'UserController@adminUpdate');
+        });
     });
 });
