@@ -31,11 +31,14 @@ Route::group(['prefix' => 'api', 'middleware' => ['web']], function() {
     Route::get('/isSignedIn', 'ApiController@isSignedIn');
     Route::post('/customerInfo', 'ApiController@customerInfo');
     Route::post('/buySeat', 'ApiController@buySeat');
+    Route::post('/buySeatSaved', 'ApiController@buySeatSaved');
+    Route::get('/user/clearData', 'ApiController@clearData');
     Route::get('/user/{user}', 'ApiController@getUser');
 
     Route::group(['prefix' => 'admin'], function() {
         Route::get('/users', 'AdminController@getUsers');
         Route::get('/users/{user}', 'UserController@adminGetUser');
+        Route::post('/users/{user}', 'UserController@adminUpdate');
     });
 });
 
@@ -54,7 +57,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web']], function() {
             Route::get('/{user}/delete', 'UserController@adminDelete');
 
             Route::post('/create', 'UserController@adminStore');
-            Route::post('/{user}/edit', 'UserController@adminUpdate');
         });
     });
 });

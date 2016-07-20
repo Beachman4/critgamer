@@ -19066,8 +19066,9 @@ exports.default = {
             this.paymentInfo.selectedSeat = this.$parent.$parent.selectedSeat;
             var id = this.$route.params.event_id;
             this.paymentInfo.event = id;
-            this.closed = false;
             this.loginCheck();
+            this.doneLoading = false;
+            this.loading = false;
         }.bind(this));
         $('#paymentModal').on('hide.bs.modal', function () {
             this.resetValues();
@@ -19112,6 +19113,9 @@ exports.default = {
             if (this.paymentInfo.cccvc.value == "") {
                 disabled = true;
             }
+            if (this.userData.card_last_four != "") {
+                disabled = false;
+            }
             return disabled;
         },
         fullName: function fullName() {
@@ -19119,6 +19123,11 @@ exports.default = {
         }
     },
     methods: {
+        deleteInfo: function deleteInfo() {
+            this.userData.card_last_four = null;
+            this.userData.card_brand = null;
+            this.$http.get('/api/user/clearData').then(function (response) {});
+        },
         resetValues: function resetValues() {
             this.paymentInfo.cc.value = "";
             this.paymentInfo.ccexpmonth.value = "";
@@ -19163,15 +19172,50 @@ exports.default = {
             if (this.paymentInfo.customerKey == "") {
                 setTimeout(this.checkToken, 50);
             } else {
-                this.sendPayment();
+                var vm = this;
+                setTimeout(function () {
+                    vm.sendPayment();
+                }, 4000);
             }
         },
         paymentDone: function paymentDone() {
-            this.stripe();
-            this.checkToken();
+            if (this.userData.card_last_four == null) {
+                this.stripe();
+                this.checkToken();
+            } else {
+                this.loading = true;
+                this.doneLoading = false;
+                var vm = this;
+                setTimeout(function () {
+                    vm.sendPaymentSaved();
+                }, 6000);
+                //this.sendPaymentSaved();
+            }
+        },
+        sendPaymentSaved: function sendPaymentSaved() {
+            var _this2 = this;
+
+            if (!this.failed) {
+                this.doneLoading = true;
+                this.$http.post('/api/buySeatSaved', this.paymentInfo).then(function (response) {
+                    if (response.text() == "") {
+                        _this2.$set('failed', false);
+                        /*setTimeout(function(){
+                            if (!this.closed) {
+                                $('#paymentModal').modal('hide');
+                            }
+                        }, 10000);*/
+                    } else {
+                        _this2.loading = false;
+                        _this2.doneLoading = false;
+                        _this2.$set('failed', true);
+                        _this2.$set('failedMessage', response.json().message);
+                    }
+                });
+            }
         },
         stripe: function stripe() {
-            var _this2 = this;
+            var _this3 = this;
 
             this.loading = true;
             Stripe.setPublishableKey('pk_test_lDzTdn3YHXdwQOvzIvTGUUo9');
@@ -19188,65 +19232,68 @@ exports.default = {
                 address_state: this.customerInfo.state.value
             }, function (status, response) {
                 if (response.error) {
-                    _this2.$set('failed', true);
-                    _this2.$set('failedMessage', response.error.message);
-                    _this2.doneLoading = false;
-                    _this2.loading = false;
+                    _this3.$set('failed', true);
+                    _this3.$set('failedMessage', response.error.message);
+                    _this3.doneLoading = false;
+                    _this3.loading = false;
                 } else {
-                    _this2.$set('failed', false);
-                    _this2.$set('failedMessage', "");
-                    _this2.paymentInfo.customerKey = response['id'];
-                    if (_this2.paymentInfo.saveInfo) {
-                        _this2.paymentInfo.last4 = response['card']['last4'];
-                        _this2.paymentInfo.brand = response['card']['brand'];
+                    _this3.$set('failed', false);
+                    _this3.$set('failedMessage', "");
+                    if (_this3.paymentInfo.saveInfo) {
+                        _this3.paymentInfo.last4 = response.card.last4;
+                        _this3.paymentInfo.brand = response.card.brand;
                     }
+                    _this3.paymentInfo.customerKey = response['id'];
                 }
             });
         },
         sendPayment: function sendPayment() {
-            var _this3 = this;
+            var _this4 = this;
 
             if (!this.failed) {
                 this.doneLoading = true;
                 this.$http.post('/api/buySeat', this.paymentInfo).then(function (response) {
                     if (response.text() == "") {
-                        _this3.$set('failed', false);
-                        setTimeout(function () {
+                        _this4.$set('failed', false);
+                        /*setTimeout(function(){
                             if (!this.closed) {
-                                $('#paymentModal').modal('hide');
+                                if (!this.opened) {
+                                    $('#paymentModal').modal('hide');
+                                }
                             }
-                        }, 10000);
+                        }, 10000);*/
                     } else {
-                        _this3.loading = false;
-                        _this3.$set('failed', true);
-                        _this3.$set('failedMessage', response.json().message);
+                        _this4.loading = false;
+                        _this4.doneLoading = false;
+                        _this4.$set('failed', true);
+                        _this4.$set('failedMessage', response.json().message);
                     }
                 });
             }
         },
         loginCheck: function loginCheck() {
-            var _this4 = this;
+            var _this5 = this;
 
             this.$http.get('/api/isSignedIn').then(function (response) {
                 if (response.text() == "failed") {
-                    _this4.$dispatch('redirectPayment', "You need to login or register first.");
+                    _this5.$dispatch('redirectPayment', "You need to login or register first.");
                     $('#paymentModal').modal('hide');
                     $('#loginModal').modal('show');
                 } else {
-                    _this4.$set('userData', response.json().userData);
-                    _this4.customerInfo.first_name.value = _this4.userData.first_name;
-                    _this4.customerInfo.last_name.value = _this4.userData.last_name;
-                    _this4.customerInfo.address.value = _this4.userData.address;
-                    _this4.customerInfo.city.value = _this4.userData.city;
-                    _this4.customerInfo.state.value = _this4.userData.state;
-                    _this4.customerInfo.zip.value = _this4.userData.zip;
+                    _this5.$set('userData', response.json().userData);
+                    _this5.customerInfo.first_name.value = _this5.userData.first_name;
+                    _this5.customerInfo.last_name.value = _this5.userData.last_name;
+                    _this5.customerInfo.address.value = _this5.userData.address;
+                    _this5.customerInfo.city.value = _this5.userData.city;
+                    _this5.customerInfo.state.value = _this5.userData.state;
+                    _this5.customerInfo.zip.value = _this5.userData.zip;
                 }
             });
         }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal\" id=\"paymentModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"paymentModalLabel\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>\n                <h4 class=\"modal-title\" id=\"paymentModalLabel\" style=\"color: black;\">Buy Seat</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"row\" v-if=\"failed\">\n                    <div class=\"col-lg-12\">\n                        <div class=\"alert alert-danger\">\n                            <h4 style=\"color: black\">Something went wrong</h4>\n                            <p style=\"color: black\">{{ failedMessage }}</p>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row\" v-if=\"!infoDone\">\n                    <div class=\"col-lg-12\">\n                        <div class=\"row\">\n                            <div class=\"col-lg-6\">\n                                <div :class=\"['form-group', customerInfo.first_name.failed ? 'has-danger' : '']\">\n                                    <label for=\"first_name\" class=\"form-control-label\">First Name</label>\n                                    <input type=\"text\" class=\"form-control form-control-danger\" id=\"first_name\" placeholder=\"First Name\" name=\"first_name\" v-model=\"customerInfo.first_name.value\">\n                                </div>\n                            </div>\n                            <div class=\"col-lg-6\">\n                                <div :class=\"['form-group', customerInfo.last_name.failed ? 'has-danger' : '']\">\n                                    <label for=\"last_name\" class=\"form-control-label\">Last Name</label>\n                                    <input type=\"text\" class=\"form-control form-control-danger\" id=\"last_name\" placeholder=\"Last Name\" name=\"last_name\" v-model=\"customerInfo.last_name.value\">\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"row\">\n                            <div class=\"col-lg-6\">\n                                <div :class=\"['form-group', customerInfo.address.failed ? 'has-danger' : '']\">\n                                    <label for=\"address\" class=\"form-control-label\">Address</label>\n                                    <input type=\"text\" class=\"form-control form-control-danger\" id=\"address\" placeholder=\"Address\" name=\"address\" v-model=\"customerInfo.address.value\">\n                                </div>\n                            </div>\n                            <div class=\"col-lg-6\">\n                                <div :class=\"['form-group', customerInfo.city.failed ? 'has-danger' : '']\">\n                                    <label for=\"city\" class=\"form-control-label\">City</label>\n                                    <input type=\"text\" class=\"form-control form-control-danger\" id=\"city\" placeholder=\"City\" name=\"city\" v-model=\"customerInfo.city.value\">\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"row\">\n                            <div class=\"col-lg-6\">\n                                <div :class=\"['form-group', customerInfo.state.failed ? 'has-danger' : '']\">\n                                    <label for=\"state\" class=\"form-control-label\">State</label>\n                                    <input type=\"text\" class=\"form-control form-control-danger\" id=\"state\" placeholder=\"State\" name=\"state\" v-model=\"customerInfo.state.value\">\n                                </div>\n                            </div>\n                            <div class=\"col-lg-6\">\n                                <div :class=\"['form-group', customerInfo.zip.failed ? 'has-danger' : '']\">\n                                    <label for=\"zip\" class=\"form-control-label\">Zip Code</label>\n                                    <input type=\"text\" class=\"form-control form-control-danger\" id=\"zip\" placeholder=\"Zip Code\" name=\"zip\" v-model=\"customerInfo.zip.value\">\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row ccinfo\" v-else=\"\">\n                    <div class=\"col-lg-12\">\n                        <div v-if=\"!loading\">\n                        <h5 style=\"color: black\">Card Information</h5>\n                        <div class=\"row\">\n                            <div class=\"col-lg-12\">\n                                <div class=\"form-group\">\n                                    <div class=\"input-group\">\n                                        <span class=\"input-group-addon\"><i class=\"fa fa-credit-card\"></i></span>\n                                        <input type=\"text\" class=\"form-control form-control-danger\" id=\"cc\" placeholder=\"Card Number\" name=\"cc\" v-model=\"paymentInfo.cc.value\">\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"row\">\n                            <div class=\"col-lg-6\">\n                                <div class=\"row\">\n                                    <div class=\"col-lg-6\">\n                                        <div class=\"form-group\">\n                                            <div class=\"input-group\">\n                                                <span class=\"input-group-addon\"><i class=\"fa fa-calendar-o\"></i></span>\n                                                <input type=\"text\" class=\"form-control form-control-danger\" id=\"ccexpmonth\" placeholder=\"MM\" name=\"ccexpmonth\" v-model=\"paymentInfo.ccexpmonth.value\">\n                                            </div>\n                                        </div>\n                                    </div>\n                                    <div class=\"col-lg-6\">\n                                        <div class=\"form-group\">\n                                            <div class=\"input-group\">\n                                                <span class=\"input-group-addon\"><i class=\"fa fa-calendar-o\"></i></span>\n                                                <input type=\"text\" class=\"form-control form-control-danger\" id=\"ccexpyear\" placeholder=\"YY\" name=\"ccexpyear\" v-model=\"paymentInfo.ccexpyear.value\">\n                                            </div>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"col-lg-6\">\n                                <div class=\"form-group\">\n                                    <div class=\"input-group\">\n                                        <span class=\"input-group-addon\"><i class=\"fa fa-lock\"></i></span>\n                                        <input type=\"text\" class=\"form-control form-control-danger\" id=\"cccvc\" placeholder=\"CVC\" name=\"cccvc\" v-model=\"paymentInfo.cccvc.value\">\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"row\">\n                            <div class=\"col-lg-12\">\n                                <div class=\"checkbox\">\n                                <label>\n                                    <input type=\"checkbox\" v-model=\"paymentInfo.saveInfo\">\n                                    Would you like to save this info for future purchases?\n                                </label>\n                            </div>\n                            </div>\n                        </div>\n                        </div>\n                        <div v-else=\"\">\n                            <div class=\"row\" v-if=\"!doneLoading\">\n                                <div class=\"col-lg-12\">\n                                    <div class=\"row\">\n                                        <div class=\"col-lg-12 text-lg-center\">\n                                            <h5 style=\"color: black\">Your payment is processing!</h5>\n                                        </div>\n                                    </div>\n                                    <div class=\"row\">\n                                        <div class=\"col-lg-12 text-lg-center\">\n                                            <i class=\"fa fa-spinner fa-pulse fa-5x fa-fw\"></i>\n                                            <span class=\"sr-only\" style=\"color: black\">Loading...</span>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"row\" v-else=\"\">\n                                <div class=\"col-lg-12\">\n                                    <div class=\"row\">\n                                        <div class=\"col-lg-12 text-lg-center\">\n                                            <h5 style=\"color: black\">Your payment has succeeded!</h5>\n                                        </div>\n                                    </div>\n                                    <div class=\"row\">\n                                        <div class=\"col-lg-12 text-lg-center\">\n                                            <p style=\"color: black\">You will receive an email with instructions shortly.</p>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Stuff\">\n                    <button type=\"button\" class=\"btn btn-danger-outline\" data-dismiss=\"modal\" @click=\"closed = true\" aria-label=\"Close\">Close</button>\n                    <button v-if=\"!infoDone\" type=\"button\" class=\"btn btn-success-outline\" :disabled=\"continuePaymentButton\" @click=\"continueToPayment\">Continue to Payment</button>\n                    <button v-if=\"infoDone &amp;&amp; !loading\" type=\"button\" class=\"btn btn-success-outline\" :disabled=\"buySeatButton\" @click=\"paymentDone\">Buy Seat</button>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal\" id=\"paymentModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"paymentModalLabel\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>\n                <h4 class=\"modal-title\" id=\"paymentModalLabel\" style=\"color: black;\">Buy Seat</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"row\" v-if=\"failed\">\n                    <div class=\"col-lg-12\">\n                        <div class=\"alert alert-danger\">\n                            <h4 style=\"color: black\">Something went wrong</h4>\n                            <p style=\"color: black\">{{ failedMessage }}</p>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row\" v-if=\"!infoDone\">\n                    <div class=\"col-lg-12\">\n                        <div class=\"row\">\n                            <div class=\"col-lg-6\">\n                                <div :class=\"['form-group', customerInfo.first_name.failed ? 'has-danger' : '']\">\n                                    <label for=\"first_name\" class=\"form-control-label\">First Name</label>\n                                    <input type=\"text\" class=\"form-control form-control-danger\" id=\"first_name\" placeholder=\"First Name\" name=\"first_name\" v-model=\"customerInfo.first_name.value\">\n                                </div>\n                            </div>\n                            <div class=\"col-lg-6\">\n                                <div :class=\"['form-group', customerInfo.last_name.failed ? 'has-danger' : '']\">\n                                    <label for=\"last_name\" class=\"form-control-label\">Last Name</label>\n                                    <input type=\"text\" class=\"form-control form-control-danger\" id=\"last_name\" placeholder=\"Last Name\" name=\"last_name\" v-model=\"customerInfo.last_name.value\">\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"row\">\n                            <div class=\"col-lg-6\">\n                                <div :class=\"['form-group', customerInfo.address.failed ? 'has-danger' : '']\">\n                                    <label for=\"address\" class=\"form-control-label\">Address</label>\n                                    <input type=\"text\" class=\"form-control form-control-danger\" id=\"address\" placeholder=\"Address\" name=\"address\" v-model=\"customerInfo.address.value\">\n                                </div>\n                            </div>\n                            <div class=\"col-lg-6\">\n                                <div :class=\"['form-group', customerInfo.city.failed ? 'has-danger' : '']\">\n                                    <label for=\"city\" class=\"form-control-label\">City</label>\n                                    <input type=\"text\" class=\"form-control form-control-danger\" id=\"city\" placeholder=\"City\" name=\"city\" v-model=\"customerInfo.city.value\">\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"row\">\n                            <div class=\"col-lg-6\">\n                                <div :class=\"['form-group', customerInfo.state.failed ? 'has-danger' : '']\">\n                                    <label for=\"state\" class=\"form-control-label\">State</label>\n                                    <input type=\"text\" class=\"form-control form-control-danger\" id=\"state\" placeholder=\"State\" name=\"state\" v-model=\"customerInfo.state.value\">\n                                </div>\n                            </div>\n                            <div class=\"col-lg-6\">\n                                <div :class=\"['form-group', customerInfo.zip.failed ? 'has-danger' : '']\">\n                                    <label for=\"zip\" class=\"form-control-label\">Zip Code</label>\n                                    <input type=\"text\" class=\"form-control form-control-danger\" id=\"zip\" placeholder=\"Zip Code\" name=\"zip\" v-model=\"customerInfo.zip.value\">\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row ccinfo\" v-else=\"\">\n                    <div class=\"col-lg-12\" v-if=\"userData.card_last_four == null\">\n                        <div v-if=\"!loading\">\n                        <h5 style=\"color: black\">Card Information</h5>\n                        <div class=\"row\">\n                            <div class=\"col-lg-12\">\n                                <div class=\"form-group\">\n                                    <div class=\"input-group\">\n                                        <span class=\"input-group-addon\"><i class=\"fa fa-credit-card\"></i></span>\n                                        <input type=\"text\" class=\"form-control form-control-danger\" id=\"cc\" placeholder=\"Card Number\" name=\"cc\" v-model=\"paymentInfo.cc.value\">\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"row\">\n                            <div class=\"col-lg-6\">\n                                <div class=\"row\">\n                                    <div class=\"col-lg-6\">\n                                        <div class=\"form-group\">\n                                            <div class=\"input-group\">\n                                                <span class=\"input-group-addon\"><i class=\"fa fa-calendar-o\"></i></span>\n                                                <input type=\"text\" class=\"form-control form-control-danger\" id=\"ccexpmonth\" placeholder=\"MM\" name=\"ccexpmonth\" v-model=\"paymentInfo.ccexpmonth.value\">\n                                            </div>\n                                        </div>\n                                    </div>\n                                    <div class=\"col-lg-6\">\n                                        <div class=\"form-group\">\n                                            <div class=\"input-group\">\n                                                <span class=\"input-group-addon\"><i class=\"fa fa-calendar-o\"></i></span>\n                                                <input type=\"text\" class=\"form-control form-control-danger\" id=\"ccexpyear\" placeholder=\"YY\" name=\"ccexpyear\" v-model=\"paymentInfo.ccexpyear.value\">\n                                            </div>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"col-lg-6\">\n                                <div class=\"form-group\">\n                                    <div class=\"input-group\">\n                                        <span class=\"input-group-addon\"><i class=\"fa fa-lock\"></i></span>\n                                        <input type=\"text\" class=\"form-control form-control-danger\" id=\"cccvc\" placeholder=\"CVC\" name=\"cccvc\" v-model=\"paymentInfo.cccvc.value\">\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"row\">\n                            <div class=\"col-lg-12\">\n                                <div class=\"checkbox\">\n                                <label>\n                                    <input type=\"checkbox\" v-model=\"paymentInfo.saveInfo\">\n                                    Would you like to save this info for future purchases?\n                                </label>\n                            </div>\n                            </div>\n                        </div>\n                        </div>\n                        <div v-else=\"\">\n                            <div class=\"row\" v-if=\"!doneLoading\">\n                                <div class=\"col-lg-12\">\n                                    <div class=\"row\">\n                                        <div class=\"col-lg-12 text-lg-center\">\n                                            <h5 style=\"color: black\">Your payment is processing!</h5>\n                                        </div>\n                                    </div>\n                                    <div class=\"row\">\n                                        <div class=\"col-lg-12 text-lg-center\">\n                                            <i class=\"fa fa-spinner fa-pulse fa-5x fa-fw\"></i>\n                                            <span class=\"sr-only\" style=\"color: black\">Loading...</span>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"row\" v-else=\"\">\n                                <div class=\"col-lg-12\">\n                                    <div class=\"row\">\n                                        <div class=\"col-lg-12 text-lg-center\">\n                                            <h5 style=\"color: black\">Your payment has succeeded!</h5>\n                                        </div>\n                                    </div>\n                                    <div class=\"row\">\n                                        <div class=\"col-lg-12 text-lg-center\">\n                                            <p style=\"color: black\">You will receive an email with instructions shortly.</p>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12\" v-else=\"\">\n                        <div v-if=\"!loading\">\n                            <div class=\"row\">\n                                <div class=\"col-lg-12\">\n                                    <h5 style=\"color: black\">Saved CC Info</h5>\n                                    <p style=\"color: black\">************{{ userData.card_last_four }} - {{ userData.card_brand }}</p>\n                                    <button @click=\"deleteInfo\" class=\"btn btn-danger-outline\">Delete Info</button>\n                                </div>\n                            </div>\n                        </div>\n                        <div v-else=\"\">\n                            <div class=\"row\" v-if=\"!doneLoading\">\n                                <div class=\"col-lg-12\">\n                                    <div class=\"row\">\n                                        <div class=\"col-lg-12 text-lg-center\">\n                                            <h5 style=\"color: black\">Your payment is processing!</h5>\n                                        </div>\n                                    </div>\n                                    <div class=\"row\">\n                                        <div class=\"col-lg-12 text-lg-center\">\n                                            <i class=\"fa fa-spinner fa-pulse fa-5x fa-fw\"></i>\n                                            <span class=\"sr-only\" style=\"color: black\">Loading...</span>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                            <div class=\"row\" v-else=\"\">\n                                <div class=\"col-lg-12\">\n                                    <div class=\"row\">\n                                        <div class=\"col-lg-12 text-lg-center\">\n                                            <h5 style=\"color: black\">Your payment has succeeded!</h5>\n                                        </div>\n                                    </div>\n                                    <div class=\"row\">\n                                        <div class=\"col-lg-12 text-lg-center\">\n                                            <p style=\"color: black\">You will receive an email with instructions shortly.</p>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Stuff\">\n                    <button type=\"button\" class=\"btn btn-danger-outline\" data-dismiss=\"modal\" @click=\"closed = true\" aria-label=\"Close\">Close</button>\n                    <button v-if=\"!infoDone\" type=\"button\" class=\"btn btn-success-outline\" :disabled=\"continuePaymentButton\" @click=\"continueToPayment\">Continue to Payment</button>\n                    <button v-if=\"infoDone &amp;&amp; !loading\" type=\"button\" class=\"btn btn-success-outline\" :disabled=\"buySeatButton\" @click=\"paymentDone\">Buy Seat</button>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

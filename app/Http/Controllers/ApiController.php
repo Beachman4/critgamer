@@ -124,7 +124,9 @@ class ApiController extends Controller
                 'address' => $user->address,
                 'city' => $user->city,
                 'state' => $user->state,
-                'zip' => $user->zip
+                'zip' => $user->zip,
+                'card_last_four' => $user->card_last_four,
+                'card_brand' => $user->card_brand
             ];
             echo json_encode($response);
         } else {
@@ -145,8 +147,22 @@ class ApiController extends Controller
         }
     }
 
+    public function buySeatSaved(Request $request) {
+        $buy = $this->user->buySeatSaved($request);
+        if (!is_bool($buy)) {
+            $response['message'] = $buy;
+            echo json_encode($response);
+        }
+    }
+
     public function getUser(User $user) {
         return $user->username;
+    }
+
+    public function clearData()
+    {
+        $this->user->deleteCustomer();
+
     }
 }
 

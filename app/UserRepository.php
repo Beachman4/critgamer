@@ -109,13 +109,62 @@ class UserRepository extends Repository
             "source" => $request->input('customerKey')
         ));
         $user->stripe_id = $customer["id"];
-        if ($last4 = $request->input('last4') != "") {
-            $user->card_last_four = $last4;
+        if ($request->input('last4') != "") {
+            $user->card_last_four = $request->input('last4');
         }
-        if ($brand = $request->input('brand') != "") {
-            $user->card_brand = $brand;
+        if ($request->input('brand') != "") {
+            $user->card_brand = $request->input('brand');
         }
         $user->save();
+        $event = Events::find($request->input('event'));
+        $price = $event->price * 100;
+        try {
+            $response = $user->charge($price);
+        } catch(\Stripe\Error\Card $e) {
+            // Since it's a decline, \Stripe\Error\Card will be caught
+            return $e->getMessage();
+        } catch (\Stripe\Error\RateLimit $e) {
+            // Too many requests made to the API too quickly
+            return $e->getMessage();
+        } catch (\Stripe\Error\InvalidRequest $e) {
+            // Invalid parameters were supplied to Stripe's API
+            return $e->getMessage();
+        } catch (\Stripe\Error\Authentication $e) {
+            // Authentication with Stripe's API failed
+            // (maybe you changed API keys recently)
+            return $e->getMessage();
+        } catch (\Stripe\Error\ApiConnection $e) {
+            // Network communication with Stripe failed
+            return $e->getMessage();
+        } catch (\Stripe\Error\Base $e) {
+            // Display a very generic error to the user, and maybe send
+            // yourself an email
+            return $e->getMessage();
+        } catch (Exception $e) {
+            // Something else happened, completely unrelated to Stripe
+            return $e->getMessage();
+        }
+        $seat = EventSeats::find($request->input('selectedSeat'));
+        $seat->users_id = $user->id;
+        $seat->save();
+        if ($request->input('last4') == "") {
+            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+            $customer = \Stripe\Customer::retrieve($user->stripe_id);
+            $customer->delete();
+            $user->stripe_id = null;
+            $user->save();
+        }
+        $user_id = $user->id;
+        $seat_id = $seat->id;
+        $event_id = $event->id;
+        event(new SeatWasBought($user_id, $seat_id, $event_id));
+        return true;
+    }
+
+    public function buySeatSaved(Request $request)
+    {
+        $user = Users::Get();
         $event = Events::find($request->input('event'));
         $price = $event->price * 100;
         try {
@@ -152,20 +201,37 @@ class UserRepository extends Repository
         $event_id = $event->id;
         event(new SeatWasBought($user_id, $seat_id, $event_id));
         return true;
-
     }
 
-    public function deleteCustomer(User $user)
+    public function deleteCustomer()
     {
+        $user = \Users::Get();
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
         $customer = \Stripe\Customer::retrieve($user->stripe_id);
         $customer->delete();
-        $user->stripe_id = "";
-        $user->card_last_four = "";
-        $user->card_brand = "";
+        $user->stripe_id = null;
+        $user->card_last_four = null;
+        $user->card_brand = null;
         $user->save();
 
+    }
+
+    public function adminUpdate(User $user, Request $request)
+    {
+        if ($request->input('password') != "") {
+            $user->password = Hash::make($request->input('password'));
+        }
+        $user->first_name = $request->input('first_name');
+        $user->last_name = $request->input('last_name');
+        $user->username = $request->input('username');
+        $user->email = $request->input('email');
+        $user->address = $request->input('address');
+        $user->city = $request->input('city');
+        $user->state = $request->input('state');
+        $user->zip = $request->input('zip');
+        $user->admin = $request->input('admin');
+        $user->save();
     }
 }
 

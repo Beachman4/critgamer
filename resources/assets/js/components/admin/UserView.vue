@@ -123,6 +123,16 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" v-model="user.admin" :disabled="!edit">
+                            Admin
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="tab-pane" id="orders" role="tabpanel">
 
@@ -155,6 +165,12 @@
                 this.$http.get('/api/admin/users/'+this.id).then((response) => {
                     this.user = response.json().user;
                 });
+            },
+            submitData: function()
+            {
+                this.$http.post('/api/admin/users/'+this.id, this.user).then((response) => {
+                    this.edit = false;
+                })
             }
         }
     }

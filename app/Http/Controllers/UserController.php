@@ -142,9 +142,9 @@ class UserController extends Controller
 
     }
 
-    public function adminUpdate(User $user)
+    public function adminUpdate(User $user, Request $request)
     {
-
+        $this->user->adminUpdate($user, $request);
     }
 
     public function adminCreate(User $user)
