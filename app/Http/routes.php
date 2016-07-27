@@ -5,6 +5,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/', 'BaseController@index')->name('index');
     Route::get('/staff', 'BaseController@getStaff');
     //Route::get('/events', 'EventsController@index');
+    Route::get('/sponsers', 'BaseController@getSponsers');
     Route::get('/twitch', 'BaseController@getTwitch');
     Route::get('/logout', 'UserController@logOut');
     Route::group(['prefix' => 'events'], function() {
@@ -57,6 +58,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web']], function() {
             Route::get('/{events}', 'EventsController@adminView');
 
             Route::post('/create', 'EventsController@adminStore');
+        });
+
+        Route::group(['prefix' => 'sponsers'], function() {
+            Route::resource('/', 'SponsersController');
         });
 
         Route::group(['prefix' => 'users'], function() {

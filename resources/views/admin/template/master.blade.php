@@ -127,6 +127,19 @@
                             <li><a href="/admin/events/history"><i class="fa fa-circle-o"></i> Order List</a></li>
                         </ul>
                     </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-calendar"></i>
+                            <span>Sponsers</span>
+                            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="/admin/sponsers"><i class="fa fa-circle-o"></i> Sponsers</a></li>
+                            <li><a href="/admin/sponsers/create"><i class="fa fa-circle-o"></i> Create Sponser</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </section>
             <!-- /.sidebar -->
@@ -155,6 +168,34 @@
 
         <!-- Main content -->
         <section class="content">
+            @if ($errors->any())
+                <div class="row">
+                    <div class="col-sm-12 columns">
+                        <div class="alert alert-danger alert-dismissable">
+                            <h3>Error Messages</h3>
+                            @foreach($errors->all() as $error)
+                                <p>{{ $error }}</p>
+                            @endforeach
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            @if (session()->has('notification'))
+                <div class="row">
+                    <div class="col-sm-12 columns">
+                        <div class="alert alert-warning alert-dismissable">
+                            <h3>Notification</h3>
+                            <p>{{ session()->get('notification') }}</p>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @endif
             <div class="row">
                 <div class="col-xs-12">
                     @yield('content')

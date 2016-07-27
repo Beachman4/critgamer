@@ -22,4 +22,9 @@ class BaseController extends Controller
     {
         return view('twitch');
     }
+
+    public function getSponsers()
+    {
+        return view('frontend.sponsers');
+    }
 }

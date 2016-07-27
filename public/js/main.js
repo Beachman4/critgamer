@@ -18500,9 +18500,9 @@ exports.default = {
             }
         },
         socket: function socket() {
-            $.getScript('http://crit.the9grounds.com:8080/socket.io/socket.io.js');
+            $.getScript('http://localhost:3000/socket.io/socket.io.js');
 
-            var socket = io('http://crit.the9grounds.com:8080');
+            var socket = io('http://localhost:3000  ');
             socket.on('main:App\\Events\\SeatWasBought', function (message) {
                 var data = {
                     users_id: message.user_id,
@@ -18635,9 +18635,9 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-4f1d712e", module.exports)
+    hotAPI.createRecord("_v-8dc9f27c", module.exports)
   } else {
-    hotAPI.update("_v-4f1d712e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-8dc9f27c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14}],20:[function(require,module,exports){
@@ -18676,9 +18676,9 @@ exports.default = {
 			}
 		},
 		socket: function socket() {
-			$.getScript('http://crit.the9grounds.com:8080/socket.io/socket.io.js');
+			$.getScript('http://localhost:3000/socket.io/socket.io.js');
 
-			var socket = io('http://crit.the9grounds.com:8080');
+			var socket = io('http://localhost:3000');
 			socket.on('main:App\\Events\\SeatWasBought', function (message) {
 				this.recount(message.event_id);
 			}.bind(this));
@@ -18722,9 +18722,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-6c83d0da", module.exports)
+    hotAPI.createRecord("_v-0ec443c6", module.exports)
   } else {
-    hotAPI.update("_v-6c83d0da", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-0ec443c6", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14,"vueify/lib/insert-css":18}],21:[function(require,module,exports){
@@ -18813,9 +18813,9 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-71bdfab8", module.exports)
+    hotAPI.createRecord("_v-456d7a4c", module.exports)
   } else {
-    hotAPI.update("_v-71bdfab8", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-456d7a4c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14}],22:[function(require,module,exports){
@@ -18874,9 +18874,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-8cbc6f40", module.exports)
+    hotAPI.createRecord("_v-5e0bf368", module.exports)
   } else {
-    hotAPI.update("_v-8cbc6f40", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-5e0bf368", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14,"vueify/lib/insert-css":18}],23:[function(require,module,exports){
@@ -18909,9 +18909,19 @@ exports.default = {
             failed: false,
             registerMessage: "",
             registerDone: false,
+            registerPending: false,
             return: false,
             returnMessage: ""
         };
+    },
+
+    computed: {
+        disableRegister: function disableRegister() {
+            if (this.registerPending) {
+                return true;
+            }
+            return false;
+        }
     },
     ready: function ready() {
         $('#registerModal').on('show.bs.modal', function (e) {
@@ -18982,15 +18992,15 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal\" id=\"registerModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"registerModalLabel\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>\n                <h4 class=\"modal-title\" id=\"registerModalLabel\" style=\"color: black;\">Register</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"row\" v-if=\"registerMessage != ''\">\n                    <div class=\"col-lg-12\">\n                        <div class=\"alert alert-danger\">\n                            <h5>Something went wrong.</h5>\n                            <p>{{ registerMessage }}</p>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row\" v-if=\"return\">\n                    <div class=\"col-lg-12\">\n                        <div class=\"alert  alert-warning\">\n                            <p style=\"color: black;\">{{ returnMessage }}</p>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-lg-12 text-center\">\n                        <div :class=\"['form-group', registerData.email.failed ? 'has-danger' : '']\">\n                            <label for=\"email\" class=\"form-control-label\">Email Address</label>\n                            <input type=\"email\" class=\"form-control form-control-danger\" name=\"email\" v-model=\"registerData.email.value\" id=\"email\">\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12 text-center\">\n                        <div :class=\"['form-group', registerData.username.failed ? 'has-danger' : '']\">\n                            <label for=\"username\" class=\"form-control-label\">Username</label>\n                            <input type=\"text\" class=\"form-control form-control-danger\" name=\"username\" v-model=\"registerData.username.value\" id=\"username\">\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12 text-center\">\n                        <div :class=\"['form-group', registerData.password.failed ? 'has-danger' : '']\">\n                            <label for=\"password\" class=\"form-control-label\">Password</label>\n                            <input type=\"password\" class=\"form-control form-control-danger\" name=\"password\" v-model=\"registerData.password.value\" id=\"password\">\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12 text-center\">\n                        <div :class=\"['form-group', registerData.confirm_password.failed ? 'has-danger' : '']\">\n                            <label for=\"confirm_password\" class=\"form-control-label\">Confirm Password</label>\n                            <input type=\"password\" class=\"form-control form-control-danger\" name=\"confirm_password\" v-model=\"registerData.confirm_password.value\" id=\"confirm_password\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Stuff\">\n                    <button type=\"button\" class=\"btn btn-danger-outline\" data-dismiss=\"modal\" aria-label=\"Close\">Close</button>\n                    <button data-toggle=\"modal\" @click=\"hideRegister\" data-target=\"#loginModal\" type=\"button\" class=\"btn btn-primary-outline\">Login</button>\n                    <button type=\"button\" @click=\"register\" class=\"btn btn-success-outline\">Register</button>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal\" id=\"registerModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"registerModalLabel\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>\n                <h4 class=\"modal-title\" id=\"registerModalLabel\" style=\"color: black;\">Register</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"row\" v-if=\"registerMessage != ''\">\n                    <div class=\"col-lg-12\">\n                        <div class=\"alert alert-danger\">\n                            <h5>Something went wrong.</h5>\n                            <p>{{ registerMessage }}</p>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row\" v-if=\"return\">\n                    <div class=\"col-lg-12\">\n                        <div class=\"alert  alert-warning\">\n                            <p style=\"color: black;\">{{ returnMessage }}</p>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row\" v-if=\"!registerPending\">\n                    <div class=\"col-lg-12\">\n                        <div class=\"row\">\n                            <div class=\"col-lg-12 text-center\">\n                                <div :class=\"['form-group', registerData.email.failed ? 'has-danger' : '']\">\n                                    <label for=\"email\" class=\"form-control-label\">Email Address</label>\n                                    <input type=\"email\" class=\"form-control form-control-danger\" name=\"email\" v-model=\"registerData.email.value\" id=\"email\">\n                                </div>\n                            </div>\n                            <div class=\"col-lg-12 text-center\">\n                                <div :class=\"['form-group', registerData.username.failed ? 'has-danger' : '']\">\n                                    <label for=\"username\" class=\"form-control-label\">Username</label>\n                                    <input type=\"text\" class=\"form-control form-control-danger\" name=\"username\" v-model=\"registerData.username.value\" id=\"username\">\n                                </div>\n                            </div>\n                            <div class=\"col-lg-12 text-center\">\n                                <div :class=\"['form-group', registerData.password.failed ? 'has-danger' : '']\">\n                                    <label for=\"password\" class=\"form-control-label\">Password</label>\n                                    <input type=\"password\" class=\"form-control form-control-danger\" name=\"password\" v-model=\"registerData.password.value\" id=\"password\">\n                                </div>\n                            </div>\n                            <div class=\"col-lg-12 text-center\">\n                                <div :class=\"['form-group', registerData.confirm_password.failed ? 'has-danger' : '']\">\n                                    <label for=\"confirm_password\" class=\"form-control-label\">Confirm Password</label>\n                                    <input type=\"password\" class=\"form-control form-control-danger\" name=\"confirm_password\" v-model=\"registerData.confirm_password.value\" id=\"confirm_password\">\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row\" v-else=\"\">\n                    <div class=\"col-lg-12\">\n                        <div class=\"row\">\n                            <div class=\"col-lg-12 text-lg-center\">\n\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <div class=\"btn-group\" role=\"group\" aria-label=\"Stuff\">\n                    <button type=\"button\" class=\"btn btn-danger-outline\" data-dismiss=\"modal\" aria-label=\"Close\">Close</button>\n                    <button data-toggle=\"modal\" @click=\"hideRegister\" data-target=\"#loginModal\" type=\"button\" class=\"btn btn-primary-outline\">Login</button>\n                    <button type=\"button\" @click=\"register\" :disabled=\"disableRegister\" class=\"btn btn-success-outline\">Register</button>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-096c8324", module.exports)
+    hotAPI.createRecord("_v-1d5beb10", module.exports)
   } else {
-    hotAPI.update("_v-096c8324", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-1d5beb10", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14}],24:[function(require,module,exports){
@@ -19299,9 +19309,9 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-3f81a860", module.exports)
+    hotAPI.createRecord("_v-f3e5d338", module.exports)
   } else {
-    hotAPI.update("_v-3f81a860", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-f3e5d338", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14}],25:[function(require,module,exports){
@@ -19360,9 +19370,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-764edb52", module.exports)
+    hotAPI.createRecord("_v-6aa67ceb", module.exports)
   } else {
-    hotAPI.update("_v-764edb52", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-6aa67ceb", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":17,"vue-hot-reload-api":14,"vueify/lib/insert-css":18}],26:[function(require,module,exports){
