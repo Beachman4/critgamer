@@ -1,5 +1,9 @@
 <?php
 
+Route::get('/image/{path}', function(League\Glide\Server $server, $path) {
+    $server->outputImage($path, $_GET);
+});
+
 
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', 'BaseController@index')->name('index');
