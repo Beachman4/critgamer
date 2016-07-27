@@ -10,6 +10,6 @@ class Events extends Model
 
     public function seats()
     {
-        return $this->hasMany('App\EventSeats');
+        return $this->hasMany('App\EventSeats', 'event_id');
     }
 }

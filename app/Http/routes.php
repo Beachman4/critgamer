@@ -36,9 +36,11 @@ Route::group(['prefix' => 'api', 'middleware' => ['web']], function() {
     Route::get('/user/{user}', 'ApiController@getUser');
 
     Route::group(['prefix' => 'admin'], function() {
-        Route::get('/users', 'AdminController@getUsers');
-        Route::get('/users/{user}', 'UserController@adminGetUser');
-        Route::post('/users/{user}', 'UserController@adminUpdate');
+        Route::group(['prefix' => 'users'], function() {
+            Route::get('/', 'AdminController@getUsers');
+            Route::get('/{user}', 'UserController@adminGetUser');
+            Route::post('/{user}', 'UserController@adminUpdate');
+        });
     });
 });
 
@@ -48,6 +50,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web']], function() {
     Route::post('/login', 'AdminController@postLogin');
     Route::group(['middleware' => 'App\Http\Middleware\AdminMiddleware'], function() {
         Route::get('/', 'AdminController@getIndex')->name('admin_index');
+
+        Route::group(['prefix' => 'events'], function() {
+            Route::get('/', 'EventsController@adminIndex');
+            Route::get('/create', 'EventsController@adminCreate');
+            Route::get('/{events}', 'EventsController@adminView');
+
+            Route::post('/create', 'EventsController@adminStore');
+        });
 
         Route::group(['prefix' => 'users'], function() {
             Route::get('/', 'UserController@adminIndex');
