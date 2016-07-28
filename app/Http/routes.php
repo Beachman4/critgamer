@@ -64,7 +64,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web']], function() {
             Route::post('/create', 'EventsController@adminStore');
         });
 
-        Route::resource('/sponsers', 'SponsersController');
+        Route::resource('sponsers', 'SponsersController');
 
         /*Route::group(['prefix' => 'sponsers'], function() {
 
