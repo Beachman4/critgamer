@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Storage;
+use Admin;
 
 class SponsersController extends Controller
 {
@@ -18,6 +19,7 @@ class SponsersController extends Controller
     public function index()
     {
         $sponsers = Sponser::all();
+        Admin::button('Create Sponser', '/admin/sponsers/create');
         return view('admin.sponsers.index', [
             'sponsers' => $sponsers
         ]);

@@ -52,18 +52,12 @@
                 </a>
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-                        <li class="nav-item dropdown user user-menu">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-
-                                <span>{{ $user->username }}</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="user-footer">
-                                    <div class="pull-left">
-                                        <a href="#" class="btn btn-primary-outline btn-block">Logout</a>
-                                    </div>
-                                </li>
-                            </ul>
+                        <li class="nav-item">
+                            @foreach(\Admin::getButtons() as $button)
+                                @foreach($button as $title => $link)
+                                    <a href="{{ $link }}" class="nav-link">{{ $title }}</a>
+                                @endforeach
+                            @endforeach
                         </li>
                         <li class="nav-item">
                             <a href="#" style="padding-top: 15px;padding-bottom: 15px;" class="nav-link" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
