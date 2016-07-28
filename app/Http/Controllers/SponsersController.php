@@ -115,7 +115,7 @@ class SponsersController extends Controller
         $sponser->link = $request->input('link');
         $sponser->title = $request->input('title');
         $sponser->save();
-        return redirect()->route('sponsers.index');
+        return redirect('/admin/sponsers');
     }
 
     /**
