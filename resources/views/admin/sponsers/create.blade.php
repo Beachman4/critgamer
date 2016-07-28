@@ -4,8 +4,6 @@
         <div class="box-header with-border">
             <h3 class="box-title">{{ $edit ? 'Edit' : 'Create' }} Sponser</h3>
         </div>
-        <!-- /.box-header -->
-        <!-- form start -->
         <form method="post" action="{{ $edit ? '/admin/sponsers/'.$sponser->id : '/admin/sponsers' }}" enctype="multipart/form-data">
             @if ($edit)
                 <input type="hidden" name="_method" value="PUT">
@@ -35,8 +33,6 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-
             <div class="box-footer">
                 <button type="submit" class="btn btn-success-outline">{{ $edit ? 'Edit' : 'Create' }} Sponser</button>
             </div>

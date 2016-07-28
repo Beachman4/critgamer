@@ -18,7 +18,7 @@
                     <tr>
                         <td>{{ $sponser->id }}</td>
                         <td><a href="/admin/sponsers/{{ $sponser->id }}">{{ $sponser->title }}</a></td>
-                        <td><a href="/admin/sponsers/{{ $sponser->id }}#edit"><i class="fa fa-pencil-square-o fa-lg"></i></a>&nbsp;<a id="delete" href="/admin/sponsers/{{ $sponser->id }}"><i class="fa fa-trash fa-lg"></i></a></td>
+                        <td><a href="/admin/sponsers/{{ $sponser->id }}/edit"><i class="fa fa-pencil-square-o fa-lg"></i></a>&nbsp;<a id="delete" href="/admin/sponsers/{{ $sponser->id }}"><i class="fa fa-trash fa-lg"></i></a></td>
                     </tr>
                 @endforeach
                 </tbody>

@@ -24,7 +24,7 @@
                             $bought = $event->seats()->whereNotNull('users_id')->count();
                         ?>
                         <td>{{ $bought . ' / ' . $totalSeats }}</td>
-                        <td><a href="/admin/events/{{ $event->id }}#edit"><i class="fa fa-pencil-square-o fa-lg"></i></a>&nbsp;<a href="/admin/events/{{ $event->id }}/delete"><i class="fa fa-trash fa-lg"></i></a></td>
+                        <td><a href="/admin/events/{{ $event->id }}/edit"><i class="fa fa-pencil-square-o fa-lg"></i></a>&nbsp;<a href="/admin/events/{{ $event->id }}/delete"><i class="fa fa-trash fa-lg"></i></a></td>
                     </tr>
                 @endforeach
                 </tbody>
