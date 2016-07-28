@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Sponser;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -25,6 +26,9 @@ class BaseController extends Controller
 
     public function getSponsers()
     {
-        return view('frontend.sponsers');
+        $sponsers = Sponser::all();
+        return view('frontend.sponsers', [
+            'sponsers' => $sponsers
+        ]);
     }
 }
