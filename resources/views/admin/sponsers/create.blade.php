@@ -18,6 +18,12 @@
                             <input type="text" class="form-control" id="title" name="title" value="{{ $edit ? $sponser->title : '' }}">
                         </div>
                     </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label class="form-control-label" for="link">Link to Sponser</label>
+                            <input type="text" class="form-control" id="link" name="link" value="{{ $edit ? $sponser->link : '' }}">
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-4">
