@@ -55,7 +55,8 @@ class SponsersController extends Controller
 
         Sponser::create([
             'title' => $request->input('title'),
-            'picture' => $name
+            'picture' => $name,
+            'link' => $request->input('link')
         ]);
 
         return redirect('/admin/sponsers');
@@ -105,7 +106,16 @@ class SponsersController extends Controller
         ]);
         $sponser = Sponser::findOrFail($id);
 
-        dd($request->file('picture'));
+        if (!is_null($request->file('picture'))) {
+            $file = $request->file('picture');
+            $name = uniqid(rand(), true);
+            Storage::put('images/'.$name, file_get_contents($file->getRealPath()));
+            $sponser->picture = $name;
+        }
+        $sponser->link = $request->input('link');
+        $sponser->title = $request->input('title');
+        $sponser->save();
+        return redirect('sponsers.index');
     }
 
     /**
