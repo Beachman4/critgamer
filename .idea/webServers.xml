@@ -26,6 +26,14 @@
           <option name="port" value="22" />
         </fileTransfer>
       </webServer>
+      <webServer id="9e957bf2-8fa7-4a66-bc5c-8e6b59b8c935" name="groupm7" url="http://groupm7.com">
+        <fileTransfer host="groupm7.com" port="22" accessType="SFTP" username="root">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>
